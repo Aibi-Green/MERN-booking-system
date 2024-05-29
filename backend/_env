@@ -1,0 +1,2 @@
+MONGODB_CONNECTION_STRING=mongodb+srv://admin:<password>@free-cluster.ytzu21e.mongodb.net/mern-booking-system?retryWrites=true&w=majority&appName=free-cluster
+BACKEND_PORT=8080
