@@ -1,27 +1,22 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
 import UserController from '../controllers/UserController'
 
 const router = Router()
 
 // Get all user accounts
-router.get('/', UserController.getUsers)
+router
+    .route('/')
+    .get(UserController.getUsers)
+    .post(UserController.createUser)
 
-// Get specific user account
-router.get('/:id', async (req: Request, res: Response) => {
-    res.json({message: `get user ${req.params.id}`})
-})
-
-// Create new user account
-router.post('/', UserController.createUser)
-
-// Edit a user account
-router.put('/:id', async (req: Request, res: Response) => {
-    res.json({message: `Edit User ${req.params.id}`})
-})
-
-// Delete a specific user account
-router.delete('/:id', async (req: Request, res: Response) => {
-    res.json({message: `Delete user ${req.params.id}`})
-})
+// routes with ids
+router
+    // Get specific user account
+    .route('/:id')
+    .get(UserController.getOneUser)
+    // Edit a user account
+    .put(UserController.editUser)
+    // Delete a specific user account
+    .delete(UserController.deleteUser)
 
 export default router

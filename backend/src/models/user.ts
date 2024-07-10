@@ -14,15 +14,15 @@ const userSchema = new mongoose.Schema({
     },
     contact_person: {
         type: "string",
-        required: true,
+        required: [true, "Contact Person is a required field"],
     },
     contact_number: {
         type: "string",
-        required: true,
+        required: [true, "Contact Number is a required field"],
     },
     email: {
         type: "string",
-        required: true,
+        required: [true, "Email is a required field"],
     },
     address: {
         type: "string",

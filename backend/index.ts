@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import 'dotenv/config'
 
 import UserRouter from './src/routes/UserRoutes'
+import AdminRouter from './src/routes/AdminRoutes'
 
 // initializes express application
 const app = express()
@@ -32,6 +33,7 @@ app.use(express.json())
 
 // Routers
 app.use('/users', UserRouter)
+app.use('/admins', AdminRouter)
 
 // Connect to mongodb
 try {
@@ -43,10 +45,10 @@ try {
 
 // HOME
 app.get("/", async (req: Request, res: Response)=> {
-	res.json({message: "Home"});
+	res.json({message: "Backend working!"});
 });
 
 // Starts server
 app.listen(process.env.BACKEND_PORT, () => {
-    console.log("Server started on http://localhost:8080/")
+    console.log("Server started on http://localhost:8080/\n")
 })

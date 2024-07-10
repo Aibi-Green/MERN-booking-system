@@ -1,24 +1,24 @@
 import {Request, Response} from "express"
-import User from '../models/user'
+import Admin from '../models/admin'
 
-const getUsers = async (req: Request, res: Response) => {
+const getAdmins = async (req: Request, res: Response) => {
     try {
-        const userList = await User.find({}, "name username contact_person")
+        const adminList = await Admin.find({}, "name username contact_person")
 
-        console.log("/GET ALL USER");
-        console.log("List consists of ", userList.length, ".\n");
+        console.log("/GET ALL ADMIN");
+        console.log("List consists of ", adminList.length, ".\n");
         
-        if(userList) {
+        if(adminList) {
             return res.status(200).json({
                 status: "success",
-                data: userList,
+                data: adminList,
                 method: "GET"
             })
         }
     } catch (e: any) {
         return res.status(500).json({
             status: "fail",
-            message: "Failed to retrieve user list...",
+            message: "Failed to retrieve admin list...",
             error: {
                 name: e.name,
                 message: e.message
@@ -27,30 +27,30 @@ const getUsers = async (req: Request, res: Response) => {
     }
 }
 
-const getOneUser = async (req: Request, res: Response) => {
+const getOneAdmin = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id)
+        const admin = await Admin.findById(req.params.id)
 
-        console.log("/GET ONE USER");
-        console.log(user ? "User ID exists!\n" : "User ID does not exist in database...\n");
+        console.log("/GET ONE ADMIN");
+        console.log(admin ? "Admin ID exists!\n" : "Admin ID does not exist in database...\n");
         
-        if(user) {
+        if(admin) {
             return res.status(200).json({
                 status: "success",
-                message: user,
+                message: admin,
                 method: "GET"
             })   
         } else {
             return res.status(404).json({
                 status: "fail",
-                message: "User does not exist..."
+                message: "Admin does not exist..."
             })
         }
         
     } catch(e: any) {
         return res.status(500).json({
             status: "fail",
-            message: "Failed to retrieve user...",
+            message: "Failed to retrieve admin...",
             error: {
                 name: e.name,
                 message: e.message
@@ -59,17 +59,17 @@ const getOneUser = async (req: Request, res: Response) => {
     }
 }
 
-const createUser = async (req: Request, res: Response) => {
+const createAdmin = async (req: Request, res: Response) => {
     try {
-        const newUser = new User(req.body)
-        await newUser.save()
+        const newAdmin = new Admin(req.body)
+        await newAdmin.save()
 
-        console.log("/CREATE USER");
-        console.log("Successfully created User!\n");
+        console.log("/CREATE ADMIN");
+        console.log("Successfully created Admin!\n");
         
         return res.status(201).json({
             status: "success",
-            message: "User account created successfully!",
+            message: "Admin account created successfully!",
             method: "POST"
         })
     } catch (e: any) {
@@ -90,16 +90,16 @@ const createUser = async (req: Request, res: Response) => {
     }
 }
 
-const editUser = async (req: Request, res: Response) => {
+const editAdmin = async (req: Request, res: Response) => {
     try {
-        await User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        await Admin.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
 
-        console.log("/UPDATE USER");
-        console.log("User ID Updated!\n");
+        console.log("/UPDATE ADMIN");
+        console.log("Admin ID Updated!\n");
         
         return res.status(200).json({
             status: "success",
-            message: "User details have been updated!",
+            message: "Admin details have been updated!",
             method: "PUT"
         })
     } catch (e: any) {
@@ -121,20 +121,20 @@ const editUser = async (req: Request, res: Response) => {
 }
 
 // not yet deleting
-const deleteUser = async (req: Request, res: Response) => {
+const deleteAdmin = async (req: Request, res: Response) => {
     try {
-        await User.findByIdAndDelete(req.params.id)
+        await Admin.findByIdAndDelete(req.params.id)
         
-        console.log("/DELETE USER");
-        console.log("Deleted User ID...\n");
+        console.log("/DELETE ADMIN");
+        console.log("Deleted Admin ID...\n");
 
         return res.status(200).json({
             status: "success",
-            message: "User account deleted successfully!",
+            message: "Admin account deleted successfully!",
             method: "DELETE"
-        })  
+        })   
     } catch(e: any) {
-        return res.json({
+        return res.status(400).json({
             status: "fail",
             message: "Invalid payload. Please provide all required parameters...",
             error: {
@@ -146,9 +146,9 @@ const deleteUser = async (req: Request, res: Response) => {
 }
 
 export default {
-    getUsers,
-    getOneUser,
-    createUser,
-    editUser,
-    deleteUser
+    getAdmins,
+    getOneAdmin,
+    createAdmin,
+    editAdmin,
+    deleteAdmin
 }
