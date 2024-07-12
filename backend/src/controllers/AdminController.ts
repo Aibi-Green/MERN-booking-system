@@ -3,10 +3,10 @@ import Admin from '../models/admin'
 
 const getAdmins = async (req: Request, res: Response) => {
     try {
-        const adminList = await Admin.find({}, "name username contact_person")
+        const adminList = await Admin.find({}, "name username").exec()
 
         console.log("/GET ALL ADMIN");
-        console.log("List consists of ", adminList.length, ".\n");
+        console.log("List consists of ", adminList.length, " admins.\n");
         
         if(adminList) {
             return res.status(200).json({
@@ -29,7 +29,7 @@ const getAdmins = async (req: Request, res: Response) => {
 
 const getOneAdmin = async (req: Request, res: Response) => {
     try {
-        const admin = await Admin.findById(req.params.id)
+        const admin = await Admin.findById(req.params.id).exec()
 
         console.log("/GET ONE ADMIN");
         console.log(admin ? "Admin ID exists!\n" : "Admin ID does not exist in database...\n");
@@ -92,7 +92,16 @@ const createAdmin = async (req: Request, res: Response) => {
 
 const editAdmin = async (req: Request, res: Response) => {
     try {
-        await Admin.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
+        const admin = await Admin.findById(req.params.id).exec()
+
+        if(!admin) {
+            return res.status(404).json({
+                status: "fail",
+                message: "Admin ID does not exist."
+            })
+        }
+
+        await Admin.updateOne({_id: req.params.id}, req.body)
 
         console.log("/UPDATE ADMIN");
         console.log("Admin ID Updated!\n");
@@ -123,7 +132,16 @@ const editAdmin = async (req: Request, res: Response) => {
 // not yet deleting
 const deleteAdmin = async (req: Request, res: Response) => {
     try {
-        await Admin.findByIdAndDelete(req.params.id)
+        const admin = await Admin.findById(req.params.id).exec()
+
+        if(!admin) {
+            return res.status(404).json({
+                status: "fail",
+                message: "Admin ID does not exist."
+            })
+        }
+
+        await Admin.deleteOne({_id: req.params.id})
         
         console.log("/DELETE ADMIN");
         console.log("Deleted Admin ID...\n");
@@ -136,7 +154,7 @@ const deleteAdmin = async (req: Request, res: Response) => {
     } catch(e: any) {
         return res.status(400).json({
             status: "fail",
-            message: "Invalid payload. Please provide all required parameters...",
+            message: "Failed to delete admin account...",
             error: {
                 name: e.name,
                 message: e.message

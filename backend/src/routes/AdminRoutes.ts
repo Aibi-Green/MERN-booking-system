@@ -3,16 +3,17 @@ import AdminController from '../controllers/AdminController'
 
 const router = Router()
 
-// Get all admin accounts
 router
     .route('/')
+    // Get all admin accounts
     .get(AdminController.getAdmins)
+    // Create admin account
     .post(AdminController.createAdmin)
 
 // routes with ids
 router
-    // Get specific admin account
     .route('/:id')
+    // Get specific admin account
     .get(AdminController.getOneAdmin)
     // Edit a admin account
     .put(AdminController.editAdmin)

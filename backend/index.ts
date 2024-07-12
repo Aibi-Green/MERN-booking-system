@@ -5,6 +5,9 @@ import 'dotenv/config'
 
 import UserRouter from './src/routes/UserRoutes'
 import AdminRouter from './src/routes/AdminRoutes'
+import BookingRouter from './src/routes/BookingRoutes'
+import RtypeRouter from './src/routes/RtypeRoutes'
+import RequirementRouter from './src/routes/RequirementRoutes'
 
 // initializes express application
 const app = express()
@@ -34,6 +37,9 @@ app.use(express.json())
 // Routers
 app.use('/users', UserRouter)
 app.use('/admins', AdminRouter)
+app.use('/bookings', BookingRouter)
+app.use('/rtypes', RtypeRouter)
+app.use('/requirements', RequirementRouter)
 
 // Connect to mongodb
 try {

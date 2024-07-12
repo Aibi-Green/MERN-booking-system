@@ -3,10 +3,10 @@ import User from '../models/user'
 
 const getUsers = async (req: Request, res: Response) => {
     try {
-        const userList = await User.find({}, "name username contact_person")
+        const userList = await User.find({}, "name username contact_person").exec()
 
         console.log("/GET ALL USER");
-        console.log("List consists of ", userList.length, ".\n");
+        console.log("List consists of ", userList.length, " users.\n");
         
         if(userList) {
             return res.status(200).json({
@@ -29,7 +29,7 @@ const getUsers = async (req: Request, res: Response) => {
 
 const getOneUser = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.id).exec()
 
         console.log("/GET ONE USER");
         console.log(user ? "User ID exists!\n" : "User ID does not exist in database...\n");
@@ -92,7 +92,16 @@ const createUser = async (req: Request, res: Response) => {
 
 const editUser = async (req: Request, res: Response) => {
     try {
-        await User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        const user = await User.findById(req.params.id).exec()
+
+        if(!user) {
+            return res.status(404).json({
+                status: "fail",
+                message: "User ID does not exist."
+            })
+        }
+
+        await User.updateOne({_id: req.params.id}, req.body)
 
         console.log("/UPDATE USER");
         console.log("User ID Updated!\n");
@@ -123,7 +132,16 @@ const editUser = async (req: Request, res: Response) => {
 // not yet deleting
 const deleteUser = async (req: Request, res: Response) => {
     try {
-        await User.findByIdAndDelete(req.params.id)
+        const user = await User.findById(req.params.id).exec()
+
+        if(!user) {
+            return res.status(404).json({
+                status: "fail",
+                message: "User ID does not exist."
+            })
+        }
+
+        await User.deleteOne({_id: req.params.id})
         
         console.log("/DELETE USER");
         console.log("Deleted User ID...\n");
@@ -136,7 +154,7 @@ const deleteUser = async (req: Request, res: Response) => {
     } catch(e: any) {
         return res.json({
             status: "fail",
-            message: "Invalid payload. Please provide all required parameters...",
+            message: "Failed to delete user account...",
             error: {
                 name: e.name,
                 message: e.message

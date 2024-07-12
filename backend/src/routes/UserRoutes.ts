@@ -3,16 +3,17 @@ import UserController from '../controllers/UserController'
 
 const router = Router()
 
-// Get all user accounts
 router
     .route('/')
+    // Get all user accounts
     .get(UserController.getUsers)
+    // Create user account
     .post(UserController.createUser)
 
 // routes with ids
 router
-    // Get specific user account
     .route('/:id')
+    // Get specific user account
     .get(UserController.getOneUser)
     // Edit a user account
     .put(UserController.editUser)
