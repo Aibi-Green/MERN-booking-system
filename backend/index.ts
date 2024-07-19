@@ -15,7 +15,7 @@ const app = express()
 // cors headers
 const corsOptions = {
     // tells browser to only accept requests from this url
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5173',
 
     // attached to a preflight response of OPTIONS request telling browser 
     // what methods are accepted by this server

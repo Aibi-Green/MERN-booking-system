@@ -13,7 +13,7 @@ router
 // routes with ids
 router
     .route('/:id')
-    // Get specific user account
+    // Get specific user account by ID or by searching all fields
     .get(UserController.getOneUser)
     // Edit a user account
     .put(UserController.editUser)

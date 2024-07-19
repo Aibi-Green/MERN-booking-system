@@ -29,10 +29,25 @@ const getUsers = async (req: Request, res: Response) => {
 
 const getOneUser = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id).exec()
+        let user = {}
 
-        console.log("/GET ONE USER");
-        console.log(user ? "User ID exists!\n" : "User ID does not exist in database...\n");
+        if(!req.query.search) {
+            console.log("ID Search");
+            user = await User.find({_id: req.params.id}).exec()
+
+            console.log("/GET ONE USER");
+            console.log(Object.keys(user).length > 0 ? "User exists!\n" : "User does not exist in database...\n");
+        }
+        else {
+            // FULL TEXT SEARCH
+            // enables us to search for documents based on the text content of one or more fields.
+            console.log("Full Text Search");
+            const str = (req.query.search != undefined) ? req.query.search.toString() : ""
+            user = await User.find({$text: {$search: str}}).exec()
+
+            console.log("/SEARCH USER");
+            console.log("Found " + Object.keys(user).length + " users!");
+        }
         
         if(user) {
             return res.status(200).json({
@@ -47,7 +62,7 @@ const getOneUser = async (req: Request, res: Response) => {
             })
         }
         
-    } catch(e: any) {
+    } catch (e: any) {
         return res.status(500).json({
             status: "fail",
             message: "Failed to retrieve user...",
@@ -61,8 +76,9 @@ const getOneUser = async (req: Request, res: Response) => {
 
 const createUser = async (req: Request, res: Response) => {
     try {
-        const newUser = new User(req.body)
-        await newUser.save()
+        // const newUser = new User(req.body)
+        // await newUser.save()
+        const user = await User.signup(req.body)
 
         console.log("/CREATE USER");
         console.log("Successfully created User!\n");
@@ -86,22 +102,18 @@ const createUser = async (req: Request, res: Response) => {
                     message: errors
                 }
             })
+        } else {
+            return res.status(400).json({
+                status: "fail",
+                message: e.message,
+            })
         }
     }
 }
 
 const editUser = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id).exec()
-
-        if(!user) {
-            return res.status(404).json({
-                status: "fail",
-                message: "User ID does not exist."
-            })
-        }
-
-        await User.updateOne({_id: req.params.id}, req.body)
+        const user = await User.changeUserDetails(req.params.id, req.body)
 
         console.log("/UPDATE USER");
         console.log("User ID Updated!\n");
@@ -124,6 +136,11 @@ const editUser = async (req: Request, res: Response) => {
                     name: e.name,
                     message: errors
                 }
+            })
+        } else {
+            return res.status(400).json({
+                status: "fail",
+                message: e.message,
             })
         }
     }
