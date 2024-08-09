@@ -16,6 +16,7 @@ interface IUser {
 // create in interface that extends mongoose model for statics
 interface UserModel extends Model<IUser> {
     signup(user: Object): Object;
+    login(input: Object): Object;
     changeUserDetails(id: string, details: Object): Object;
 }
 
@@ -54,6 +55,9 @@ userSchema.static("signup", async function signup(user) {
     if (!user.email || !user.username) {
         throw new Error("Username or Email is required!")
     }
+    if (!user.password) {
+        throw new Error("Password is required!")
+    }
     if (!validator.isEmail(user.email)) {
         throw new Error("Username or Email is not valid!")
     }
@@ -83,6 +87,26 @@ userSchema.static("signup", async function signup(user) {
     return newUser
 })
 
+userSchema.static("login", async function login(input) {
+    if (!input.email || !input.password) {
+        throw new Error("All fields must be filled...")
+    }
+
+    const user = await this.findOne({email: input.email})
+
+    if (!user) {
+        throw new Error("Incorrect email.")
+    }
+
+    const match = await bcrypt.compare(input.password, user.password)
+
+    if (!match) {
+        throw new Error("Invalid login credentials")
+    }
+    
+    return user
+})
+
 userSchema.static("changeUserDetails", async function changeUserDetails(id, details) {
     console.log("ID: ", id);
     console.log("Details:");
@@ -101,7 +125,7 @@ userSchema.static("changeUserDetails", async function changeUserDetails(id, deta
 
     const updatedUser = await this.updateOne({_id: id}, details)
 
-    return {}
+    return updatedUser
 })
 
 // create model

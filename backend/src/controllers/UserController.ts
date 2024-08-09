@@ -1,5 +1,10 @@
 import {Request, Response} from "express"
 import User from '../models/user'
+import jwt from 'jsonwebtoken'
+
+const createToken = (_id: string) => {
+    return jwt.sign({_id}, process.env.SECRET_STRING as string, { expiresIn: '1d' })
+}
 
 const getUsers = async (req: Request, res: Response) => {
     try {
@@ -74,11 +79,14 @@ const getOneUser = async (req: Request, res: Response) => {
     }
 }
 
-const createUser = async (req: Request, res: Response) => {
+const signUpUser = async (req: Request, res: Response) => {
     try {
         // const newUser = new User(req.body)
         // await newUser.save()
-        const user = await User.signup(req.body)
+        
+        const user: any = await User.signup(req.body)
+
+        const token = createToken(user._id)
 
         console.log("/CREATE USER");
         console.log("Successfully created User!\n");
@@ -86,6 +94,7 @@ const createUser = async (req: Request, res: Response) => {
         return res.status(201).json({
             status: "success",
             message: "User account created successfully!",
+            token: token,
             method: "POST"
         })
     } catch (e: any) {
@@ -108,6 +117,25 @@ const createUser = async (req: Request, res: Response) => {
                 message: e.message,
             })
         }
+    }
+}
+
+const logInUser = async (req: Request, res: Response) => {
+    try {
+        const user: any = await User.login(req.body)
+        const token = createToken(user._id)
+
+        return res.status(201).json({
+            status: "success",
+            message: "User successfully logged in!",
+            token: token,
+            method: "POST"
+        })
+    } catch (e: any) {
+        return res.status(400).json({
+            status: "fail",
+            message: e.message,
+        })
     }
 }
 
@@ -183,7 +211,8 @@ const deleteUser = async (req: Request, res: Response) => {
 export default {
     getUsers,
     getOneUser,
-    createUser,
+    signUpUser,
+    logInUser,
     editUser,
     deleteUser
 }

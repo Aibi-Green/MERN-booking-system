@@ -7,8 +7,6 @@ router
     .route('/')
     // Get all user accounts
     .get(UserController.getUsers)
-    // Create user account
-    .post(UserController.createUser)
 
 // routes with ids
 router
@@ -19,5 +17,15 @@ router
     .put(UserController.editUser)
     // Delete a specific user account
     .delete(UserController.deleteUser)
+
+router
+    .route('/signup')
+    // Create user account
+    .post(UserController.signUpUser)
+
+    router
+    .route('/login')
+    // Create user account
+    .post(UserController.logInUser)
 
 export default router
