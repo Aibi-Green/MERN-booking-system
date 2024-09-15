@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply 
+    bg-[#e2e2e2] 
+    min-h-[100vh]
+    min-w-[375px]
+}
+
+section {
+    @apply 
+    min-h-[100vh] 
+    pt-[60px]
+}
+
+/* TEMP COLOR FOR TEMP ELEMENTS */
+.temp {
+    @apply text-red-700
+}
+
+/* HEADER */
+
+#userMenu {
+    @apply pr-3 pl-5
+}
+
+#userNav {
+    @apply
+    bg-white shadow-md
+    absolute
+    flex-col gap-2
+    p-1 pt-0 
+    top-[43px] right-[0px]
+    w-[100%]
+}
+
+#userNav > a {
+    @apply 
+    bg-white hover:bg-[#ebebeb]
+    p-5
+}
+
+
+/* END HEADER */
+
+.titleContainer,
+.contentContainer,
+.container {
+    @apply
+    sm:w-[85%]
+    sm:m-auto
+
+    md:w-[70%]
+    lg:w-[60%]
+    xl:w-[50%]
+    2xl:w-[40%]
+}
+
+option {
+    background-color: white;
+    padding: 4px;
+    color: blue;
+    margin-bottom: 1px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* TITLE CONTAINER */
+
+.titleContainer {
+    @apply
+    px-4 
+    pt-10 sm:pt-24
+    pb-5 sm:pb-7
+}
+
+#userBookingsTitle {
+    @apply 
+    text-3xl sm:text-5xl
+    ml-2 mb-1 sm:mb-3
+}
+
+.titleContainer hr {
+    @apply 
+    bg-black opacity-[0.2]
+    h-[3px] w-[40%] sm:w-[50%]
+}
+
+/* END TITLE CONTAINER */
+
+.contentContainer {
+    @apply 
+    bg-white
+    rounded-tl-2xl rounded-tr-2xl
+    px-4 sm:px-10
+    pt-[2rem] sm:pt-[3rem]
+    pb-[8rem]
+}
+
+.tableContainer {
+    @apply 
+    flex flex-col gap-4
+}
+
+.bookingItem {
+    @apply
+    flex flex-row
+    overflow-hidden rounded-2xl
+    shadow-md border
+}
+
+.bookingItem .details {
+    @apply
+    bg-white
+    flex flex-col grow gap-1
+    p-5
+}
+
+.bookingItem .operations {
+    @apply 
+    bg-slate-100
+    flex flex-col items-center
+}
+
+.bookingItem .operations > button {
+    @apply 
+    grow flex items-center
+    px-4
+}
+
+.bookingItem .operations > button > * {
+    @apply
+    size-8 opacity-80
+}
+
+.operations .view {
+    @apply 
+    hover:bg-slate-300 
+    active:bg-slate-400
+}
+
+.operations .edit {
+    @apply 
+    hover:bg-slate-300 
+    active:bg-slate-400
+}
+
+.operations .delete {
+    @apply 
+    hover:bg-red-300 
+    active:bg-red-400
+    hover:text-white 
+    active:text-white
+}
+
+
