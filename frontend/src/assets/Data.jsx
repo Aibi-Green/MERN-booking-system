@@ -1,3 +1,22 @@
+// current day
+const today = new Date()
+today.setHours(6, 0, 0, 0)
+export const currentDay = today
+
+// date set 1 day after the current day
+let minStartDate = new Date(today.setDate(today.getDate() + 1))
+export const minStartDateTime = minStartDate
+
+// date set 3 days and 1 hour after the current day and time
+let endMinDate = new Date(today.setDate(today.getDate()))
+endMinDate.setTime(endMinDate.getTime() + 3600000)
+export const endMinDateTime = endMinDate
+
+// date set 3 days and 1 hour after the current day and time
+let endDate = new Date(today.setDate(today.getDate() + 3))
+endDate.setTime(endDate.getTime() + 3600000)
+export const endDateTime = endDate
+
 export const bookings = [
   {
     _id: "66b5b74842298956d171b375",

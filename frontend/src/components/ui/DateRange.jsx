@@ -3,18 +3,11 @@ import { useState } from "react"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import PropTypes from 'prop-types'
+import { minStartDateTime } from '../../assets/Data.jsx'
 
 function DateRange({ className, startClassName, endClassName, startData, endData, noIcon=false }) {
-  const [startDate, setStartDate] = useState(() => {
-    const date = new Date(); 
-    date.setMonth(date.getMonth() - 1); // One month before current date
-    return date;
-  })
-  const [endDate, setEndDate] = useState(() => {
-    const date = new Date(); 
-    date.setMonth(date.getMonth() + 1); // One month before current date
-    return date;
-  })
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
 
   const handleStartDate = (date) => {
     setStartDate(date)
@@ -37,6 +30,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
+            minDate={minStartDateTime}
             selected={startDate}
             onChange={(date) => handleStartDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
@@ -45,7 +39,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             onKeyDown={(e) => {
               e.preventDefault();
             }}
-            shouldCloseOnSelect showMonthDropdown showYearDropdown
+            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable
           />
         </div>
         <div>
@@ -65,7 +59,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             onKeyDown={(e) => {
               e.preventDefault();
             }}
-            shouldCloseOnSelect showMonthDropdown showYearDropdown 
+            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable
           />
         </div>
       </div>
