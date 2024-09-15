@@ -45,9 +45,7 @@ section {
 
 /* END HEADER */
 
-.titleContainer,
-.contentContainer,
-.container {
+.container { /* IMPORTANT */
     @apply
     sm:w-[85%]
     sm:m-auto
@@ -82,12 +80,6 @@ option {
     ml-2 mb-1 sm:mb-3
 }
 
-.titleContainer hr {
-    @apply 
-    bg-black opacity-[0.2]
-    h-[3px] w-[40%] sm:w-[50%]
-}
-
 /* END TITLE CONTAINER */
 
 .contentContainer {
@@ -104,7 +96,7 @@ option {
     flex flex-col gap-4
 }
 
-.bookingItem {
+/* .bookingItem {
     @apply
     flex flex-row
     overflow-hidden rounded-2xl
@@ -116,26 +108,20 @@ option {
     bg-white
     flex flex-col grow gap-1
     p-5
-}
+} */
 
-.bookingItem .operations {
-    @apply 
-    bg-slate-100
-    flex flex-col items-center
-}
-
-.bookingItem .operations > button {
+/* .bookingItem .operations > button {
     @apply 
     grow flex items-center
     px-4
-}
+} */
 
-.bookingItem .operations > button > * {
+/* .bookingItem .operations > button > * {
     @apply
-    size-8 opacity-80
-}
+    className='size-8 opacity-80'
+} */
 
-.operations .view {
+/* .operations .view {
     @apply 
     hover:bg-slate-300 
     active:bg-slate-400
@@ -153,6 +139,6 @@ option {
     active:bg-red-400
     hover:text-white 
     active:text-white
-}
+} */
 
 

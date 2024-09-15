@@ -33,7 +33,7 @@ function MultiSelect({ onData }) {
               {
                 type.places.map((place) => (
                   <span key={place._id} onClick={() => handleClick(place._id)}
-                    className={`border-slate-600 border rounded-full px-3 py-1 select-none active:bg-green-500 ${selectedPlaces.includes(place._id) ? "bg-green-400" : "bg-transparent"}`}>
+                    className={`border-slate-300 border rounded-full px-3 py-1 select-none active:bg-green-500 ${selectedPlaces.includes(place._id) ? "bg-green-400" : "bg-transparent"}`}>
                     {place.name}
                   </span>
                 ))

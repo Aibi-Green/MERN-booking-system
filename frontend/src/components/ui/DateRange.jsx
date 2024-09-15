@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PropTypes from 'prop-types'
 import { minStartDateTime } from '../../assets/Data.jsx'
 
-function DateRange({ className, startClassName, endClassName, startData, endData, noIcon=false }) {
+function DateRange({ className, startClassName, endClassName, startData, endData, noDaterestrictions=false, noIcon=false }) {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
 
@@ -30,7 +30,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
-            minDate={minStartDateTime}
+            minDate={(noDaterestrictions) ? "" : minStartDateTime}
             selected={startDate}
             onChange={(date) => handleStartDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
@@ -39,7 +39,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             onKeyDown={(e) => {
               e.preventDefault();
             }}
-            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable
+            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable 
           />
         </div>
         <div>
@@ -73,7 +73,8 @@ DateRange.propTypes = {
   startClassName: PropTypes.string,
   endClassName: PropTypes.string,
   startData: PropTypes.func,
-  endData: PropTypes.func
+  endData: PropTypes.func,
+  noDaterestrictions: PropTypes.bool
 }
 
 export default DateRange

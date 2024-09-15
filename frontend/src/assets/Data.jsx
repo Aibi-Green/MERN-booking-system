@@ -17,6 +17,25 @@ let endDate = new Date(today.setDate(today.getDate() + 3))
 endDate.setTime(endDate.getTime() + 3600000)
 export const endDateTime = endDate
 
+export const formatDate = (dateString) => {
+  let options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }
+
+  return new Date(dateString).toLocaleDateString("en-US", options)
+}
+
+export const formatTime = (dateString) => {
+  let options = {
+    hour: '2-digit',
+    minute: '2-digit'
+  }
+
+  return new Date(dateString).toLocaleTimeString("en-US", options)
+}
+
 export const bookings = [
   {
     _id: "66b5b74842298956d171b375",
