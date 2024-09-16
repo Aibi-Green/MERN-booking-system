@@ -1,5 +1,5 @@
 import {useState} from "react"
-import DeleteDialog from "../components/DeleteDialog";
+import ViewDialog from "../components/ViewDialog";
 
 function Practice() {
   const [hidden, setHidden] = useState(false)
@@ -15,9 +15,8 @@ function Practice() {
       <button onClick={() => handleClick()}>Show</button>
       {
         !hidden && 
-        <DeleteDialog>
-          Are you sure want to delete this booking?
-        </DeleteDialog>}
+        <ViewDialog>
+        </ViewDialog>}
     </div>
   )
 }

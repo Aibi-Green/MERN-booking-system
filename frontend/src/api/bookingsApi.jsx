@@ -24,7 +24,7 @@ export const viewBooking = (id, onData) => {
     method: "GET"
   })
     .then(response => response.json())
-    .then(json => onData(json))
+    .then(json => onData(json.data))
     .catch(error => console.error(error))
 }
 

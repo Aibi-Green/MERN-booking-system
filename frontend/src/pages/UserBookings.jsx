@@ -16,9 +16,9 @@ function UserBookings() {
 
   useEffect(() => {
     
-    console.log("Getting user bookings...");
+    // console.log("Getting user bookings...");
     getUserBookings(loggedInUserID, setBookings)
-    console.log("Finished laying out user bookings.")
+    // console.log("Finished laying out user bookings.")
     
   }, [])
 

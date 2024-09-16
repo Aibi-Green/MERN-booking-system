@@ -91,8 +91,6 @@ const createRbookings = async (req: Request, res: Response) => {
     })
 
     console.log("Inserting array to database...");
-    console.log(insertArr);
-
     const result = await Rbooking.insertMany(insertArr)
 
     console.log("Successfully created Venue Requirement Booking!\n");

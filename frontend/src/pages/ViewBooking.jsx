@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import Label from "../components/ui/Label.jsx"
 import { useEffect, useState } from "react"
 import { viewBooking } from '../api/BookingsApi.jsx'
+import { purposes } from "../assets/Data.jsx"
 
 function ViewBooking() {
   const { id_booking } = useParams()
@@ -12,8 +13,9 @@ function ViewBooking() {
   const [booking, setBooking] = useState({})
   
   useEffect(() => {
-    viewBooking(id_booking, setBooking)
-  }, [id_booking])
+    viewBooking(id_booking, setBooking)    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -26,9 +28,9 @@ function ViewBooking() {
       <TitleContainer>View Booking</TitleContainer>
 
       <ContentContainer>
-        <form onSubmit={handleSubmit}>
-          <button type="submit">Submit</button>
-          {/* <Label text={`Purpose: ${(purposeID) ?
+        {/* <form onSubmit={handleSubmit}>
+          <div onClick={() => console.log(booking)}>Submit</div>
+          <Label text={`Purpose: ${(purposeID) ?
             (purposes.find((i) => i._id == purposeID)).name :
             ""
             }`}>
@@ -57,8 +59,8 @@ function ViewBooking() {
             <Link to='/userbookings'>
               <CancelButton className="w-full" type="button">Cancel</CancelButton>
             </Link>
-          </div> */}
-        </form>
+          </div>
+        </form> */}
       </ContentContainer>
 
     </section>

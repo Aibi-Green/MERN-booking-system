@@ -81,7 +81,7 @@ function AddBooking() {
   return (
     <section>
       <TitleContainer>Create New Booking</TitleContainer>
-      <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button>
+      {/* <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button> */}
 
       <ContentContainer>
         <form onSubmit={handleSubmit} className='flex flex-col gap-6'>

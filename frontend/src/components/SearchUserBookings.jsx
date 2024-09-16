@@ -13,8 +13,8 @@ function SearchUserBookings({ className, onData }) {
   const searchRef = useRef(null)
   const [status, setStatus] = useState("")
   const [searchStr, setSearchStr] = useState("")
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
   const [sort, setSort] = useState(false)
 
   const handleStatus = (data) => {
