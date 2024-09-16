@@ -4,7 +4,15 @@ import { formatDate, formatTime } from '../assets/Data';
 import formatStatus from './ui/StatusTags.jsx'
 import { Link } from 'react-router-dom';
 
-function ItemBookings({data}) {
+function ItemBookings({data, onDelete}) {
+
+  const handleDelete = (id, bool) => {
+    // console.log("id: ", id, "\nbool: ", bool);
+    onDelete({
+      id_booking: id,
+      openDialog: bool
+    })
+  }
 
   return (
     <div className='flex flex-row overflow-hidden rounded-2xl shadow-md border'>
@@ -37,16 +45,18 @@ function ItemBookings({data}) {
         <Link to={`/editbooking/${data._id}`} className='grow flex items-center px-4 hover:bg-slate-300 active:bg-slate-400'>
           <LucideEdit className='size-8 opacity-80' />
         </Link>
-        <Link to={`/viewbooking/${data._id}`} className='grow flex items-center px-4 hover:bg-red-300 active:bg-red-400 hover:text-white active:text-white'>
+        {/* to={`/viewbooking/${data._id}`} */}
+        <button onClick={() => handleDelete(data._id, false)} className='grow flex items-center px-4 hover:bg-red-300 active:bg-red-400 hover:text-white active:text-white'>
           <LucideTrash className='size-8 opacity-80' />
-        </Link>
+        </button>
       </div>
     </div>
   )
 }
 
 ItemBookings.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  onDelete: PropTypes.func
 }
 
 export default ItemBookings

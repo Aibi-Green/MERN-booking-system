@@ -1,9 +1,9 @@
 import Label from '../components/ui/Label.jsx'
 import Dropdown from '../components/ui/Dropdown.jsx'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import DateRange from '../components/ui/DateRange.jsx'
 import NumberInput from '../components/ui/NumberInput.jsx'
-import { purposes } from '../assets/Data.jsx'
+import { loggedInUserID, purposes } from '../assets/Data.jsx'
 import MultiSelect from '../components/MultiSelect.jsx'
 import SubmitButton from '../components/buttons/SubmitButton.jsx'
 import CancelButton from '../components/buttons/CancelButton.jsx'
@@ -11,31 +11,27 @@ import FormErrors from '../components/ui/FormErrors.jsx'
 import TitleContainer from '../components/TitleContainer.jsx'
 import ContentContainer from '../components/ContentContainer.jsx'
 import { Link } from 'react-router-dom'
+import { addBooking } from '../api/bookingsApi.jsx'
 
 function AddBooking() {
 
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-
-  const [purposeID, setPurposeID] = useState("")
+  const [purpose, setPurpose] = useState("")
   const [guests, setGuests] = useState(0)
   const guestsRef = useRef(null)
   const [requirementsID, setRequirementsID] = useState([])
-
   const [validations, setValidations] = useState([""])
-  // const [bookingPayload, setBookingPayload] = useState({})
-  // const [bookingVenuesPayload, setBookingVenuesPayload] = useState({})
+  const [payload, setPayload] = useState()
 
   const handleGuests = () => {
     setGuests(guestsRef.current.value)
   }
 
   const handleValidations = () => {
-    console.log("Checking validations for add bookings...");
-
     let errors = []
 
-    if (purposeID.length === 0 || !purposes.some(i => i._id === purposeID)) {
+    if (purpose.length === 0 || !purposes.some(i => i === purpose)) {
       errors.push("Please select a valid purpose.")
     }
 
@@ -57,47 +53,43 @@ function AddBooking() {
     if (requirementsID.length == 0) {
       errors.push("Please pick at least one place under venue requirements.")
     }
-    console.log("Setting validations...");
+
     setValidations(errors)
-    console.log("Done with validations...");
   }
 
-  // useEffect(() => {
-  //   if (validations.length == 0) {
-  //     setBookingPayload({
-  //       purpose: purposeID,
-  //       date_start: startDate,
-  //       date_end: endDate,
-  //       guests: guests,
-  //     })
-  //     setBookingVenuesPayload({
-  //       requirements: requirementsID
-  //     })
-  //   }
-  // }, [endDate, guests, purposeID, requirementsID, startDate, validations])
+  const formatPayload = () => {
+    setPayload({
+      purpose: purpose,
+      date_start: startDate,
+      date_end: endDate,
+      num_participants: guests,
+      requirements: requirementsID
+    })
+  }
 
-  // const handleCancel = () => {
-  //   console.log(bookingPayload);
-  //   console.log(bookingVenuesPayload);
-  // }
+  useEffect(() => {
+    if(!(validations.length > 0))
+      addBooking(loggedInUserID, payload)
+  }, [payload, validations])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     handleValidations()
+    formatPayload()
   }
 
   return (
     <section>
       <TitleContainer>Create New Booking</TitleContainer>
+      <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button>
 
       <ContentContainer>
         <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
-          <Label text={`Purpose: ${(purposeID) ?
-            (purposes.find((i) => i._id == purposeID)).name :
+          <Label text={`Purpose: ${(purpose) ?
+            (purposes.find((i) => i == purpose)) :
             ""
             }`}>
-            <Dropdown data={purposes} onData={setPurposeID} className="border" />
+            <Dropdown data={purposes} onData={setPurpose} className="border" />
           </Label>
 
           <div>

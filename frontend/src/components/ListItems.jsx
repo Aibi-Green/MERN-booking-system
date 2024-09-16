@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 import ItemBooking from './ItemBooking.jsx'
 
-function ListItems({ data }) {
+function ListItems({ data, onDelete }) {
+
   return (
     <div className='flex flex-col gap-4 pb-[8rem]'>
       {
         data.map((i) => (
-          <ItemBooking key={i._id} data={i} />
+          <ItemBooking key={i._id} data={i} onDelete={onDelete} />
         ))
       }
     </div>
@@ -14,7 +15,8 @@ function ListItems({ data }) {
 }
 
 ListItems.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  onDelete: PropTypes.func
 }
 
 export default ListItems

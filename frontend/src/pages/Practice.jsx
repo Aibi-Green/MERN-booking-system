@@ -1,48 +1,23 @@
-import { useEffect, useState } from "react"
-import { formattedRequirements } from '../assets/Data.jsx'
+import {useState} from "react"
+import DeleteDialog from "../components/DeleteDialog";
 
 function Practice() {
-  const [selectedPlaces, setSelectedPlaces] = useState([])
+  const [hidden, setHidden] = useState(false)
 
-  useEffect(() => {
-    console.log(selectedPlaces);
-  }, [selectedPlaces])
-
-  const handleClick = (id) => {
-    if (!selectedPlaces.includes(id)) {
-      setSelectedPlaces((prevSelected) => {
-        return [...prevSelected, id]
-      })
-    } else {
-      setSelectedPlaces((prevSelected) => {
-        return prevSelected.filter((prevId) => {
-          return (prevId != id)
-        })
-      })
-    }
+  const handleClick = () => {
+    setHidden(!hidden)
+    console.log(hidden);
+    
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="relative h-lvh">
+      <button onClick={() => handleClick()}>Show</button>
       {
-        formattedRequirements.map((type) => (
-          <div key={type._id}>
-            <div className='bg-slate-100 px-2 rounded-md'>{type.name}</div>
-            <div className='p-4 flex flex-row flex-wrap gap-2'>
-              {
-                type.places.map((place) => (
-                  <span key={place._id} onClick={() => handleClick(place._id)}
-                  className={`border-slate-600 border rounded-full px-3 py-1
-                hover:bg-green-400 select-none active:bg-green-500 ${selectedPlaces.includes(place._id) ? "bg-green-400" : "bg-transparent"}`}>
-                    {place.name}
-                  </span>
-                ))
-              }
-            </div>
-          </div>
-        ))
-      }
-      <button className="border border-black w-[200px] self-center" onClick={() => console.log(selectedPlaces)}>Show selected places</button>
+        !hidden && 
+        <DeleteDialog>
+          Are you sure want to delete this booking?
+        </DeleteDialog>}
     </div>
   )
 }

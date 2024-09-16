@@ -61,6 +61,8 @@ const createRbookings = async (req: Request, res: Response) => {
     console.log("/CREATE VENUE REQUIREMENT BOOKING");
 
     console.log("Checking if id_booking exists...");
+    console.log("API: id_booking = ",req.body.id_booking);
+    
     const bookingExists = await Booking.find({ _id: req.body.id_booking }, "").exec()
     if (!(bookingExists.length > 0)) {
       console.log("Booking does not exist.");
@@ -72,26 +74,39 @@ const createRbookings = async (req: Request, res: Response) => {
     console.log("Booking exists!");
 
     console.log("Checking if id_requirements exists");
-    const reqList = await Requirement.find({}, "_id").exec()
-    const reqListId = reqList.map(i => i._id.toString())
-    req.body.id_requirements.some((id: string) => {
-      if (!reqListId.includes(id)) {
-        return res.status(400).json({
-          status: "fail",
-          message: "Requirement ID does not exist..."
-        })
-      }
-    })
+    
+    // for (const id of req.body.id_requirements) {
+    //   console.log(id)
+    // }
+
+    const reqList = await Requirement.find({id_requirement: {$in: req.body.id_requirements}}, '_id').exec()
+    console.log(reqList);
+    
+    // const reqListId = reqList.map(i => i._id.toString())
+    // req.body.id_requirements.some((id: string) => {
+    //   if (!reqListId.includes(id)) {
+    //     return res.status(400).json({
+    //       status: "fail",
+    //       message: "Requirement ID does not exist..."
+    //     })
+    //   }
+    // })
     console.log("Requirement ID exists!");
 
     // Create array for insertmany
+    console.log("Creating insert Arr...");
+    
     const insertArr = req.body.id_requirements.map((id_requirement: string) => {
       return {
         id_booking: req.body.id_booking,
         id_requirement: id_requirement
       }
     })
-    const result = await Rbooking.insertMany(insertArr)
+
+    console.log("Inserting array to database...");
+    console.log(insertArr);
+    
+    // const result = await Rbooking.insertMany(insertArr)
 
     console.log("Successfully created Venue Requirement Booking!\n");
 

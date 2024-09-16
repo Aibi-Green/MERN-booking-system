@@ -20,13 +20,13 @@ function Dropdown({ id, data, className, onData }) {
     }
   }, [filterStr])
 
-  const setInput = (value, id) => {    
+  const setInput = (value) => {    
     // update input value
     if (inputRef.current) {
       // set the value in the input field
       setFilterStr(value)
       inputRef.current.value = value
-      onData(id)
+      onData(value)
       setOpen(false)
     }
   }
@@ -64,12 +64,12 @@ function Dropdown({ id, data, className, onData }) {
               if(filterStr.toLowerCase() === '') {
                 return i
               } else {
-                return i.name.toLowerCase().includes(filterStr.toLowerCase())
+                return i.toLowerCase().includes(filterStr.toLowerCase())
               }
-            }).map((i) => (
-              <li key={i._id} onClick={() => setInput(i.name, i._id)}
+            }).map((i, index) => (
+              <li key={(i._id) ? i._id : index} onClick={() => setInput(i)}
                 className='py-2 px-4 hover:bg-slate-100'
-              >{i.name}</li>
+              >{i}</li>
             ))
           }
         </ul>}

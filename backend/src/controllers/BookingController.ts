@@ -1,6 +1,7 @@
 import {Request, Response} from "express"
 import User from '../models/user'
 import Booking from '../models/booking'
+import Rbooking from "../models/rbooking"
 
 const getBookings = async (req: Request, res: Response) => {
     try {
@@ -108,7 +109,7 @@ const createUserBooking = async (req: Request, res: Response) => {
         }
 
         const newBooking = new Booking(req.body)
-        await newBooking.save()
+        await newBooking.save()        
 
         console.log("/CREATE BOOKING");
         console.log("Successfully created Booking!\n");
@@ -116,6 +117,7 @@ const createUserBooking = async (req: Request, res: Response) => {
         return res.status(201).json({
             status: "success",
             message: "Created booking successfully!",
+            id_booking: newBooking._id,
             method: "POST"
         })
     } catch (e: any) {
@@ -180,8 +182,9 @@ const editBooking = async (req: Request, res: Response) => {
 
 const deleteBooking = async (req: Request, res: Response) => {
     try {
+        console.log("/DELETE BOOKING");
+        
         const booking = await Booking.findById(req.params.id).exec()
-
         if(!booking) {
             return res.status(404).json({
                 status: "fail",
@@ -189,9 +192,13 @@ const deleteBooking = async (req: Request, res: Response) => {
             })
         }
 
-        await Booking.deleteOne({_id: req.params.id})
+        console.log("Deleting Booking Requirements ...");
+        const result = await Rbooking.deleteMany({ id_booking: req.params.id })
+        console.log("Deleted ", result.deletedCount, " booking requirements.");
         
-        console.log("/DELETE BOOKING");
+        
+        console.log("Deleting Booking...");
+        await Booking.deleteOne({_id: req.params.id})
         console.log("Deleted Booking ID...\n");
 
         return res.status(200).json({

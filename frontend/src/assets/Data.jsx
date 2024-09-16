@@ -1,3 +1,5 @@
+export const loggedInUserID = "6653956aa49a7d296304da37"
+
 // current day
 const today = new Date()
 today.setHours(6, 0, 0, 0)
@@ -99,12 +101,7 @@ export const users = [
   }
 ]
 
-export const purposes = [
-  {_id: 1, name: "Wedding"}, 
-  {_id: 2, name: "Party"}, 
-  {_id: 3, name: "Birthday"}, 
-  {_id: 4, name: "Prom"}
-]
+export const purposes = ["Wedding", "Party", "Birthday", "Prom"]
 
 export const statuses = [
   "All", "Approved", "Pending", "Rejected"
