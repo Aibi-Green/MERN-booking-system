@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react"
-import { formattedRequirements } from '../assets/Data.jsx'
+// import { formattedRequirements } from '../assets/Data.jsx'
 import PropTypes from 'prop-types'
+import { getTypesAndReq } from "../api/ReqTypesApi"
 
 function MultiSelect({ onData }) {
   const [selectedPlaces, setSelectedPlaces] = useState([])
+  const [formattedRequirements, setFormattedRequirements] = useState([])
+
+  useEffect(() => {
+    getTypesAndReq(setFormattedRequirements)
+  }, [])
 
   useEffect(() => {
     onData(selectedPlaces);
@@ -42,7 +48,8 @@ function MultiSelect({ onData }) {
           </div>
         ))
       }
-      {/* <button onClick={() => console.log(selectedPlaces)}>Show selected places</button> */}
+      {/* <button onClick={() => console.log(types)}>Show selected places</button>
+      <button onClick={() => console.log(requirements)}>Show selected places</button> */}
     </div>
   )
 }

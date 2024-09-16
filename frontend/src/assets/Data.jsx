@@ -1,4 +1,5 @@
 export const loggedInUserID = "6653956aa49a7d296304da37"
+export const backendUrl = "http://localhost:8080"
 
 // current day
 const today = new Date()
@@ -107,126 +108,126 @@ export const statuses = [
   "All", "Approved", "Pending", "Rejected"
 ]
 
-export const types = [
-  {
-    _id: 1,
-    name: "Indoor"
-  },{
-    _id: 2,
-    name: "Outdoor"
-  },{
-    _id: 3,
-    name: "Additional"
-  }
-]
+// export const types = [
+//   {
+//     _id: 1,
+//     name: "Indoor"
+//   },{
+//     _id: 2,
+//     name: "Outdoor"
+//   },{
+//     _id: 3,
+//     name: "Additional"
+//   }
+// ]
 
-export const requirements = [
-  {
-    _id: "1",
-    name: "Art Gallery",
-    id_type: "1",
-  },{
-    _id: "2",
-    name: "Dunes Cafe",
-    id_type: "1",
-  },{
-    _id: "3",
-    name: "Cinema",
-    id_type: "1",
-  },{
-    _id: "4",
-    name: "Stadium 1",
-    id_type: "1",
-  },{
-    _id: "5",
-    name: "Community Kitchen",
-    id_type: "1",
-  },{
-    _id: "6",
-    name: "Auditorium",
-    id_type: "1",
-  },{
-    _id: "7",
-    name: "Play Cafe",
-    id_type: "1",
-  },{
-    _id: "8",
-    name: "Equipment Hire",
-    id_type: "1",
-  },{
-    _id: "9",
-    name: "Stadium 2",
-    id_type: "1",
-  },{
-    _id: "10",
-    name: "Community Youth Centre",
-    id_type: "1",
-  },{
-    _id: "11",
-    name: "Green Room",
-    id_type: "1",
-  },{
-    _id: "12",
-    name: "Library Meeting Space",
-    id_type: "1",
-  },{
-    _id: "13",
-    name: "Office Space",
-    id_type: "1",
-  },{
-    _id: "14",
-    name: "Squash Courts",
-    id_type: "1",
-  },{
-    _id: "16",
-    name: "Netball Court 1",
-    id_type: "2",
-  },{
-    _id: "17",
-    name: "Tennis Courts",
-    id_type: "2",
-  },{
-    _id: "18",
-    name: "Small Oval",
-    id_type: "2",
-  },{
-    _id: "19",
-    name: "Outdoor Pool",
-    id_type: "2",
-  },{
-    _id: "20",
-    name: "Pool Party",
-    id_type: "2",
-  },{
-    _id: "21",
-    name: "Netball Court 2",
-    id_type: "2",
-  },{
-    _id: "22",
-    name: "Town Oval",
-    id_type: "2",
-  },{
-    _id: "23",
-    name: "Soccer Field",
-    id_type: "2",
-  },{
-    _id: "24",
-    name: "Indoor Pool",
-    id_type: "2",
-  },{
-    _id: "25",
-    name: "Catering (including alcohol sales)",
-    id_type: "3",
-  },{
-    _id: "26",
-    name: "AV Equipment",
-    id_type: "3",
-  },{
-    _id: "27",
-    name: "Additional Equipment",
-    id_type: "3",
-  },
-]
+// export const requirements = [
+//   {
+//     _id: "1",
+//     name: "Art Gallery",
+//     id_type: "1",
+//   },{
+//     _id: "2",
+//     name: "Dunes Cafe",
+//     id_type: "1",
+//   },{
+//     _id: "3",
+//     name: "Cinema",
+//     id_type: "1",
+//   },{
+//     _id: "4",
+//     name: "Stadium 1",
+//     id_type: "1",
+//   },{
+//     _id: "5",
+//     name: "Community Kitchen",
+//     id_type: "1",
+//   },{
+//     _id: "6",
+//     name: "Auditorium",
+//     id_type: "1",
+//   },{
+//     _id: "7",
+//     name: "Play Cafe",
+//     id_type: "1",
+//   },{
+//     _id: "8",
+//     name: "Equipment Hire",
+//     id_type: "1",
+//   },{
+//     _id: "9",
+//     name: "Stadium 2",
+//     id_type: "1",
+//   },{
+//     _id: "10",
+//     name: "Community Youth Centre",
+//     id_type: "1",
+//   },{
+//     _id: "11",
+//     name: "Green Room",
+//     id_type: "1",
+//   },{
+//     _id: "12",
+//     name: "Library Meeting Space",
+//     id_type: "1",
+//   },{
+//     _id: "13",
+//     name: "Office Space",
+//     id_type: "1",
+//   },{
+//     _id: "14",
+//     name: "Squash Courts",
+//     id_type: "1",
+//   },{
+//     _id: "16",
+//     name: "Netball Court 1",
+//     id_type: "2",
+//   },{
+//     _id: "17",
+//     name: "Tennis Courts",
+//     id_type: "2",
+//   },{
+//     _id: "18",
+//     name: "Small Oval",
+//     id_type: "2",
+//   },{
+//     _id: "19",
+//     name: "Outdoor Pool",
+//     id_type: "2",
+//   },{
+//     _id: "20",
+//     name: "Pool Party",
+//     id_type: "2",
+//   },{
+//     _id: "21",
+//     name: "Netball Court 2",
+//     id_type: "2",
+//   },{
+//     _id: "22",
+//     name: "Town Oval",
+//     id_type: "2",
+//   },{
+//     _id: "23",
+//     name: "Soccer Field",
+//     id_type: "2",
+//   },{
+//     _id: "24",
+//     name: "Indoor Pool",
+//     id_type: "2",
+//   },{
+//     _id: "25",
+//     name: "Catering (including alcohol sales)",
+//     id_type: "3",
+//   },{
+//     _id: "26",
+//     name: "AV Equipment",
+//     id_type: "3",
+//   },{
+//     _id: "27",
+//     name: "Additional Equipment",
+//     id_type: "3",
+//   },
+// ]
 
 export const booking_requirement = [
   {
@@ -298,16 +299,16 @@ export const requirements_mock = {
   additional: ["Catering", "AV Equipment", "Additional Equipment"]
 }
 
-let arr = types
+// let arr = types
 
-arr.map(type => {
-  type.places = []
+// arr.map(type => {
+//   type.places = []
 
-  requirements.filter((req) => {
-    if (req.id_type == type._id) {
-      type.places.push(req)
-    }
-  })
-})
+//   requirements.filter((req) => {
+//     if (req.id_type == type._id) {
+//       type.places.push(req)
+//     }
+//   })
+// })
 
-export const formattedRequirements = arr
+// export const formattedRequirements = arr

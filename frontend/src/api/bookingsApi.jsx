@@ -1,4 +1,4 @@
-const backendUrl = "http://localhost:8080"
+import { backendUrl } from "../assets/Data"
 
 export const getBookings = (onData) => {
   fetch(`${backendUrl}/bookings`, {

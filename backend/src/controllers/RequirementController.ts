@@ -4,7 +4,7 @@ import Rtype from "../models/rtype";
 
 const getRequirements = async (req: Request, res: Response) => {
     try {
-        const requirementList = await Requirement.find({}, "").exec()
+        const requirementList = await Requirement.find({}, "").sort({name: 1}).exec()
 
         console.log("/GET ALL VENUE REQUIREMENT");
         console.log("List consists of ", requirementList.length, ".\n");
