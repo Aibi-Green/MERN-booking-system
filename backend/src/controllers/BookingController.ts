@@ -38,7 +38,7 @@ const getOneBooking = async (req: Request, res: Response) => {
         if(booking) {
             return res.status(200).json({
                 status: "success",
-                message: booking,
+                data: booking,
                 method: "GET"
             })   
         } else {
@@ -146,8 +146,11 @@ const editBooking = async (req: Request, res: Response) => {
                 message: "Booking ID does not exist."
             })
         }
+        console.log(req.body)
+        const { date_requested, ...updatedBody } = req.body
 
-        await Booking.updateOne({_id: req.params.id}, req.body)
+        await Booking.updateOne({_id: req.params.id}, updatedBody)
+
 
         console.log("/UPDATE BOOKING");        
         console.log("Booking ID Updated!\n");

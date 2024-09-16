@@ -12,20 +12,19 @@ router
     // Delete more than 1 booking
     .delete(BookingController.deleteManyBooking)
 
+router
+    .route('/user/:id')
+    // Get All Bookings of one specific user
+    .get(BookingController.getUserBookings)
+
 // routes with ids
 router
-    .route('/:id')
+    .route('/booking/:id')
     // Get specific booking
     .get(BookingController.getOneBooking)
     // Edit a booking account
     .put(BookingController.editBooking)
     // Delete a specific booking
     .delete(BookingController.deleteBooking)
-
-// routes for user bookings
-router
-    .route('/user/:id')
-    // Search for one user's Bookings
-    .get(BookingController.getUserBookings)
 
 export default router

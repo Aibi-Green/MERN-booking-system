@@ -8,6 +8,7 @@ import AdminRouter from './src/routes/AdminRoutes'
 import BookingRouter from './src/routes/BookingRoutes'
 import RtypeRouter from './src/routes/RtypeRoutes'
 import RequirementRouter from './src/routes/RequirementRoutes'
+import RbookingRouter from './src/routes/RbookingRoutes'
 
 // initializes express application
 const app = express()
@@ -38,6 +39,7 @@ app.use(express.json())
 app.use('/users', UserRouter)
 app.use('/admins', AdminRouter)
 app.use('/bookings', BookingRouter)
+app.use('/rbookings', RbookingRouter)
 app.use('/rtypes', RtypeRouter)
 app.use('/requirements', RequirementRouter)
 

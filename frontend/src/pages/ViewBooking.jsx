@@ -1,17 +1,25 @@
 import ContentContainer from "../components/ContentContainer"
 import TitleContainer from "../components/TitleContainer"
 import { useParams } from "react-router-dom"
-import { bookings } from "../assets/Data.jsx"
+// import { bookings } from "../assets/Data.jsx"
 import Label from "../components/ui/Label.jsx"
+import { useEffect, useState } from "react"
+import { viewBooking } from '../api/BookingsApi.jsx'
 
 function ViewBooking() {
   const { id_booking } = useParams()
-  console.log(id_booking);
-
-  const handleSubmit = () => {
-
-  }
+  // console.log(id_booking);
+  const [booking, setBooking] = useState({})
   
+  useEffect(() => {
+    viewBooking(id_booking, setBooking)
+  }, [id_booking])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(booking)
+  }
+
   return (
     <section>
 
@@ -19,7 +27,8 @@ function ViewBooking() {
 
       <ContentContainer>
         <form onSubmit={handleSubmit}>
-        <Label text={`Purpose: ${(purposeID) ?
+          <button type="submit">Submit</button>
+          {/* <Label text={`Purpose: ${(purposeID) ?
             (purposes.find((i) => i._id == purposeID)).name :
             ""
             }`}>
@@ -48,7 +57,7 @@ function ViewBooking() {
             <Link to='/userbookings'>
               <CancelButton className="w-full" type="button">Cancel</CancelButton>
             </Link>
-          </div>
+          </div> */}
         </form>
       </ContentContainer>
 

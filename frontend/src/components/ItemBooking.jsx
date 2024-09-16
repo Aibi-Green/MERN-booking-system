@@ -6,10 +6,6 @@ import { Link } from 'react-router-dom';
 
 function ItemBookings({data}) {
 
-  const handleClick = (reqs) => {
-    console.log(reqs);
-  }
-
   return (
     <div className='flex flex-row overflow-hidden rounded-2xl shadow-md border'>
       <div className='bg-white flex flex-col grow gap-1 p-5'>
