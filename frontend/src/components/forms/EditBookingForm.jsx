@@ -24,9 +24,7 @@ function EditBookingForm() {
   const [guests, setGuests] = useState(0)
   const [requirementsID, setRequirementsID] = useState([])
   const [validations, setValidations] = useState([""])
-  const [payload, setPayload] = useState()
-
-  // TODO validations
+  const [payload, setPayload] = useState(undefined)
 
   useEffect(() => {
     viewBooking(id_booking, setData)
@@ -65,10 +63,12 @@ function EditBookingForm() {
   }, [validations])
 
   useEffect(() => {
+    // console.log("payload != undefined: ", payload != undefined);
     if (payload != undefined) {
       console.log("Sending request...");
       editBooking(id_booking, payload)
     }
+    setPayload(undefined)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload])
 

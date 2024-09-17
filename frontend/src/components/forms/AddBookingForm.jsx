@@ -43,6 +43,7 @@ function AddBookingForm() {
     if (payload != undefined) {
       console.log("Sending request...");
       addBooking(loggedInUserID, payload)
+      setPayload(undefined)
     }
   }, [payload])
 
@@ -53,7 +54,7 @@ function AddBookingForm() {
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col grow'>
-      <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button>
+      {/* <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button> */}
 
       <div className='flex flex-col gap-6  grow'>
         <Label text={`Purpose: ${(purpose) ?
