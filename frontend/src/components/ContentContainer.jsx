@@ -7,7 +7,7 @@ function ContentContainer({children, className, ...props}) {
     rounded-tl-2xl rounded-tr-2xl
     px-4 sm:px-10
     pt-[2rem] sm:pt-[3rem]
-    pb-[4rem] min-h-lvh ${className}`}>
+    pb-[4rem] min-h-lvh flex flex-col ${className}`}>
       {children}
     </div>
   )

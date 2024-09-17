@@ -21,9 +21,7 @@ export const getUserBookings = (id, onData) => {
 }
 
 // Get One Booking of a userID with its requirements
-export const viewBooking = (id, onData, isLoading) => {
-  isLoading(true)
-
+export const viewBooking = (id, onData) => {
   fetch(`${backendUrl}/bookings/booking/${id}`, {
     method: "GET"
   })
@@ -44,7 +42,6 @@ export const viewBooking = (id, onData, isLoading) => {
                 requirements: jsonReqs.data,
                 types: jsonTypes.data
               })
-              isLoading(false)
             })
         })
         .catch(error => console.error(error))
@@ -52,9 +49,8 @@ export const viewBooking = (id, onData, isLoading) => {
     .catch(error => console.error(error))
 }
 
-export const addBooking = (loggedInUserID, payload) => {
-  console.log("addBooking");
-  
+export const addBooking = (loggedInUserID, payload, isLoading) => {
+  isLoading(true)
 
   fetch(`${backendUrl}/bookings`, {
     method: "POST",
@@ -90,6 +86,7 @@ export const addBooking = (loggedInUserID, payload) => {
         .then(response => response.json())
         .then(json => {
           console.log(json)
+          isLoading(false)
         })
         .catch(error => console.error(error))
     })

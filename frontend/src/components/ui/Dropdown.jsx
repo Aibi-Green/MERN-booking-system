@@ -6,11 +6,16 @@ import { ChevronDown, ChevronUp, X } from 'lucide-react';
 // data: should be array of objects for option
 // id: used both in list for input and id for datalist
 
-function Dropdown({ id, data, className, onData }) {
+function Dropdown({ inputInitialValue, id, data, className, onData }) {
   const inputRef = useRef(null) // used to reference an element
   const [filterStr, setFilterStr] = useState("");
   const [open, setOpen] = useState(false); // for opening list
   const [hidden, setHidden] = useState(true);
+
+  useEffect(() => {
+    inputRef.current.value = (inputInitialValue) ? inputInitialValue : null
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if(filterStr.length > 0) {
@@ -82,7 +87,8 @@ Dropdown.propTypes = {
   data: PropTypes.array,
   id: PropTypes.string,
   onData: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  inputInitialValue: PropTypes.string
 }
 
 export default Dropdown

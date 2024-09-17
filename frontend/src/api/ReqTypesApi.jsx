@@ -21,7 +21,9 @@ export const getRequirements = (onData) => {
 }
 
 // Creates a combined formatted Typed and Requirements for form
-export const getTypesAndReq = (onData) => {
+export const getTypesAndReq = (onData, isLoading) => {
+  isLoading(true)
+
   fetch(`${backendUrl}/rtypes`, {
     method: "GET"
   })
@@ -48,6 +50,7 @@ export const getTypesAndReq = (onData) => {
           })
 
           onData(arr)
+          isLoading(false)
         })
         .catch(error => console.error(error))
     })

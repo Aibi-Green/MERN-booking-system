@@ -2,14 +2,21 @@ import { useEffect, useState } from "react"
 // import { formattedRequirements } from '../assets/Data.jsx'
 import PropTypes from 'prop-types'
 import { getTypesAndReq } from "../api/ReqTypesApi"
+import LoaderIcon from "./ui/LoaderIcon"
 
-function MultiSelect({ onData }) {
+function MultiSelect({ initialValue, onData }) {
   const [selectedPlaces, setSelectedPlaces] = useState([])
   const [formattedRequirements, setFormattedRequirements] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    getTypesAndReq(setFormattedRequirements)
+    getTypesAndReq(setFormattedRequirements, setIsLoading)
   }, [])
+
+  useEffect(() => {
+    setSelectedPlaces((initialValue != undefined) ? initialValue : [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formattedRequirements])
 
   useEffect(() => {
     onData(selectedPlaces);
@@ -29,13 +36,17 @@ function MultiSelect({ onData }) {
     }
   }
 
-  return (
-    <div className="flex flex-col gap-2">
+  return (<>
+    {
+      (isLoading) ?
+      <LoaderIcon className="grow" />
+      : 
+      <div className="flex flex-col gap-2">
       {
         formattedRequirements.map((type) => (
           <div key={type._id}>
             <div className='bg-slate-100 px-2 py-1 rounded-md'>{type.name}</div>
-            <div className='p-4 flex flex-row flex-wrap gap-2'>
+            <div className='p-4 flex flex-row flex-wrap gap-2 justify-center'>
               {
                 type.places.map((place) => (
                   <span key={place._id} onClick={() => handleClick(place._id)}
@@ -48,14 +59,19 @@ function MultiSelect({ onData }) {
           </div>
         ))
       }
-      {/* <button onClick={() => console.log(types)}>Show selected places</button>
-      <button onClick={() => console.log(requirements)}>Show selected places</button> */}
+
+      {/* <button onClick={() => console.log(types)}>Show requirement types</button>
+      <button onClick={() => console.log(requirements)}>Show requirements</button> */}
+      {/* <div onClick={() => console.log(selectedPlaces)}>Show selected places from multiselect</div>
+      <div onClick={() => console.log(initialValue)}>Show initialValue from multiselect</div> */}
     </div>
-  )
+    }
+  </>)
 }
 
 MultiSelect.propTypes = {
-  onData: PropTypes.func
+  onData: PropTypes.func,
+  initialValue: PropTypes.array
 }
 
 export default MultiSelect

@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import PropTypes from 'prop-types'
 import { minStartDateTime } from '../../assets/Data.jsx'
 
-function DateRange({ className, startClassName, endClassName, startData, endData, noDaterestrictions=false, noIcon=false }) {
+function DateRange({ className, startClassName, endClassName, startData, endData, initialStartDate, initialEndDate, noDaterestrictions=false, noIcon=false }) {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
 
@@ -31,7 +31,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
             minDate={(noDaterestrictions) ? "" : minStartDateTime}
-            selected={startDate}
+            selected={(initialStartDate) ? initialStartDate : startDate}
             onChange={(date) => handleStartDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
             startDate={startDate}
@@ -49,7 +49,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
-            selected={endDate}
+            selected={(initialEndDate) ? initialEndDate : endDate}
             onChange={(date) => handleEndDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
             endDate={endDate}
@@ -72,6 +72,8 @@ DateRange.propTypes = {
   className: PropTypes.string,
   startClassName: PropTypes.string,
   endClassName: PropTypes.string,
+  initialStartDate: PropTypes.string,
+  initialEndDate: PropTypes.string,
   startData: PropTypes.func,
   endData: PropTypes.func,
   noDaterestrictions: PropTypes.bool

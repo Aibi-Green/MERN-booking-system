@@ -68,7 +68,7 @@ function AddBooking() {
   }
 
   useEffect(() => {
-    if(!(validations.length > 0))
+    if (!(validations.length > 0))
       addBooking(loggedInUserID, payload)
   }, [payload, validations])
 
@@ -84,27 +84,31 @@ function AddBooking() {
       {/* <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button> */}
 
       <ContentContainer>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
-          <Label text={`Purpose: ${(purpose) ?
-            (purposes.find((i) => i == purpose)) :
-            ""
-            }`}>
-            <Dropdown data={purposes} onData={setPurpose} className="border" />
-          </Label>
+        <form onSubmit={handleSubmit} className='flex flex-col grow'>
+          <div className='flex flex-col gap-6  grow'>
+            <Label text={`Purpose: ${(purpose) ?
+              (purposes.find((i) => i == purpose)) :
+              ""
+              }`}>
+              <Dropdown data={purposes} onData={setPurpose} className="border" />
+            </Label>
 
-          <div>
-            <Label text="Pick Start and End Date" />
-            <DateRange startData={setStartDate} endData={setEndDate} pattern={`[0-9]`} noIcon={true} />
-          </div>
+            <div>
+              <Label text="Pick Start and End Date" />
+              <DateRange startData={setStartDate} endData={setEndDate} pattern={`[0-9]`} noIcon={true} />
+            </div>
 
-          <Label text="Expected Number of Guests">
-            <NumberInput ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
-              className="border" />
-          </Label>
+            <Label text="Expected Number of Guests">
+              <NumberInput ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
+                className="border" />
+            </Label>
 
-          <div>
-            <Label text="Venue Requirements" className="flex flex-col" />
-            <MultiSelect onData={setRequirementsID} />
+            <div className='flex flex-col grow'>
+              <Label text="Venue Requirements" className="flex flex-col" />
+
+              <MultiSelect onData={setRequirementsID} />
+
+            </div>
           </div>
 
           <FormErrors errorArr={validations} />

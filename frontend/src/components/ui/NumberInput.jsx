@@ -6,6 +6,7 @@ const numberInput = forwardRef((
   { id, list, type, value, placeholder, onClick, onChange, className, onFocus, 
     onBlur, disabled }, 
   ref) => {
+
   return (
     <input 
       id={id} list={list} value={value} type={type} placeholder={placeholder}

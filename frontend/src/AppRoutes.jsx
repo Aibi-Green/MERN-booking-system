@@ -3,7 +3,7 @@ import UserBookings from "./pages/UserBookings.jsx";
 import UserLayout from "./layouts/UserLayout.jsx"
 import Practice from "./pages/Practice.jsx"
 import AddBooking from "./pages/AddBooking.jsx";
-import ViewBooking from "./pages/ViewBooking.jsx";
+import EditBooking from "./pages/EditBooking.jsx";
 
 function AppRoutes() {
 
@@ -12,8 +12,7 @@ function AppRoutes() {
       <Route path="/" element={<span>Home Page</span>} />
       <Route path="/userbookings" element={<UserLayout><UserBookings /></UserLayout>} />
       <Route path="/addbooking" element={<UserLayout><AddBooking /></UserLayout>} />
-      <Route path="/viewbooking/:id_booking" element={<UserLayout><ViewBooking /></UserLayout>} />
-      <Route path="/editbooking/*" element={<UserLayout><ViewBooking /></UserLayout>} />
+      <Route path="/editbooking/:id_booking" element={<UserLayout><EditBooking /></UserLayout>} />
       <Route path="/practice" element={<Practice />} />
       <Route path="/*" element={<Navigate t o="/" />} />
     </Routes>
