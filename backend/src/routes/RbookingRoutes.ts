@@ -9,8 +9,6 @@ router
     .get(RbookingController.getAllRbookings)
     // Create batch requirement booking
     .post(RbookingController.createRbookings)
-    // Delete specified booking requirements
-    .delete(RbookingController.deleteRbookings)
 
 router
     .route('/booking/:id')

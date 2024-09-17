@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { minStartDateTime } from '../../assets/Data.jsx'
 
 function DateRange({ className, startClassName, endClassName, startData, endData, initialStartDate, initialEndDate, noDaterestrictions=false, noIcon=false }) {
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startDate, setStartDate] = useState((initialStartDate) ? new Date(initialStartDate) : null)
+  const [endDate, setEndDate] = useState((initialStartDate) ? new Date(initialEndDate) : null)
 
   const handleStartDate = (date) => {
     setStartDate(date)
@@ -31,7 +31,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
             minDate={(noDaterestrictions) ? "" : minStartDateTime}
-            selected={(initialStartDate) ? initialStartDate : startDate}
+            selected={startDate}
             onChange={(date) => handleStartDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
             startDate={startDate}
@@ -49,7 +49,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
-            selected={(initialEndDate) ? initialEndDate : endDate}
+            selected={endDate}
             onChange={(date) => handleEndDate(date)}
             dateFormat={"MM/dd/yy h:mmaa"}
             endDate={endDate}

@@ -21,7 +21,9 @@ export const getUserBookings = (id, onData) => {
 }
 
 // Get One Booking of a userID with its requirements
-export const viewBooking = (id, onData) => {
+export const viewBooking = (id, onData, isLoading = () => { }) => {
+  isLoading(true)
+
   fetch(`${backendUrl}/bookings/booking/${id}`, {
     method: "GET"
   })
@@ -42,6 +44,7 @@ export const viewBooking = (id, onData) => {
                 requirements: jsonReqs.data,
                 types: jsonTypes.data
               })
+              isLoading(false)
             })
         })
         .catch(error => console.error(error))
@@ -49,16 +52,13 @@ export const viewBooking = (id, onData) => {
     .catch(error => console.error(error))
 }
 
-export const addBooking = (loggedInUserID, payload, isLoading) => {
-  isLoading(true)
-
+export const addBooking = (loggedInUserID, payload) => {
   fetch(`${backendUrl}/bookings`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      date_requested: payload.date_requested,
       purpose: payload.purpose,
       date_start: payload.date_start,
       date_end: payload.date_end,
@@ -69,9 +69,9 @@ export const addBooking = (loggedInUserID, payload, isLoading) => {
   })
     .then(response => response.json())
     .then(json => {
-      console.log(json)
-      console.log(json.id_booking)
-      console.log("payload requirements: ", payload.requirements)
+      // console.log(json)
+      // console.log(json.id_booking)
+      // console.log("payload requirements: ", payload.requirements)
 
       fetch(`${backendUrl}/rbookings`, {
         method: "POST",
@@ -86,19 +86,65 @@ export const addBooking = (loggedInUserID, payload, isLoading) => {
         .then(response => response.json())
         .then(json => {
           console.log(json)
-          isLoading(false)
         })
         .catch(error => console.error(error))
     })
     .catch(error => console.error(error))
 }
 
-export const editBooking = (id) => {
-  console.log("editBooking: ", id);
+export const editBooking = (id_booking, payload) => {
+  // console.log("editBooking: ", id_booking);
+  // console.log("PAYLOAD: ", payload);
+
+  // Edits Booking details
+  fetch(`${backendUrl}/bookings/booking/${id_booking}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      purpose: payload.purpose,
+      date_start: payload.date_start,
+      date_end: payload.date_end,
+      num_participants: payload.num_participants
+    })
+  })
+    .then(response => response.json())
+    .then(json => {
+      console.log(json);
+      // console.log("REQUIREMENTS: ", payload.requirements);
+
+      // Deletes all existing bookings requirements
+      fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
+        method: "DELETE"
+      })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+
+          fetch(`${backendUrl}/rbookings`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              id_booking: id_booking,
+              id_requirements: payload.requirements
+            })
+          })
+            .then(response => response.json())
+            .then(json => { 
+              console.log(json)
+            })
+            .catch(error => console.error(error))
+        })
+        .catch(error => console.error(error))
+    })
+    .catch(error => console.error(error))
 }
 
 export const deleteBooking = (id) => {
-  console.log("deleteBooking: ", id);
+  // console.log("deleteBooking: ", id);
   fetch(`${backendUrl}/bookings/booking/${id}`, {
     method: "DELETE"
   })

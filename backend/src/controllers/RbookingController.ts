@@ -114,7 +114,7 @@ const createRbookings = async (req: Request, res: Response) => {
     }
     console.log("Booking exists!");
 
-    console.log("Checking if id_requirements exists");
+    console.log("Checking if id_requirements exists");    
     const reqList = await Requirement.find({ _id: { $in: req.body.id_requirements } }, '_id').exec()
     if (req.body.id_requirements.length != reqList.length) {
       return res.status(400).json({
@@ -164,14 +164,18 @@ const createRbookings = async (req: Request, res: Response) => {
 const deleteRbookings = async (req: Request, res: Response) => {
   try {
     console.log("/DELETE VENUE REQUIREMENT");
+    // console.log("'id_requirements' in req.body: ", 'id_requirements' in req.body);
+    // console.log("'id' in req.params: ", 'id' in req.params);
+    // console.log("req.body == undefined: ", !req.body);
 
     // Deletes all requirements provided
-    if ('id_requirements' in req.body && typeof (req.body.id_requirements) == "object") {
-      const result = await Rbooking.deleteMany({ id_booking: req.params.id, id_requirement: { $in: req.body.id_requirements } })
-      console.log("Deleted ", result.deletedCount, " documents");
+    if ('id_requirements' in req.body && 'id' in req.params) {
+      // const result = await Rbooking.deleteMany({ id_booking: req.params.id, id_requirement: { $in: req.body.id_requirements } })
+      // console.log("Deleted ", result.deletedCount, " documents");
     }
     // Deletes all requirements of a booking
     else if ('id' in req.params) {
+      console.log("Deleting all requirements...");
       const result = await Rbooking.deleteMany({ id_booking: req.params.id })
       console.log("Deleted ", result.deletedCount, " documents");
     }

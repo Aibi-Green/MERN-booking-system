@@ -10,6 +10,7 @@ function DeleteDialog({ onClose, id }) {
   }
   
   const handleDelete = () => {
+    console.log("Sending delete booking request...");
     deleteBooking(id)
     handleClose()
   }

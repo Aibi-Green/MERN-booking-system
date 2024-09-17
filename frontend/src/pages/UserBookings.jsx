@@ -43,8 +43,11 @@ function UserBookings() {
     <section>
 
       <TitleContainer>Bookings</TitleContainer>
+
       <ContentContainer>
         <SearchUserBookings onData={handleSearchPayload} className="mb-5" />
+
+        {/* TODO do a overflow auto for scrolling */}
         <ListItems data={bookings} onDelete={(d) => handleDeleteDialog(d)} onView={(d) => handleViewDialog(d)} />
       </ContentContainer>
 
