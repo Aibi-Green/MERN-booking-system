@@ -4,14 +4,18 @@ import { formatDate, formatTime } from '../assets/Data';
 import formatStatus from './ui/StatusTags.jsx'
 import { Link } from 'react-router-dom';
 
-function ItemBookings({data, onDelete}) {
+function ItemBookings({data, onDelete, onView}) {
+  const payload = {
+    id_booking: data._id,
+    openDialog: false
+  }
 
-  const handleDelete = (id, bool) => {
-    // console.log("id: ", id, "\nbool: ", bool);
-    onDelete({
-      id_booking: id,
-      openDialog: bool
-    })
+  const handleDelete = () => {
+    onDelete(payload)
+  }
+
+  const handleView = () => {
+    onView(payload)
   }
 
   return (
@@ -39,14 +43,13 @@ function ItemBookings({data, onDelete}) {
         </div>
       </div>
       <div className='bg-slate-100 flex flex-col items-center'>
-        <Link to={`/viewbooking/${data._id}`} className='grow flex items-center px-4 hover:bg-slate-300 active:bg-slate-400'>
+        <button onClick={handleView} className='grow flex items-center px-4 hover:bg-slate-300 active:bg-slate-400'>
           <EyeIcon className='size-8 opacity-80' />
-        </Link>
+        </button>
         <Link to={`/editbooking/${data._id}`} className='grow flex items-center px-4 hover:bg-slate-300 active:bg-slate-400'>
           <LucideEdit className='size-8 opacity-80' />
         </Link>
-        {/* to={`/viewbooking/${data._id}`} */}
-        <button onClick={() => handleDelete(data._id, false)} className='grow flex items-center px-4 hover:bg-red-300 active:bg-red-400 hover:text-white active:text-white'>
+        <button onClick={handleDelete} className='grow flex items-center px-4 hover:bg-red-300 active:bg-red-400 hover:text-white active:text-white'>
           <LucideTrash className='size-8 opacity-80' />
         </button>
       </div>
@@ -56,7 +59,8 @@ function ItemBookings({data, onDelete}) {
 
 ItemBookings.propTypes = {
   data: PropTypes.object,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+  onView: PropTypes.func
 }
 
 export default ItemBookings

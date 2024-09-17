@@ -1,5 +1,6 @@
 import { backendUrl } from "../assets/Data"
 
+// Get All bookings of all accounts
 export const getBookings = (onData) => {
   fetch(`${backendUrl}/bookings`, {
     method: "GET"
@@ -9,6 +10,7 @@ export const getBookings = (onData) => {
     .catch(error => console.error(error))
 }
 
+// Get All bookings of specified user ID
 export const getUserBookings = (id, onData) => {
   fetch(`${backendUrl}/bookings/user/${id}`, {
     method: "GET"
@@ -18,13 +20,35 @@ export const getUserBookings = (id, onData) => {
     .catch(error => console.error(error))
 }
 
-export const viewBooking = (id, onData) => {
-  // TODO
+// Get One Booking of a userID with its requirements
+export const viewBooking = (id, onData, isLoading) => {
+  isLoading(true)
+
   fetch(`${backendUrl}/bookings/booking/${id}`, {
     method: "GET"
   })
     .then(response => response.json())
-    .then(json => onData(json.data))
+    .then(jsonBooking => {
+      fetch(`${backendUrl}/rbookings/booking/${id}`, {
+        method: "GET"
+      })
+        .then(response => response.json())
+        .then(jsonReqs => {
+          fetch(`${backendUrl}/rtypes`, {
+            method: "GET"
+          })
+            .then(response => response.json())
+            .then(jsonTypes => {
+              onData({
+                ...jsonBooking.data,
+                requirements: jsonReqs.data,
+                types: jsonTypes.data
+              })
+              isLoading(false)
+            })
+        })
+        .catch(error => console.error(error))
+    })
     .catch(error => console.error(error))
 }
 

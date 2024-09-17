@@ -32,7 +32,50 @@ const getAllRbookings = async (req: Request, res: Response) => {
 
 const getRbookings = async (req: Request, res: Response) => {
   try {
-    const rbookingList = await Rbooking.find({ id_booking: req.params.id }, "").exec()
+    // const rbookingList = await Rbooking.find({ id_booking: req.params.id }, "").exec()
+    const rbookingList = await Rbooking.aggregate([
+      {
+        $match: { id_booking: new ObjectId(req.params.id) } // Filter by id_booking
+      },
+      {
+        $lookup: {
+          from: "requirements", // the collection you're joining
+          localField: "id_requirement", // field from rbookings
+          foreignField: "_id", // field from requirements
+          as: "requirementDetails" // alias to store the joined data
+        }
+      },
+      {
+        $unwind: "$requirementDetails" // flatten the array if there's only one match
+      },
+      {
+        $project: {
+          // to include/exclude fields in the result
+          id_requirement: 1,
+          name: "$requirementDetails.name",
+          id_type: "$requirementDetails.id_type"
+        }
+      },
+      {
+        $lookup: {
+          from: "rtypes",
+          localField: "id_type",
+          foreignField: "_id",
+          as: "typeDetails"
+        }
+      },
+      {
+        $unwind: "$typeDetails" 
+      },
+      {
+        $project: {
+          id_requirement: 1,
+          name: 1,
+          id_type: 1,
+          type: "$typeDetails.name"
+        }
+      }
+    ])
 
     console.log("/GET ALL VENUE REQUIREMENT FOR ONE BOOKING");
     console.log("List consists of ", rbookingList.length, ".\n");
