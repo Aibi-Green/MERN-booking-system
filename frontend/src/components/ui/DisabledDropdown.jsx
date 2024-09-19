@@ -2,11 +2,12 @@ import PropTypes from 'prop-types'
 import Input from './Input'
 import { useRef, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import Label from './Label';
 
 // data: should be array of objects for option
 // id: used both in list for input and id for datalist
 
-function DisabledDropdown({ id, data, className, onData, placeholder }) {
+function DisabledDropdown({ idNameFor, data, className, onData, placeholder }) {
 
   const inputRef = useRef(null) // used to reference an element
   const [open, setOpen] = useState(false); // for opening list
@@ -25,8 +26,9 @@ function DisabledDropdown({ id, data, className, onData, placeholder }) {
     <div className='relative'>
 
       <div className='flex relative h-[100%]'>
+        <Label htmlFor={idNameFor} />
         <Input
-          id={id} type={"text"} placeholder={placeholder} ref={inputRef}
+          id={idNameFor} name={idNameFor} type={"text"} placeholder={placeholder} ref={inputRef}
           className={`pl-4 pr-10 py-3 appearance-none select rounded-md w-[100%] ${className}`}
           disabled />
         {
@@ -59,7 +61,8 @@ DisabledDropdown.propTypes = {
   placeholder: PropTypes.string,
   id: PropTypes.string,
   onData: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  idNameFor: PropTypes.string,
 }
 
 export default DisabledDropdown

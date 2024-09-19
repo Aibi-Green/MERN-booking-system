@@ -90,22 +90,22 @@ function EditBookingForm() {
         (data === undefined) ?
           <LoaderIcon className="grow" /> :
           <div className="flex flex-col gap-6  grow">
-            <Label text={`Purpose: ${(purpose != null) ? purpose : data.purpose}`}>
-              <Dropdown inputInitialValue={(purpose != null) ? purpose : data.purpose} data={purposes} onData={setPurpose} className="border" />
+            <Label htmlFor="purpose" text={`Purpose: ${(purpose != null) ? purpose : data.purpose}`}>
+              <Dropdown id="purpose" inputInitialValue={(purpose != null) ? purpose : data.purpose} data={purposes} onData={setPurpose} className="border" />
             </Label>
 
             <div>
-              <Label text="Pick Start and End Date" />
+              <div className="font-semibold mb-1">Pick Start and End Date</div>
               <DateRange startData={setStartDate} endData={setEndDate} initialStartDate={data.date_start} initialEndDate={data.date_end} pattern={`[0-9]`} noIcon={true} />
             </div>
 
-            <Label text="Expected Number of Guests">
-              <NumberInput ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
+            <Label htmlFor="guests" text="Expected Number of Guests">
+              <NumberInput id="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
                 className="border" />
             </Label>
 
             <div className='flex flex-col grow'>
-              <Label text="Venue Requirements" className="flex flex-col" />
+            <div className="font-semibold mb-1">Venue Requirements</div>
               <MultiSelect initialValue={requirementsID} onData={setRequirementsID} />
             </div>
 

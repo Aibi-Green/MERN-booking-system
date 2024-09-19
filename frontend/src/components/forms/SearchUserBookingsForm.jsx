@@ -1,21 +1,24 @@
 import { useRef, useState } from 'react';
-import Input from './ui/Input';
-import SearchButton from './buttons/SearchButton';
+import Input from '../ui/Input';
+import SearchButton from '../buttons/SearchButton';
 import PropTypes from 'prop-types'
-import AddButton from './buttons/AddButton';
-import DisabledDropdown from './ui/DisabledDropDown';
-import SortButton from './buttons/SortButton';
-import DateRange from './ui/DateRange';
-import { statuses } from '../assets/Data';
+import AddButton from '../buttons/AddButton';
+import DisabledDropdown from '../ui/DisabledDropDown';
+import SortButton from '../buttons/SortButton';
+import DateRange from '../ui/DateRange';
+import { statuses } from '../../assets/Data';
 import { Link } from 'react-router-dom';
+import { useBookingsContext } from '../../hooks/useBookingsContext';
+import Label from '../ui/Label'
 
-function SearchUserBookings({ className, onData }) {
+function SearchUserBookings({ className }) {
   const searchRef = useRef(null)
   const [status, setStatus] = useState("")
   const [searchStr, setSearchStr] = useState("")
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [sort, setSort] = useState(false)
+  const {bookings, dispatch} = useBookingsContext()
 
   const handleStatus = (data) => {
     if (statuses.includes(data)) {
@@ -29,23 +32,24 @@ function SearchUserBookings({ className, onData }) {
 
   // where to send out data
   const handleSearchButton = () => {
-    onData({
+    console.log({
       search: searchStr,
       status: (status) ? status : "All",
       date_start: startDate,
       date_end: endDate,
-      sort: sort
+      date_sort: sort
     })
   }
 
   return (
-    <div className={`flex flex-col gap-4 ${className}`}>
+    <form className={`flex flex-col gap-4 ${className}`}>
 
       {/* SEARCH INPUT and STATUS FILTER */}
       <div className='flex gap-1'>
-        <Input placeholder="Search" ref={searchRef} onChange={() => setSearchStr(searchRef.current.value)} className="min-w-[100px] grow" />
-        <DisabledDropdown onData={handleStatus} data={statuses} placeholder="All" initialVal="All" className="border min-w-[80px] grow" />
-        <SearchButton id="searchButton" type="button" onClick={(e) => handleSearchButton(e)} className="flex-initial" />
+        <Label htmlFor="searchInput"></Label>
+        <Input id="searchInput" name="searchInput" placeholder="Search" ref={searchRef} onChange={() => setSearchStr(searchRef.current.value)} className="min-w-[100px] grow" />
+        <DisabledDropdown idNameFor="statusType" onData={handleStatus} data={statuses} placeholder="All" initialVal="All" className="border min-w-[80px] grow" />
+        <SearchButton id="searchButton" type="submit" onClick={(e) => handleSearchButton(e)} className="flex-initial" />
       </div>
 
       {/* SORT and DATE RANGE */}
@@ -64,7 +68,7 @@ function SearchUserBookings({ className, onData }) {
 
       </div>
 
-    </div>
+    </form>
   )
 }
 

@@ -1,5 +1,6 @@
 import { backendUrl } from "../assets/Data"
 
+// ADMIN
 // Get All bookings of all accounts
 export const getBookings = (onData) => {
   fetch(`${backendUrl}/bookings`, {
@@ -10,6 +11,7 @@ export const getBookings = (onData) => {
     .catch(error => console.error(error))
 }
 
+// USER
 // Get All bookings of specified user ID
 export const getUserBookings = (id, onData) => {
   fetch(`${backendUrl}/bookings/user/${id}`, {
@@ -17,10 +19,10 @@ export const getUserBookings = (id, onData) => {
   })
     .then(response => response.json())
     .then(json => {
-      console.log({
-        type: 'SET_BOOKINGS',
-        payload: json.data
-      });
+      // console.log({
+      //   type: 'SET_BOOKINGS',
+      //   payload: json.data
+      // });
       
       onData({
         type: 'SET_BOOKINGS',
@@ -30,7 +32,9 @@ export const getUserBookings = (id, onData) => {
     .catch(error => console.error(error))
 }
 
+// USER || ADMIN
 // Get One Booking of a userID with its requirements
+// TODO: bookings/booking still requires two fetch requests to get both booking and requirement details
 export const viewBooking = (id, onData, isLoading = () => { }) => {
   isLoading(true)
 
@@ -62,6 +66,7 @@ export const viewBooking = (id, onData, isLoading = () => { }) => {
     .catch(error => console.error(error))
 }
 
+// USER
 export const addBooking = (loggedInUserID, payload) => {
   const details = {
     purpose: payload.purpose,
@@ -104,6 +109,7 @@ export const addBooking = (loggedInUserID, payload) => {
     .catch(error => console.error(error))
 }
 
+// USER
 export const editBooking = (id_booking, payload) => {
   // console.log("editBooking: ", id_booking);
   // console.log("PAYLOAD: ", payload);
@@ -155,6 +161,7 @@ export const editBooking = (id_booking, payload) => {
     .catch(error => console.error(error))
 }
 
+// USER
 export const deleteBooking = async (id, onData) => {
   // console.log("deleteBooking: ", id);
   await fetch(`${backendUrl}/bookings/booking/${id}`, {
@@ -169,4 +176,29 @@ export const deleteBooking = async (id, onData) => {
       });      
     })
     .catch(error => console.error(error))
+}
+
+// USER
+export const searchUserBookings = async (id, payload, onData) => {
+  console.log("SEARCH BOOKINGS:");
+  console.log("ID => ", id);
+  console.log("PAYLOAD => ", payload);
+
+  // fetch(`${backendUrl}/bookings/user/${id}`, {
+  //   method: "GET"
+  // })
+  //   .then(response => response.json())
+  //   .then(json => {
+  //     // console.log({
+  //     //   type: 'SET_BOOKINGS',
+  //     //   payload: json.data
+  //     // });
+      
+  //     onData({
+  //       type: 'SET_BOOKINGS',
+  //       payload: json.data
+  //     })
+  //   })
+  //   .catch(error => console.error(error))
+
 }

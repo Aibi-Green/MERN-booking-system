@@ -1,22 +1,21 @@
-import {useState} from "react"
+import { useState } from "react"
 import ViewDialog from "../components/ViewDialog";
 
 function Practice() {
   const [hidden, setHidden] = useState(false)
 
-  const handleClick = () => {
-    setHidden(!hidden)
-    console.log(hidden);
-    
+  const handleClick = (e) => {
+    e.preventDefault()
+
   }
 
   return (
     <div className="relative h-lvh">
-      <button onClick={() => handleClick()}>Show</button>
-      {
-        !hidden && 
-        <ViewDialog>
-        </ViewDialog>}
+      <form method="POST" onSubmit={handleClick}>
+        <label htmlFor="search">Search:</label>
+        <input type="text" id="search" name="query" placeholder="Type something..." />
+        <button type="submit">Search</button>
+      </form>
     </div>
   )
 }

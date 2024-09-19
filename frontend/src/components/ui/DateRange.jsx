@@ -26,6 +26,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
         <div>
           <span className="mr-5 opacity-[0.7]">From</span>
           <DatePicker
+            id="start-date"
             selectsStart
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}
@@ -45,6 +46,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
         <div>
           <span className="mr-6 opacity-[0.7]">Until</span>
           <DatePicker
+            id="end-date"
             selectsEnd
             showTimeSelect
             minTime={new Date(0, 0, 0, 6, 0)}

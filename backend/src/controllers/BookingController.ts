@@ -77,14 +77,15 @@ const getUserBookings = async (req: Request, res: Response) => {
     const bookingList = await Booking.aggregate([
       {
         $match: {
-          id_user: new ObjectId(id)
+          id_user: new ObjectId(id),
+          purpose: {"$regex": (req.body.search) ? req.body.search : "", "$options": "i"}
         } // Filter by id_booking
       },
       {
         $lookup: {
-          from: "rbookings", 
+          from: "rbookings",
           localField: "_id",
-          foreignField: "id_booking", 
+          foreignField: "id_booking",
           as: "requirements"
         }
       },
@@ -98,7 +99,7 @@ const getUserBookings = async (req: Request, res: Response) => {
       },
       {
         $lookup: {
-          from: "rtypes", 
+          from: "rtypes",
           localField: "requirement.id_type",
           foreignField: "_id",
           as: "type_details"
@@ -134,29 +135,29 @@ const getUserBookings = async (req: Request, res: Response) => {
           }
         }
       }
-    ])
+    ]).sort({ "date_requested": (req.body.date_sort && req.body.date_sort == false) ? -1 : 1 })
 
-console.log("/GET ALL BOOKING OF ONE USER");
-console.log("List consists of ", bookingList.length, " bookings.\n");
+    console.log("/GET ALL BOOKING OF ONE USER");
+    console.log("List consists of ", bookingList.length, " bookings.\n");
 
-if (bookingList) {
-  return res.status(200).json({
-    status: "success",
-    data: bookingList,
-    method: "GET"
-  })
-}
+    if (bookingList) {
+      return res.status(200).json({
+        status: "success",
+        data: bookingList,
+        method: "GET"
+      })
+    }
 
   } catch (e: any) {
-  return res.status(500).json({
-    status: "fail",
-    message: "Failed to retrieve user's booking list...",
-    error: {
-      name: e.name,
-      message: e.message
-    }
-  })
-}
+    return res.status(500).json({
+      status: "fail",
+      message: "Failed to retrieve user's booking list...",
+      error: {
+        name: e.name,
+        message: e.message
+      }
+    })
+  }
 }
 
 const createUserBooking = async (req: Request, res: Response) => {

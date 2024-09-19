@@ -57,25 +57,25 @@ function AddBookingForm() {
       {/* <button onClick={() => console.log("PAYLOAD\n", payload)}>SHOW PAYLOAD</button> */}
 
       <div className='flex flex-col gap-6  grow'>
-        <Label text={`Purpose: ${(purpose) ?
+        <Label htmlFor="purpose" text={`Purpose: ${(purpose) ?
           (purposes.find((i) => i == purpose)) :
           ""
           }`}>
-          <Dropdown data={purposes} onData={setPurpose} className="border" />
+          <Dropdown id="purpose" data={purposes} onData={setPurpose} className="border" />
         </Label>
 
         <div>
-          <Label text="Pick Start and End Date" />
+          <div className="font-semibold mb-1">Pick Start and End Date</div>
           <DateRange startData={setStartDate} endData={setEndDate} pattern={`[0-9]`} noIcon={true} />
         </div>
 
-        <Label text="Expected Number of Guests">
-          <NumberInput ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
+        <Label htmlFor="guests" text="Expected Number of Guests">
+          <NumberInput id="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
             className="border" />
         </Label>
 
         <div className='flex flex-col grow'>
-          <Label text="Venue Requirements" className="flex flex-col" />
+          <div className="font-semibold mb-1">Venue Requirements</div>
 
           <MultiSelect onData={setRequirementsID} />
 
