@@ -122,6 +122,8 @@ const signUpUser = async (req: Request, res: Response) => {
 
 const logInUser = async (req: Request, res: Response) => {
     try {
+        console.log("LOGGIN IN!");
+        
         const user: any = await User.login(req.body)
         const token = createToken(user._id)
 

@@ -3,15 +3,19 @@ import PropTypes from 'prop-types'
 import CancelButton from './buttons/CancelButton.jsx'
 import SubmitButton from './buttons/SubmitButton.jsx'
 import { deleteBooking } from "../api/bookingsApi.jsx";
+import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
 
 function DeleteDialog({ onClose, id }) {
+  const {dispatch} = useBookingsContext()
+
   const handleClose = () => {
     onClose(true)
   }
   
   const handleDelete = () => {
     console.log("Sending delete booking request...");
-    deleteBooking(id)
+    deleteBooking(id, dispatch)
+    
     handleClose()
   }
 

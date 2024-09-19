@@ -7,22 +7,24 @@ import { useEffect, useState } from 'react';
 import { loggedInUserID } from '../assets/Data.jsx';
 import DeleteDialog from '../components/DeleteDialog.jsx';
 import ViewDialog from '../components/ViewDialog.jsx';
+import { useBookingsContext } from '../hooks/useBookingsContext.jsx';
 
 function UserBookings() {
   // TODO handle dates better cause it keeps adding one day
   // const [ searchPayload, setSearchPayload ] = useState({})
-  const [bookings, setBookings] = useState([])
   const [hiddenDel, setHiddenDel] = useState(true)
   const [hiddenView, setHiddenView] = useState(true)
   const [deleteId, setDeleteId] = useState("")
   const [viewId, setViewId] = useState("")
+  const {bookings, dispatch} = useBookingsContext()
 
   useEffect(() => {
 
     // console.log("Getting user bookings...");
-    getUserBookings(loggedInUserID, setBookings)
-    // console.log("Finished laying out user bookings.")
+    getUserBookings(loggedInUserID, dispatch)
+    // console.log("Finished laying out user bookings.")    
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleDeleteDialog = ({ id_booking, openDialog }) => {

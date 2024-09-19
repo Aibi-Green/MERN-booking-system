@@ -5,12 +5,15 @@ import './main.css'
 import {BrowserRouter as Router} from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import {ScrollToTop} from './components/GenFuncs.jsx'
+import { BookingsContextProvider } from './contexts/BookingContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
       <ScrollToTop />
-			<AppRoutes />
+      <BookingsContextProvider>
+        <AppRoutes />
+      </BookingsContextProvider>
 		</Router>
   </StrictMode>
 )

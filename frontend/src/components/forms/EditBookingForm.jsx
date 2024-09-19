@@ -80,11 +80,11 @@ function EditBookingForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col grow">
       
-      <div className="flex justify-center m-2"><div
+      {/* <div className="flex justify-center m-2"><div
         className="bg-slate-500 text-white px-3 rounded-full"
         onClick={() => console.log("PAYLOAD\n", payload)}>
         SHOW PAYLOAD
-      </div></div>
+      </div></div> */}
 
       {
         (data === undefined) ?

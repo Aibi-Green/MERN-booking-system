@@ -6,8 +6,10 @@ import formatStatus from './ui/StatusTags.jsx'
 import { viewBooking } from "../api/bookingsApi";
 import LoaderIcon from "./ui/LoaderIcon.jsx";
 import BigDialog from "./ui/BigDialog.jsx";
+import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
 
 function ViewDialog({ onClose, id }) {
+  const { bookings, dispatch } = useBookingsContext()
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -21,9 +23,22 @@ function ViewDialog({ onClose, id }) {
       <div className="w-full text-center">
         <h4 className="text-xl font-bold">Booking Details</h4>
         <p className="text-sm opacity-40">ID: {id}</p>
-        {/* <div className="border px-2 bg-slate-300" onClick={() => console.log(data)}>
+        <div className="border px-2 bg-slate-300" onClick={() => console.log(bookings.find(i => i._id == id))}>
           Click to show view data
-        </div> */}
+        </div>
+        <div className="border px-2 bg-slate-300" onClick={() => {
+          let item = bookings.find(i => i._id == id).requirements_name
+          console.log(item.reduce((acc, item) => {
+            if (!acc[item.id_type]) {
+              acc[item.id_type] = []
+            }
+
+            acc[item.id_type].push(item)
+            return acc
+          }, {}))
+        }}>
+          Click to use reduce
+        </div>
       </div>
 
       {

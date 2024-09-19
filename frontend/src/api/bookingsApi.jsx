@@ -16,7 +16,17 @@ export const getUserBookings = (id, onData) => {
     method: "GET"
   })
     .then(response => response.json())
-    .then(json => onData(json.data))
+    .then(json => {
+      console.log({
+        type: 'SET_BOOKINGS',
+        payload: json.data
+      });
+      
+      onData({
+        type: 'SET_BOOKINGS',
+        payload: json.data
+      })
+    })
     .catch(error => console.error(error))
 }
 
@@ -53,19 +63,21 @@ export const viewBooking = (id, onData, isLoading = () => { }) => {
 }
 
 export const addBooking = (loggedInUserID, payload) => {
+  const details = {
+    purpose: payload.purpose,
+    date_start: payload.date_start,
+    date_end: payload.date_end,
+    num_participants: payload.num_participants,
+    status: 0,
+    id_user: loggedInUserID
+  }
+
   fetch(`${backendUrl}/bookings`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      purpose: payload.purpose,
-      date_start: payload.date_start,
-      date_end: payload.date_end,
-      num_participants: payload.num_participants,
-      status: 0,
-      id_user: loggedInUserID
-    })
+    body: JSON.stringify(details)
   })
     .then(response => response.json())
     .then(json => {
@@ -133,7 +145,7 @@ export const editBooking = (id_booking, payload) => {
             })
           })
             .then(response => response.json())
-            .then(json => { 
+            .then(json => {
               console.log(json)
             })
             .catch(error => console.error(error))
@@ -143,12 +155,18 @@ export const editBooking = (id_booking, payload) => {
     .catch(error => console.error(error))
 }
 
-export const deleteBooking = (id) => {
+export const deleteBooking = async (id, onData) => {
   // console.log("deleteBooking: ", id);
-  fetch(`${backendUrl}/bookings/booking/${id}`, {
+  await fetch(`${backendUrl}/bookings/booking/${id}`, {
     method: "DELETE"
   })
     .then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => {
+      console.log(json)
+      onData({
+        type: 'DELETE_BOOKING',
+        id: id
+      });      
+    })
     .catch(error => console.error(error))
 }
