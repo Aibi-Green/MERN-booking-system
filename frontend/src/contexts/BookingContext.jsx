@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 export const BookingContext = createContext()
 
-export const bookingsReducer = (state, action) => {
+export const BookingsReducer = (state, action) => {
   switch( action.type ) {
     case 'SET_BOOKINGS':
       return {
@@ -20,7 +20,7 @@ export const bookingsReducer = (state, action) => {
 }
 
 export const BookingsContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(bookingsReducer, {
+    const [state, dispatch] = useReducer(BookingsReducer, {
       bookings: []
     })
 

@@ -64,7 +64,8 @@ const getOneBooking = async (req: Request, res: Response) => {
 
 const getUserBookings = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.params.id).exec()
+    const id = req.params.id
+    const user = await User.findById(id).exec()
 
     if (!user) {
       return res.status(404).json({
@@ -75,56 +76,87 @@ const getUserBookings = async (req: Request, res: Response) => {
 
     const bookingList = await Booking.aggregate([
       {
-        $match: { id_user: new ObjectId(req.params.id) } // Filter by id_booking
-      }, {
+        $match: {
+          id_user: new ObjectId(id)
+        } // Filter by id_booking
+      },
+      {
         $lookup: {
-          from: "rbookings", // the collection you're joining
-          localField: "_id", // field from rbookings
-          foreignField: "id_booking", // field from requirements
-          as: "requirements" // alias to store the joined data
+          from: "rbookings", 
+          localField: "_id",
+          foreignField: "id_booking", 
+          as: "requirements"
         }
-      }, {
+      },
+      {
         $lookup: {
           from: "requirements",
           localField: "requirements.id_requirement",
           foreignField: "_id",
-          as: "requirement_name"
+          as: "requirement"
         }
-      }, {
+      },
+      {
+        $lookup: {
+          from: "rtypes", 
+          localField: "requirement.id_type",
+          foreignField: "_id",
+          as: "type_details"
+        }
+      },
+      {
         $project: {
           _id: 1,
+          date_requested: 1,
           purpose: 1,
           date_start: 1,
           date_end: 1,
           num_participants: 1,
           status: 1,
           id_user: 1,
-          requirements_name: "$requirement_name"
+          requirements: {
+            $map: {
+              input: "$type_details", // the array to use for mapping
+              as: "type", // alias for type_details
+              in: {
+                type: "$$type", // get type as an object
+                reqs: {
+                  $filter: {
+                    input: "$requirement", // use requirement array for filtering
+                    as: "req", // alias for requirement
+                    cond: {
+                      $eq: ["$$req.id_type", "$$type._id"] // condition to match the id_type
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     ])
 
-    console.log("/GET ALL BOOKING OF ONE USER");
-    console.log("List consists of ", bookingList.length, " bookings.\n");
+console.log("/GET ALL BOOKING OF ONE USER");
+console.log("List consists of ", bookingList.length, " bookings.\n");
 
-    if (bookingList) {
-      return res.status(200).json({
-        status: "success",
-        data: bookingList,
-        method: "GET"
-      })
-    }
+if (bookingList) {
+  return res.status(200).json({
+    status: "success",
+    data: bookingList,
+    method: "GET"
+  })
+}
 
   } catch (e: any) {
-    return res.status(500).json({
-      status: "fail",
-      message: "Failed to retrieve user's booking list...",
-      error: {
-        name: e.name,
-        message: e.message
-      }
-    })
-  }
+  return res.status(500).json({
+    status: "fail",
+    message: "Failed to retrieve user's booking list...",
+    error: {
+      name: e.name,
+      message: e.message
+    }
+  })
+}
 }
 
 const createUserBooking = async (req: Request, res: Response) => {

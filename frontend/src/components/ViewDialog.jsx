@@ -1,59 +1,42 @@
-import { useEffect, useState } from "react";
 import CancelButton from "./buttons/CancelButton";
 import { formatDate, formatTime } from '../assets/Data';
 import PropTypes from 'prop-types'
 import formatStatus from './ui/StatusTags.jsx'
-import { viewBooking } from "../api/bookingsApi";
 import LoaderIcon from "./ui/LoaderIcon.jsx";
 import BigDialog from "./ui/BigDialog.jsx";
 import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
 
 function ViewDialog({ onClose, id }) {
-  const { bookings, dispatch } = useBookingsContext()
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    viewBooking(id, setData, setIsLoading)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const { bookings } = useBookingsContext()
+  const data = bookings.find(i => i._id == id)
 
   return (
     <BigDialog className="min-h-[500px] gap-5">
       <div className="w-full text-center">
         <h4 className="text-xl font-bold">Booking Details</h4>
         <p className="text-sm opacity-40">ID: {id}</p>
-        <div className="border px-2 bg-slate-300" onClick={() => console.log(bookings.find(i => i._id == id))}>
+        {/* <div className="border px-2 bg-slate-300" onClick={() => console.log(data)}>
+          Click to show one requirement type
+        </div> */}
+        {/* <div className="border px-2 bg-slate-300" onClick={() => console.log(data)}>
           Click to show view data
-        </div>
-        <div className="border px-2 bg-slate-300" onClick={() => {
-          let item = bookings.find(i => i._id == id).requirements_name
-          console.log(item.reduce((acc, item) => {
-            if (!acc[item.id_type]) {
-              acc[item.id_type] = []
-            }
-
-            acc[item.id_type].push(item)
-            return acc
-          }, {}))
-        }}>
-          Click to use reduce
-        </div>
+        </div> */}
+        <hr className="h-1 w-full bg-slate-100 mt-3 rounded-full" />
       </div>
 
       {
-        (isLoading) ?
+        (!data) ?
 
-          <LoaderIcon className="grow" /> 
-          
+          <LoaderIcon className="grow" />
+
           :
 
-          <div className="flex flex-col w-full grow">
+          <div className="flex flex-col w-full grow items-center">
             <div>{formatStatus(data.status)}</div>
 
             <span className='text-sm opacity-80'>Date Requested: {formatDate(data.date_requested)}</span>
 
-            <span className='mt-2 text-lg font-bold capitalize'>{data.purpose}</span>
+            <span className='mt-5 text-lg font-bold capitalize'>{data.purpose}</span>
 
             <div>
               <span className='mr-3 opacity-90'>From:</span>
@@ -69,38 +52,31 @@ function ViewDialog({ onClose, id }) {
               <span className='opacity-90 mr-4'>Expected Guests:</span><span>{data.num_participants}</span>
             </div>
 
-            <div className="mt-3 flex flex-col grow">
+            <div className="mt-5 flex flex-col grow items-center">
               <span className="opacity-90">Venue Requirements:</span>
               {
-                (data.requirements && data.requirements.length > 0) ?
-                <div className="">
-                  {
-                    // First get types
-                    data.types.map((type) => (
-                      // Only show types that exist in requirements
-                      (data.requirements.some(req => req.type === type.name)) &&
-                      <div key={type._id} className="">
-                        <div className="font-semibold border-b-2">{type.name}</div>
-                        <div className="flex flex-wrap gap-1 justify-center items-center p-2">
-                        {
-                          // Get only requirements under current type
-                          data.requirements.filter((req) => {
-                            return type._id === req.id_type
-                          })
-                          // Then return the filtered result
-                          .map((req) => {
-                            return <span key={req.id_requirement} className="bg-slate-300 rounded-full px-3 py-1">{req.name}</span>
-                          })
-                        }
+                (data.requirements) ?
+                  <div>
+                    {
+                      data.requirements.map(({type, reqs}) => (
+                        <div key={type._id}>
+                          <span className="font-semibold block text-center">{type.name}</span>
+                          <div className="flex flex-wrap gap-1 justify-center items-center p-2">
+                            {
+                              reqs.map(req => (
+                                <span key={req._id} className="border border-slate-400 bg-slate-50 rounded-full px-3 py-1 inline-block">
+                                  {req.name}
+                                </span>
+                              ))
+                            }
+                          </div>
                         </div>
-                      </div>
-                      
-                    ))
-                  }
-                </div> :
-                <div className="w-full grow flex justify-center items-center">
-                  <div className="opacity-40 italic ">No Requirements included</div>
-                </div>
+                      ))
+                    }
+                  </div> :
+                  <div className="w-full grow flex justify-center items-center">
+                    <div className="opacity-40 italic ">No Requirements included</div>
+                  </div>
               }
             </div>
           </div>
