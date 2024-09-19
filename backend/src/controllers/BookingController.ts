@@ -64,6 +64,8 @@ const getOneBooking = async (req: Request, res: Response) => {
 
 const getUserBookings = async (req: Request, res: Response) => {
   try {
+    console.log("req.query: ", req.query);
+
     const id = req.params.id
     const user = await User.findById(id).exec()
 
@@ -74,12 +76,51 @@ const getUserBookings = async (req: Request, res: Response) => {
       })
     }
 
+    let matchQuery: { [key: string]: any } = {
+      id_user: new ObjectId(id),
+      purpose: { "$regex": (req.query.searchStr) ? req.query.searchStr : "", "$options": "i" },
+    }
+
+    let status = -1
+
+    switch (req.query.status) {
+      case "Pending":
+        status = 0
+        break
+      case "Approved":
+        status = 1
+        break
+      case "Rejected":
+        status = 2
+        break
+    }
+
+    if (status != -1) {
+      matchQuery['status'] = status
+    }
+
+    if (req.query.date_start != "null" && req.query.date_end != "null") {
+      matchQuery['$and'] = [
+        {
+          "date_start": {
+            "$gte": req.query.date_start ? new Date(req.query.date_start as string) : new Date(),
+            "$lte": req.query.date_end ? new Date(req.query.date_end as string) : new Date()
+          }
+        },
+        {
+          "date_end": {
+            "$gte": req.query.date_start ? new Date(req.query.date_start as string) : new Date(),
+            "$lte": req.query.date_end ? new Date(req.query.date_end as string) : new Date()
+          }
+        }
+      ]
+    }
+    console.log("matchQuery: ", matchQuery);
+
+
     const bookingList = await Booking.aggregate([
       {
-        $match: {
-          id_user: new ObjectId(id),
-          purpose: {"$regex": (req.body.search) ? req.body.search : "", "$options": "i"}
-        } // Filter by id_booking
+        $match: matchQuery // Filter by id_booking
       },
       {
         $lookup: {
@@ -135,7 +176,8 @@ const getUserBookings = async (req: Request, res: Response) => {
           }
         }
       }
-    ]).sort({ "date_requested": (req.body.date_sort && req.body.date_sort == false) ? -1 : 1 })
+      // ]).sort({ "date_requested": (req.body.date_sort && req.body.date_sort == false) ? -1 : 1 })
+    ]).sort({ "date_requested": (req.query.date_sort) ? 1 : -1 })
 
     console.log("/GET ALL BOOKING OF ONE USER");
     console.log("List consists of ", bookingList.length, " bookings.\n");

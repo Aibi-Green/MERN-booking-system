@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react'
 
 function AddButton({ className }) {
     return (
-        <OperationButton
+        <OperationButton type="button"
             className={`rounded-full bg-green-500 active:bg-green-600 
           active:text-white hover:bg-green-400 py-2 ${className}`}>
             <span className='hidden sm:block'>Create Booking</span>

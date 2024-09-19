@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types'
 import Input from './Input'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Label from './Label';
 
 // data: should be array of objects for option
 // id: used both in list for input and id for datalist
 
-function DisabledDropdown({ idNameFor, data, className, onData, placeholder }) {
+function DisabledDropdown({ idNameFor, data, className, onData, placeholder, initialVal }) {
 
   const inputRef = useRef(null) // used to reference an element
   const [open, setOpen] = useState(false); // for opening list
+
+  useEffect(() => {
+    inputRef.current.value = initialVal
+  }, [initialVal])
 
   const setInput = (value) => {
     // update input value
@@ -63,6 +67,7 @@ DisabledDropdown.propTypes = {
   onData: PropTypes.func,
   className: PropTypes.string,
   idNameFor: PropTypes.string,
+  initialVal: PropTypes.string
 }
 
 export default DisabledDropdown

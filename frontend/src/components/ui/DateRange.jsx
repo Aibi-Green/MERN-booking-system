@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import PropTypes from 'prop-types'
@@ -7,7 +7,17 @@ import { minStartDateTime } from '../../assets/Data.jsx'
 
 function DateRange({ className, startClassName, endClassName, startData, endData, initialStartDate, initialEndDate, noDaterestrictions=false, noIcon=false }) {
   const [startDate, setStartDate] = useState((initialStartDate) ? new Date(initialStartDate) : null)
-  const [endDate, setEndDate] = useState((initialStartDate) ? new Date(initialEndDate) : null)
+  const [endDate, setEndDate] = useState((initialEndDate) ? new Date(initialEndDate) : null)
+
+  useEffect(() => {
+    // if (initialStartDate == null) {
+    //   setStartDate((initialStartDate) ? new Date(initialStartDate) : null)
+    // } else {
+    //   console.log(startDate)
+    // }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialStartDate])
 
   const handleStartDate = (date) => {
     setStartDate(date)
@@ -40,7 +50,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             onKeyDown={(e) => {
               e.preventDefault();
             }}
-            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable 
+            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable autoComplete="off"
           />
         </div>
         <div>
@@ -61,7 +71,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
             onKeyDown={(e) => {
               e.preventDefault();
             }}
-            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable
+            shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable autoComplete="off"
           />
         </div>
       </div>
@@ -75,7 +85,7 @@ DateRange.propTypes = {
   startClassName: PropTypes.string,
   endClassName: PropTypes.string,
   initialStartDate: PropTypes.string,
-  initialEndDate: PropTypes.string,
+  initialEndDate: PropTypes.func,
   startData: PropTypes.func,
   endData: PropTypes.func,
   noDaterestrictions: PropTypes.bool

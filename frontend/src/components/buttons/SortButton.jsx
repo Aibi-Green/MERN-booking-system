@@ -1,11 +1,13 @@
 import { SortAsc, SortDesc } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PropTypes from 'prop-types'
 
-function SortButton({ onData }) {
+function SortButton({ onData, initialVal }) {
   const [ flip, setFlip ] = useState(false)
 
-  // onData(flip)
+  useEffect(() => {
+    setFlip(initialVal)
+  }, [initialVal])
 
   const handleClick = () => {
     setFlip(!flip)
@@ -13,7 +15,7 @@ function SortButton({ onData }) {
   }
   
   return (
-    <button className="flex gap-2" onClick={handleClick}>
+    <button type="button" className="flex gap-2" onClick={handleClick}>
       {(!flip) ? <SortAsc /> : <SortDesc />}
       {(!flip) ? <span>Newest to Oldest</span> : <span>Oldest to Newest</span>}
     </button>
@@ -21,7 +23,8 @@ function SortButton({ onData }) {
 }
 
 SortButton.propTypes = {
-  onData: PropTypes.func
+  onData: PropTypes.func,
+  initialVal: PropTypes.bool
 }
 
 export default SortButton

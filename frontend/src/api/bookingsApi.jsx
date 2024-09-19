@@ -13,8 +13,10 @@ export const getBookings = (onData) => {
 
 // USER
 // Get All bookings of specified user ID
-export const getUserBookings = (id, onData) => {
-  fetch(`${backendUrl}/bookings/user/${id}`, {
+export const getUserBookings = (id, urlSearchStr="", onData) => {
+  // console.log("urlSearchStr: ", urlSearchStr);
+  
+  fetch(`${backendUrl}/bookings/user/${id}${urlSearchStr}`, {
     method: "GET"
   })
     .then(response => response.json())
