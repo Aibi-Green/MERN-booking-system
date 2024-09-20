@@ -8,8 +8,9 @@ import SortButton from '../buttons/SortButton';
 import DateRange from '../ui/DateRange';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Label from '../ui/Label'
-import { statuses } from '../../assets/Data';
+import { loggedInUserID, statuses } from '../../assets/Data';
 import { useBookingsContext } from '../../hooks/useBookingsContext';
+import { getUserBookings } from '../../api/bookingsApi';
 
 function SearchUserBookings({ className }) {
   const searchRef = useRef(null)
@@ -17,25 +18,20 @@ function SearchUserBookings({ className }) {
   const [searchStr, setSearchStr] = useState()
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [sort, setSort] = useState(false)
+  const [sort, setSort] = useState()
   const { dispatch } = useBookingsContext()
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
 
   useEffect(() => {
-    console.log(location.search);
 
     searchRef.current.value = queryParams.get('searchStr')
     setSearchStr((queryParams.get('searchStr')) ? queryParams.get('searchStr') : "")
-
     setStatus(queryParams.get('status'))
-
-    console.log(queryParams.get('date_start'))
-    setStartDate(queryParams.get('date_start'))
-    // const dateEnd = queryParams.get('date_end');
-
-    setSort(JSON.parse(queryParams.get('date_sort')))
+    setStartDate(queryParams.get('date_start') && queryParams.get('date_start') != new Date(0).toISOString() ? new Date(queryParams.get('date_start')).toISOString() : null)
+    setEndDate(queryParams.get('date_end') && queryParams.get('date_end') != new Date(0).toISOString() ? new Date(queryParams.get('date_end')).toISOString() : null)
+    setSort(JSON.parse((queryParams.get('date_sort')) ? queryParams.get('date_sort') : false))
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -46,19 +42,48 @@ function SearchUserBookings({ className }) {
     }
   }
 
+  useEffect(() => {
+    getUserBookings(loggedInUserID, location.search, dispatch)
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search])
+
   // where to send out data
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const queryString = new URLSearchParams({
+    const queryString = {
       searchStr: searchStr,
       status: (status) ? status : "All",
-      date_start: (startDate) ? startDate.toISOString() : null,
-      date_end: (endDate) ? endDate.toISOString() : null,
       date_sort: sort
-    }).toString()
+    }
 
-    navigate(`/userbookings?${queryString}`)
+    if (startDate != null) {
+      queryString.date_start = (startDate) ? new Date(startDate).toISOString() : null
+    } else {
+      if(queryString.date_start)
+          delete queryString.date_start
+    }
+
+    if (endDate != null) {
+      queryString.date_end = (endDate) ? new Date(endDate).toISOString() : null
+    } else {
+      if(queryString.date_end)
+        delete queryString.date_end
+    }
+
+    const formattedQueryString = new URLSearchParams(queryString).toString()
+
+    navigate(`/userbookings?${formattedQueryString}`)
+
+    console.log({
+      searchStr: searchStr,
+      status: status,
+      date_start: startDate,
+      date_end: endDate,
+      sort: sort
+    });
+    
   }
 
   return (
@@ -77,7 +102,17 @@ function SearchUserBookings({ className }) {
 
         <div className='flex flex-col sm:gap-4 gap-2 items-start'>
           <SortButton onData={setSort} initialVal={sort} />
-          <DateRange initialStartDate={startDate} startData={setStartDate} endData={setEndDate} noDaterestrictions={true} />
+          <DateRange startData={(d) => {
+              if(new Date(d).toISOString() != new Date(0).toISOString())
+                setStartDate(new Date(d).toISOString())
+              else
+                setStartDate(null)
+            }} endData={(d) => {
+              if(new Date(d).toISOString() != new Date(0).toISOString())
+                setEndDate(new Date(d).toISOString())
+              else
+                setEndDate(null)
+            }} getParams={true} noDaterestrictions={true} />
         </div>
 
         <div className='flex justify-end items-end'>

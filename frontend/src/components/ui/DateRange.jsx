@@ -1,23 +1,32 @@
 import { Calendar } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import PropTypes from 'prop-types'
 import { minStartDateTime } from '../../assets/Data.jsx'
+import { useLocation } from "react-router-dom"
 
-function DateRange({ className, startClassName, endClassName, startData, endData, initialStartDate, initialEndDate, noDaterestrictions=false, noIcon=false }) {
-  const [startDate, setStartDate] = useState((initialStartDate) ? new Date(initialStartDate) : null)
-  const [endDate, setEndDate] = useState((initialEndDate) ? new Date(initialEndDate) : null)
-
-  useEffect(() => {
-    // if (initialStartDate == null) {
-    //   setStartDate((initialStartDate) ? new Date(initialStartDate) : null)
-    // } else {
-    //   console.log(startDate)
-    // }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialStartDate])
+function DateRange({ className, startClassName, initialStartDate, initialEndDate, endClassName, startData, endData, noDaterestrictions = false, noIcon = false, getParams = false }) {
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const [startDate, setStartDate] = useState(
+    (getParams) ? (
+      queryParams.get('date_start') ?
+        new Date(queryParams.get('date_start')) :
+        null
+    ) : (
+      (initialStartDate) ? new Date(initialStartDate) : null
+    )
+  )
+  const [endDate, setEndDate] = useState(
+    (getParams) ? (
+    queryParams.get('date_end') ?
+      new Date(queryParams.get('date_end')) :
+      null
+    ) : (
+      (initialEndDate) ? new Date(initialEndDate) : null
+    )
+  )
 
   const handleStartDate = (date) => {
     setStartDate(date)
@@ -27,6 +36,15 @@ function DateRange({ className, startClassName, endClassName, startData, endData
   const handleEndDate = (date) => {
     setEndDate(date)
     endData(date)
+  }
+
+  const handleClick = () => {
+    // console.log("Start date: ", startDate);
+    // console.log("End date: ", endDate);
+
+    console.log(new Date(startDate).toISOString());
+    console.log(new Date(0).toISOString());
+    console.log(new Date(startDate).toISOString() != new Date(0).toISOString());
   }
 
   return (
@@ -75,6 +93,7 @@ function DateRange({ className, startClassName, endClassName, startData, endData
           />
         </div>
       </div>
+      {/* <button type="button" onClick={handleClick}>SHOW DATES</button> */}
     </div>
   )
 }
@@ -82,10 +101,10 @@ function DateRange({ className, startClassName, endClassName, startData, endData
 DateRange.propTypes = {
   noIcon: PropTypes.bool,
   className: PropTypes.string,
+  initialStartDate: PropTypes.string,
+  initialEndDate: PropTypes.string,
   startClassName: PropTypes.string,
   endClassName: PropTypes.string,
-  initialStartDate: PropTypes.string,
-  initialEndDate: PropTypes.func,
   startData: PropTypes.func,
   endData: PropTypes.func,
   noDaterestrictions: PropTypes.bool

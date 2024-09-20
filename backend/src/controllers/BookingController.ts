@@ -99,7 +99,11 @@ const getUserBookings = async (req: Request, res: Response) => {
       matchQuery['status'] = status
     }
 
-    if (req.query.date_start != "null" && req.query.date_end != "null") {
+    console.log(req.query.date_start);
+    console.log(req.query.date_end);
+    
+
+    if (req.query.date_start != undefined && req.query.date_end != undefined) {
       matchQuery['$and'] = [
         {
           "date_start": {
@@ -117,6 +121,10 @@ const getUserBookings = async (req: Request, res: Response) => {
     }
     console.log("matchQuery: ", matchQuery);
 
+    const date_sort = (req.query.date_sort == "true") ? 1 : -1
+
+    console.log("date_sort: ", date_sort);
+    
 
     const bookingList = await Booking.aggregate([
       {
@@ -177,7 +185,7 @@ const getUserBookings = async (req: Request, res: Response) => {
         }
       }
       // ]).sort({ "date_requested": (req.body.date_sort && req.body.date_sort == false) ? -1 : 1 })
-    ]).sort({ "date_requested": (req.query.date_sort) ? 1 : -1 })
+    ]).sort({ "date_requested": date_sort })
 
     console.log("/GET ALL BOOKING OF ONE USER");
     console.log("List consists of ", bookingList.length, " bookings.\n");
