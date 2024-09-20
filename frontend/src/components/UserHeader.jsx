@@ -1,7 +1,7 @@
-import Logo from "../components/Logo.jsx"
-import UserNavBar from "../components/UserNavBar.jsx"
+import Logo from "./Logo.jsx"
+import UserNavBar from "./UserNavBar.jsx"
 
-function Header() {
+function UserHeader() {
   return (
     <header className="bg-white
     h-[60px] w-[100%] fixed z-10 shadow-lg">
@@ -21,4 +21,4 @@ function Header() {
   )
 }
 
-export default Header
+export default UserHeader

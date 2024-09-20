@@ -5,7 +5,7 @@ import AddBookingForm from '../components/forms/AddBookingForm.jsx'
 function AddBooking() {
 
   return (
-    <section>
+    <section className='user-section'>
       <TitleContainer>Create New Booking</TitleContainer>
       
       <ContentContainer>

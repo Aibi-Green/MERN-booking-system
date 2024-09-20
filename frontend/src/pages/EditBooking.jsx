@@ -4,7 +4,7 @@ import TitleContainer from "../components/TitleContainer"
 
 function EditBooking() {
   return (
-    <section>
+    <section className='user-section'>
       <TitleContainer>Change Booking Details</TitleContainer>
 
       <ContentContainer>

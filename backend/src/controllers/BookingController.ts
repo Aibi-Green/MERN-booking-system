@@ -64,8 +64,6 @@ const getOneBooking = async (req: Request, res: Response) => {
 
 const getUserBookings = async (req: Request, res: Response) => {
   try {
-    console.log("req.query: ", req.query);
-
     const id = req.params.id
     const user = await User.findById(id).exec()
 
@@ -97,11 +95,7 @@ const getUserBookings = async (req: Request, res: Response) => {
 
     if (status != -1) {
       matchQuery['status'] = status
-    }
-
-    console.log(req.query.date_start);
-    console.log(req.query.date_end);
-    
+    }    
 
     if (req.query.date_start != undefined && req.query.date_end != undefined) {
       matchQuery['$and'] = [
@@ -119,12 +113,8 @@ const getUserBookings = async (req: Request, res: Response) => {
         }
       ]
     }
-    console.log("matchQuery: ", matchQuery);
 
     const date_sort = (req.query.date_sort == "true") ? 1 : -1
-
-    console.log("date_sort: ", date_sort);
-    
 
     const bookingList = await Booking.aggregate([
       {

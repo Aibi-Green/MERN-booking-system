@@ -36,7 +36,7 @@ function UserBookings() {
   }
 
   return (
-    <section>
+    <section className='user-section'>
 
       <TitleContainer>Bookings</TitleContainer>
 

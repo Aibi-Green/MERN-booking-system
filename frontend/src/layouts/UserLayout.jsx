@@ -1,9 +1,9 @@
-import Header from "../components/Header.jsx";
+import UserHeader from "../components/UserHeader.jsx";
 import PropTypes from 'prop-types'
 
 function UserLayout({ children }) {
   return (<>
-    <Header />
+    <UserHeader />
     {children}
   </>)
 }
