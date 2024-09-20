@@ -38,14 +38,14 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
     endData(date)
   }
 
-  const handleClick = () => {
+  // const handleClick = () => {
     // console.log("Start date: ", startDate);
     // console.log("End date: ", endDate);
 
-    console.log(new Date(startDate).toISOString());
-    console.log(new Date(0).toISOString());
-    console.log(new Date(startDate).toISOString() != new Date(0).toISOString());
-  }
+    // console.log(new Date(startDate).toISOString());
+    // console.log(new Date(0).toISOString());
+    // console.log(new Date(startDate).toISOString() != new Date(0).toISOString());
+  // }
 
   return (
     <div className={`flex gap-3 items-center ${className}`}>
@@ -57,6 +57,7 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             id="start-date"
             selectsStart
             showTimeSelect
+            name="start-date"
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
             minDate={(noDaterestrictions) ? "" : minStartDateTime}
@@ -77,6 +78,7 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             id="end-date"
             selectsEnd
             showTimeSelect
+            name="end-date"
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
             selected={endDate}
@@ -107,7 +109,8 @@ DateRange.propTypes = {
   endClassName: PropTypes.string,
   startData: PropTypes.func,
   endData: PropTypes.func,
-  noDaterestrictions: PropTypes.bool
+  noDaterestrictions: PropTypes.bool,
+  getParams: PropTypes.bool
 }
 
 export default DateRange

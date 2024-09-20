@@ -3,13 +3,13 @@ import { forwardRef } from 'react'
 
 // Converted to forward Ref to pass ref to custom components
 const numberInput = forwardRef((
-  { id, list, type, value, placeholder, onClick, onChange, className, onFocus, 
-    onBlur, disabled }, 
+  { id, list, value, placeholder, onClick, onChange, className, onFocus, 
+    onBlur, disabled, name }, 
   ref) => {
 
   return (
     <input 
-      id={id} list={list} value={value} type={type} placeholder={placeholder}
+      id={id} list={list} name={name} value={value} type="number" placeholder={placeholder}
       onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref} 
       className={`p-3 rounded-md border ${className}`} disabled={disabled}
       onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')} />
@@ -21,7 +21,6 @@ numberInput.displayName = "Input"
 
 // ❕no need to include ref in proptypes
 numberInput.propTypes = {
-  type: PropTypes.string,
   value: PropTypes.string,
   disabled: PropTypes.bool,
   onBlur: PropTypes.func,
@@ -32,7 +31,8 @@ numberInput.propTypes = {
   list: PropTypes.string,
   className: PropTypes.string,
   labelFor: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  name: PropTypes.string
 }
 
 export default numberInput

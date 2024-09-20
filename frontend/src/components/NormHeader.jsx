@@ -11,7 +11,7 @@ function NormHeader() {
 
   useEffect(() => {
     if (location.pathname == "/login")
-      setCurrentlyInLogInRegisterPage(false)
+      setCurrentlyInLogInRegisterPage(true)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

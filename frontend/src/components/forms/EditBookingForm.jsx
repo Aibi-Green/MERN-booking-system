@@ -91,7 +91,7 @@ function EditBookingForm() {
           <LoaderIcon className="grow" /> :
           <div className="flex flex-col gap-6  grow">
             <Label htmlFor="purpose" text={`Purpose: ${(purpose != null) ? purpose : data.purpose}`}>
-              <Dropdown id="purpose" inputInitialValue={(purpose != null) ? purpose : data.purpose} data={purposes} onData={setPurpose} className="border" />
+              <Dropdown id="purpose" name="purpose" inputInitialValue={(purpose != null) ? purpose : data.purpose} data={purposes} onData={setPurpose} className="border" />
             </Label>
 
             <div>
@@ -100,7 +100,7 @@ function EditBookingForm() {
             </div>
 
             <Label htmlFor="guests" text="Expected Number of Guests">
-              <NumberInput id="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
+              <NumberInput id="guests" name="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000"
                 className="border" />
             </Label>
 

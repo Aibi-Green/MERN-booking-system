@@ -3,8 +3,13 @@ import LoginButton from "../buttons/LoginButton"
 import RegisterButton from "../buttons/RegisterButton"
 import EmailInput from "../ui/EmailInput"
 import PasswordInput from "../ui/PasswordInput"
+import { login } from "../../api/UsersApi"
+import { useTokenContext } from "../../hooks/useTokenContext"
 
 function LoginForm() {
+  // const [token, setToken] = useState()
+  const {dispatch} = useTokenContext()
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const formElems = e.target.elements
@@ -12,12 +17,12 @@ function LoginForm() {
     const email = formElems.email.value
     const password = formElems.password.value
 
-    console.log({
+    login({
       email: email,
       password: password
-    });
-
+    }, dispatch);
   }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-10">
       <div className="flex flex-col gap-2">

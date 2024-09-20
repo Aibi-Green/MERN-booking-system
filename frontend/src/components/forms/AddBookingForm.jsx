@@ -49,6 +49,9 @@ function AddBookingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const formElems = e.target.elements
+    console.log(formElems);
+    
     handleUserFormValidations(setValidations, purpose, startDate, endDate, guests, requirementsID)
   }
 
@@ -61,7 +64,7 @@ function AddBookingForm() {
           (purposes.find((i) => i == purpose)) :
           ""
           }`}>
-          <Dropdown id="purpose" data={purposes} onData={setPurpose} className="border" />
+          <Dropdown id="purpose" name="purpose" type="text" data={purposes} onData={setPurpose} className="border" />
         </Label>
 
         <div>
@@ -70,7 +73,7 @@ function AddBookingForm() {
         </div>
 
         <Label htmlFor="guests" text="Expected Number of Guests">
-          <NumberInput id="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000" type="number"
+          <NumberInput id="guests" name="guests" ref={guestsRef} onChange={handleGuests} placeholder="Enter a number from 1-5000"
             className="border" />
         </Label>
 

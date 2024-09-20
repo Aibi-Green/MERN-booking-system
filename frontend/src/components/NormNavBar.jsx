@@ -33,7 +33,7 @@ function NormNavBar() {
 
   const MobileNormNav = () => {
     return (
-      <div className={`bg-white md:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[60px]`}>
+      <div className={`bg-white md:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[58px]`}>
         <nav className='gap-2 flex flex-col text-center select-none'>
           <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Home</a>
           <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Gallery</a>

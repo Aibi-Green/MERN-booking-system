@@ -18,7 +18,7 @@ const Input = forwardRef((
           id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
           onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
           className={`p-3 rounded-l-md border w-full ${className}`} disabled={disabled} />
-        <div className='bg-slate-300 rounded-r-md w-[50px] flex justify-center items-center'>
+        <div className='border border-slate-200 bg-slate-100 rounded-r-md w-[60px] flex justify-center items-center'>
           {icon}
         </div>
       </div>
