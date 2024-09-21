@@ -1,6 +1,6 @@
 import { backendUrl } from "../assets/Data"
 
-export const login = (reqBody, setToken) => {
+export const login = (reqBody, setToken, setErrors) => {
   fetch(`${backendUrl}/users/login`, {
     method: "POST",
     headers: {
@@ -11,9 +11,11 @@ export const login = (reqBody, setToken) => {
     .then(response => response.json())
     .then(json => {
       console.log(json)
-      setToken({
-        type: "SET_TOKEN",
-        payload: json.token
-      })
+      setToken(json.token)
+      if(json.status == "fail") {
+        setErrors(json.message)
+      } else {
+        setErrors("")
+      }
     })
 }

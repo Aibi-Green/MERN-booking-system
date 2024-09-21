@@ -1,21 +1,27 @@
-import { useState } from "react"
-import ViewDialog from "../components/ViewDialog";
+import { useEffect, useState } from "react"
 
 function Practice() {
-  const [hidden, setHidden] = useState(false)
+  const [token, setToken] = useState()
 
-  const handleClick = (e) => {
-    e.preventDefault()
+  const handleSet = () => {
+    setToken("010")
+    const setTimeStored = new Date()
 
+    setTimeout(() => {
+      setToken(null)
+    }, 3000); // 3000 milliseconds = 3 seconds
   }
 
   return (
-    <div className="relative h-lvh">
-      <form method="POST" onSubmit={handleClick}>
-        <label htmlFor="search">Search:</label>
-        <input type="text" id="search" name="query" placeholder="Type something..." />
-        <button type="submit">Search</button>
-      </form>
+    <div className="relative h-lvh flex flex-col max-w-[500px] m-auto gap-10">
+      {
+        (token) ?
+        <div className="bg-green-700 text-white p-4">{`Token: ${token}`}</div> :
+        <div className="bg-red-700 text-white p-4">No token stored...</div>
+      }
+      <button onClick={() => handleSet()} className="bg-slate-600 text-white p-3 rounded-full">
+        SET TOKEN
+      </button>
     </div>
   )
 }

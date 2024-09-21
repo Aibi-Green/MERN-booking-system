@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function LoginContainer({children, ...props}) {
+function CenterContainer({children, ...props}) {
   return (
     <div {...props} className={`
     bg-white
@@ -17,9 +17,9 @@ function LoginContainer({children, ...props}) {
   )
 }
 
-LoginContainer.propTypes = {
+CenterContainer.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string
 }
 
-export default LoginContainer
+export default CenterContainer

@@ -6,17 +6,17 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import { ScrollToTop } from './components/GenFuncs.jsx'
 import { BookingsContextProvider } from './contexts/BookingContext.jsx';
-import { TokenContextProvider } from './contexts/TokenContext.jsx';
+import { AuthContextProvider } from './contexts/AuthContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
       <ScrollToTop />
-      <TokenContextProvider>
+      <AuthContextProvider>
         <BookingsContextProvider>
           <AppRoutes />
         </BookingsContextProvider>
-      </TokenContextProvider>
+      </AuthContextProvider>
     </Router>
   </StrictMode>
 )

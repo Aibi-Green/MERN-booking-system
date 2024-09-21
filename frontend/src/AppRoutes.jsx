@@ -6,6 +6,7 @@ import AddBooking from "./pages/AddBooking.jsx";
 import EditBooking from "./pages/EditBooking.jsx";
 import NormLayout from "./layouts/NormLayout.jsx";
 import Login from "./pages/Login.jsx";
+import RegisterAccount from "./pages/RegisterAccount.jsx";
 
 function AppRoutes() {
 
@@ -13,6 +14,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<span>Home Page</span>} />
       <Route path="/login" element={<NormLayout><Login /></NormLayout>} />
+      <Route path="/register" element={<NormLayout><RegisterAccount /></NormLayout>} />
       <Route path="/userbookings" element={<UserLayout><UserBookings /></UserLayout>} />
       <Route path="/addbooking" element={<UserLayout><AddBooking /></UserLayout>} />
       <Route path="/editbooking/:id_booking" element={<UserLayout><EditBooking /></UserLayout>} />

@@ -29,7 +29,7 @@ function NormHeader() {
         <Logo />
         <NormNavBar />
 
-        <div className="hidden md:flex flex-row gap-2 h-full py-2 md:basis-[25%] md:justify-end">
+        <div className="hidden lg:flex flex-row gap-2 h-full py-2 lg:basis-[25%] lg:justify-end">
           {!currentlyInLogInRegisterPage && (
             <LoginButton className="w-[80px] rounded-lg" />
           )}

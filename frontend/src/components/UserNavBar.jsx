@@ -1,8 +1,17 @@
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react'
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function UserNavBar() {
   const [open, setOpen] = useState(false)
+  const { logoutRemoveToken } = useAuthContext()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logoutRemoveToken()
+    navigate('/login')
+  }
 
   const showUserNav = () => {
     setOpen(!open)
@@ -12,7 +21,7 @@ function UserNavBar() {
     return(
       <nav id="userNav" className='flex'>
         <a href="#">Profile</a>
-        <a href="#">Log Out</a>
+        <a onClick={handleLogout}>Log Out</a>
       </nav>
     )
   }

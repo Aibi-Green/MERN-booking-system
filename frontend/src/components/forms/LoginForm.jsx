@@ -1,14 +1,23 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import LoginButton from "../buttons/LoginButton"
 import RegisterButton from "../buttons/RegisterButton"
 import EmailInput from "../ui/EmailInput"
 import PasswordInput from "../ui/PasswordInput"
 import { login } from "../../api/UsersApi"
-import { useTokenContext } from "../../hooks/useTokenContext"
+import { useAuthContext } from "../../hooks/useAuthContext"
+import { useEffect, useState } from "react"
 
 function LoginForm() {
-  // const [token, setToken] = useState()
-  const {dispatch} = useTokenContext()
+  const { token, loginNewToken } = useAuthContext()
+  const [errors, setErrors] = useState()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (token) {
+      navigate('/userbookings')
+    }
+
+  }, [token, navigate])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -16,15 +25,15 @@ function LoginForm() {
 
     const email = formElems.email.value
     const password = formElems.password.value
-
+    
     login({
       email: email,
       password: password
-    }, dispatch);
+    }, loginNewToken, setErrors);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-7">
       <div className="flex flex-col gap-2">
         <span className="text-2xl font-bold">SIGN IN</span>
         <hr />
@@ -32,6 +41,9 @@ function LoginForm() {
       <div className="flex flex-col gap-3">
         <EmailInput />
         <PasswordInput />
+      </div>
+      <div className="flex justify-center h-[1rem]">
+        <div className="text-red-500">{errors}</div>
       </div>
       <div className="flex flex-col gap-2">
         <LoginButton />

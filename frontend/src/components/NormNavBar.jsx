@@ -10,11 +10,11 @@ function NormNavBar() {
     setHidden(!hidden)
   }
 
-  const NormNavCss = "hover:bg-slate-100 w-[90px] h-full flex justify-center items-center"
+  const NormNavCss = "hover:bg-slate-100 w-[110px] h-full flex justify-center items-center uppercase tracking-widest"
 
   const NormNav = () => {
     return (
-      <nav className='hidden md:flex md:items-center h-full'>
+      <nav className='hidden lg:flex lg:items-center h-full'>
         <a href="#" className={NormNavCss}>Home</a>
         <a href="#" className={NormNavCss}>Gallery</a>
         <a href="#" className={NormNavCss}>Reviews</a>
@@ -25,7 +25,7 @@ function NormNavBar() {
 
   const MobileNormIcon = () => {
     return (
-      <div className="h-full w-[60px] md:hidden flex justify-center items-center" onClick={handleMobileNavClick}>
+      <div className="h-full w-[60px] lg:hidden flex justify-center items-center" onClick={handleMobileNavClick}>
         <Menu className="size-8" />
       </div>
     )
@@ -33,7 +33,7 @@ function NormNavBar() {
 
   const MobileNormNav = () => {
     return (
-      <div className={`bg-white md:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[58px]`}>
+      <div className={`bg-white lg:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[58px]`}>
         <nav className='gap-2 flex flex-col text-center select-none'>
           <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Home</a>
           <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Gallery</a>
@@ -53,7 +53,7 @@ function NormNavBar() {
   }
 
   return (
-    <div className="h-full basis-[50%] flex justify-end md:justify-center">
+    <div className="h-full basis-[50%] flex justify-end lg:justify-center">
       <NormNav />
       <MobileNormIcon />
       {!hidden && <MobileNormNav />}

@@ -14,6 +14,10 @@ body {
     @apply min-h-[100vh] pt-[60px] flex flex-col justify-center items-center
 }
 
+.register-section {
+    @apply min-h-[100vh] pt-[60px] flex flex-col justify-center items-center
+}
+
 /* TEMP COLOR FOR TEMP ELEMENTS */
 .temp {
     @apply text-red-700

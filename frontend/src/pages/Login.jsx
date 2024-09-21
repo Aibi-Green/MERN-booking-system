@@ -1,12 +1,12 @@
-import LoginContainer from "../components/LoginContainer"
+import CenterContainer from "../components/CenterContainer"
 import LoginForm from "../components/forms/LoginForm"
 
 function Login() {
   return (
     <section className='login-section'>
-      <LoginContainer>
+      <CenterContainer>
         <LoginForm />
-      </LoginContainer>
+      </CenterContainer>
     </section>
   )
 }
