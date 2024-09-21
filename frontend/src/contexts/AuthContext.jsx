@@ -10,12 +10,12 @@ export const AuthContextProvider = ({ children }) => {
     let expiry = 0
     if (savedToken) {
       expiry = jwtDecode(savedToken).exp * 1000
-      console.log("expiry: ", expiry)
+      // console.log("expiry: ", expiry)
     }
 
     if (savedToken && expiry) {
       const now = new Date()
-      console.log("now.getTime() > expiry: ", now.getTime(), " > ", expiry, " = ", now.getTime() > expiry);
+      // console.log("now.getTime() > expiry: ", now.getTime(), " > ", expiry, " = ", now.getTime() > expiry);
       
       if (now.getTime() > expiry) {
         localStorage.removeItem('authToken')
@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       const expiry = jwtDecode(localStorage.getItem('authToken')).exp * 1000;
-      console.log("expiry", expiry);
+      // console.log("expiry", expiry);
       
       const timeRemaining = expiry - new Date().getTime();
 

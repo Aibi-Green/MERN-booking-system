@@ -117,7 +117,7 @@ function SearchUserBookings({ className }) {
 
         <div className='flex justify-end items-end'>
           <Link to={'/addbooking'}>
-            <AddButton className='p-1' />
+            <AddButton text="Create Booking" type="button" className='bg-green-500 active:bg-green-600 active:text-white hover:bg-green-400'>Create Booking</AddButton>
           </Link>
         </div>
 

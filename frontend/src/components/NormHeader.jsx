@@ -7,11 +7,11 @@ import { useEffect, useState } from "react"
 
 function NormHeader() {
   const location = useLocation()
-  const [currentlyInLogInRegisterPage, setCurrentlyInLogInRegisterPage] = useState(false)
+  const [currentlyInLogInRegisterPage, setCurrentlyInLogInRegisterPage] = useState(true)
 
   useEffect(() => {
     if (location.pathname == "/login")
-      setCurrentlyInLogInRegisterPage(true)
+      setCurrentlyInLogInRegisterPage(false)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

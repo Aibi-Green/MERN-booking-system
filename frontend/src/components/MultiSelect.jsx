@@ -39,7 +39,7 @@ function MultiSelect({ initialValue, onData }) {
   return (<>
     {
       (isLoading) ?
-      <LoaderIcon className="grow" />
+      <LoaderIcon className="grow siz" iconClassName="size-14" />
       : 
       <div className="flex flex-col gap-2">
       {

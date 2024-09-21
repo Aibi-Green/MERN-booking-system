@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types'
 import { forwardRef } from 'react'
+import LoaderIcon from './LoaderIcon'
+import { Check } from 'lucide-react'
 
 // Converted to forward Ref to pass ref to custom components
 const Input = forwardRef((
   { id, name, list, type, value, placeholder, onClick, onChange, className, onFocus,
-    onBlur, disabled, icon },
+    onBlur, disabled, icon, withCheck, loading },
   ref) => {
   return (
-    (!icon) ? (
-      <input
-        id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
-        onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
-        className={`p-3 rounded-md border ${className}`} disabled={disabled} />
-    ) : (
+    (icon) ? (
       <div className='flex flex-row'>
         <input
           id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
@@ -22,7 +19,26 @@ const Input = forwardRef((
           {icon}
         </div>
       </div>
-    )
+    ) : ((withCheck) ? (
+      <div className="flex flex-row relative">
+      <Input id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
+          onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
+          className="w-full pr-[60px]" />
+      <div className="absolute w-[60px] h-full flex justify-center items-center right-0">
+        {
+          (loading) ? 
+            <LoaderIcon className="" iconClassName="text-red-500 size-8" />
+          :
+            <Check className="text-green-600" />
+        }
+      </div>
+    </div>
+    ) : (
+      <input
+        id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
+        onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
+        className={`p-3 rounded-md border ${className}`} disabled={disabled} />
+    ))
   )
 })
 
@@ -44,7 +60,9 @@ Input.propTypes = {
   labelFor: PropTypes.string,
   placeholder: PropTypes.string,
   icon: PropTypes.node,
-  name: PropTypes.string
+  name: PropTypes.string,
+  withCheck: PropTypes.bool,
+  loading: PropTypes.bool
 }
 
 export default Input

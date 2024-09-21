@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 import Label from "../ui/Label.jsx"
 import { editBooking, viewBooking } from "../../api/bookingsApi"
@@ -12,7 +12,7 @@ import NumberInput from '../ui/NumberInput.jsx'
 import DateRange from "../ui/DateRange"
 import MultiSelect from "../MultiSelect.jsx"
 import FormErrors from '../ui/FormErrors.jsx'
-import { handleUserFormValidations } from "../validations/UserFormValidations.jsx"
+import { handleBookingFormValidations } from "../validations/FormValidations.jsx"
 
 function EditBookingForm() {
   const guestsRef = useRef(null)
@@ -42,7 +42,7 @@ function EditBookingForm() {
         return data.requirements.map((req) => req.id_requirement)
       })
     }
-    
+
   }, [data])
 
   const handleGuests = () => {
@@ -50,7 +50,7 @@ function EditBookingForm() {
   }
 
   useEffect(() => {
-    if(validations.length == 0) {
+    if (validations.length == 0) {
       setPayload({
         purpose: purpose,
         date_start: startDate,
@@ -59,7 +59,7 @@ function EditBookingForm() {
         requirements: requirementsID
       })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations])
 
   useEffect(() => {
@@ -69,17 +69,17 @@ function EditBookingForm() {
       editBooking(id_booking, payload)
     }
     setPayload(undefined)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    handleUserFormValidations(setValidations, purpose, startDate, endDate, guests, requirementsID)
+    handleBookingFormValidations(setValidations, purpose, startDate, endDate, guests, requirementsID)
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col grow">
-      
+
       {/* <div className="flex justify-center m-2"><div
         className="bg-slate-500 text-white px-3 rounded-full"
         onClick={() => console.log("PAYLOAD\n", payload)}>
@@ -88,7 +88,7 @@ function EditBookingForm() {
 
       {
         (data === undefined) ?
-          <LoaderIcon className="grow" /> :
+          <LoaderIcon className="grow" iconClassName="size-14" /> :
           <div className="flex flex-col gap-6  grow">
             <Label htmlFor="purpose" text={`Purpose: ${(purpose != null) ? purpose : data.purpose}`}>
               <Dropdown id="purpose" name="purpose" inputInitialValue={(purpose != null) ? purpose : data.purpose} data={purposes} onData={setPurpose} className="border" />
@@ -105,7 +105,7 @@ function EditBookingForm() {
             </Label>
 
             <div className='flex flex-col grow'>
-            <div className="font-semibold mb-1">Venue Requirements</div>
+              <div className="font-semibold mb-1">Venue Requirements</div>
               <MultiSelect initialValue={requirementsID} onData={setRequirementsID} />
             </div>
 
@@ -117,9 +117,7 @@ function EditBookingForm() {
 
       <div className='flex flex-col gap-2 w-[50%] min-w-[200px] self-center'>
         <SubmitButton type="submit">Submit</SubmitButton>
-        <Link to='/userbookings'>
-          <CancelButton className="w-full" type="button">Cancel</CancelButton>
-        </Link>
+        <CancelButton to='/userbookings' className="w-full" />
       </div>
     </form>
   )

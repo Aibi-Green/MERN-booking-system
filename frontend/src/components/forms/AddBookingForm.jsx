@@ -8,9 +8,8 @@ import MultiSelect from '../MultiSelect.jsx'
 import SubmitButton from '../buttons/SubmitButton.jsx'
 import CancelButton from '../buttons/CancelButton.jsx'
 import FormErrors from '../ui/FormErrors.jsx'
-import { Link } from 'react-router-dom'
 import { addBooking } from '../../api/bookingsApi.jsx'
-import { handleUserFormValidations } from '../validations/UserFormValidations.jsx'
+import { handleBookingFormValidations } from '../validations/FormValidations.jsx'
 
 function AddBookingForm() {
   const [startDate, setStartDate] = useState(null)
@@ -49,10 +48,8 @@ function AddBookingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const formElems = e.target.elements
-    console.log(formElems);
     
-    handleUserFormValidations(setValidations, purpose, startDate, endDate, guests, requirementsID)
+    handleBookingFormValidations(setValidations, purpose, startDate, endDate, guests, requirementsID)
   }
 
   return (
@@ -89,9 +86,7 @@ function AddBookingForm() {
 
       <div className='flex flex-col gap-2 w-[50%] min-w-[200px] self-center'>
         <SubmitButton type="submit">Submit</SubmitButton>
-        <Link to='/userbookings'>
-          <CancelButton className="w-full" type="button">Cancel</CancelButton>
-        </Link>
+        <CancelButton to='/userbookings' className="w-full" />
       </div>
     </form>
   )

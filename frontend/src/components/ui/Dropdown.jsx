@@ -50,8 +50,8 @@ function Dropdown({ inputInitialValue, id, data, className, onData }) {
           onChange={(e) => setFilterStr(e.target.value)} // filters list
           // onFocus={() => setOpen(true)} // opens list
           // onBlur={() => setTimeout(() => { setOpen(false) }, 100)} // closes list, set to 100 so it can be executed
-          className={`pl-4 pr-10 py-3 appearance-none select rounded-md w-[100%] ${className}`} />
-          <X onClick={handleClear} className={`absolute right-[40px] h-[100%] w-[50px] px-3 ${hidden ? "hidden": ""}`} />
+          className={`pl-4 pr-[90px] py-3 appearance-none select rounded-md w-[100%] ${className}`} />
+          <X onClick={handleClear} className={`absolute right-[40px] h-[100%] w-[50px] px-3  ${hidden ? "hidden": ""}`} />
         {
           (!open) ? (
             <ChevronDown onClick={() => setOpen(!open)} className='absolute h-[100%] right-0 w-[50px] px-2' />

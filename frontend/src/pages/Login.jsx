@@ -4,7 +4,7 @@ import LoginForm from "../components/forms/LoginForm"
 function Login() {
   return (
     <section className='login-section'>
-      <CenterContainer>
+      <CenterContainer className="max-w-[400px]">
         <LoginForm />
       </CenterContainer>
     </section>

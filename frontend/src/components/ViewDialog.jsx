@@ -27,7 +27,7 @@ function ViewDialog({ onClose, id }) {
       {
         (!data) ?
 
-          <LoaderIcon className="grow" />
+          <LoaderIcon className="grow" iconClassName="size-14" />
 
           :
 
@@ -83,7 +83,7 @@ function ViewDialog({ onClose, id }) {
       }
 
       <div className="flex flex-col w-full sm:min-w-[300px]">
-        <CancelButton onClick={() => onClose(true)} >Close</CancelButton>
+        <CancelButton onClick={() => onClose(true)} isLink={false} />
       </div>
     </BigDialog>
   )

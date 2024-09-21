@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function CenterContainer({children, ...props}) {
+function CenterContainer({children, className, ...props}) {
   return (
     <div {...props} className={`
     bg-white
@@ -10,7 +10,7 @@ function CenterContainer({children, ...props}) {
     pb-[2rem]
     flex flex-col
     w-[95%]
-    max-w-[400px]
+    ${className}
     `}>
       {children}
     </div>

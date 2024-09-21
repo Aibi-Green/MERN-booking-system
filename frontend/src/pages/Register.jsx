@@ -5,7 +5,7 @@ function RegisterAccount() {
 
   return (
     <section className='register-section'>
-      <CenterContainer>
+      <CenterContainer className="max-w-[600px] my-20">
         <RegisterForm />
       </CenterContainer>
     </section>
