@@ -12,7 +12,7 @@ import NumberInput from '../ui/NumberInput.jsx'
 import DateRange from "../ui/DateRange"
 import MultiSelect from "../MultiSelect.jsx"
 import FormErrors from '../ui/FormErrors.jsx'
-import { handleBookingFormValidations } from "../validations/FormValidations.jsx"
+import { handleBookingFormValidations } from "../validations/FormValidations.js"
 
 function EditBookingForm() {
   const guestsRef = useRef(null)

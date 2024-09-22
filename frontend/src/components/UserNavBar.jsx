@@ -20,7 +20,8 @@ function UserNavBar() {
   const UserNav = () => {
     return(
       <nav id="userNav" className='flex'>
-        <a href="#">Profile</a>
+        <a onClick={() => navigate('/userbookings')}>Bookings</a>
+        <a onClick={() => navigate('/editprofile')}>Profile</a>
         <a onClick={handleLogout}>Log Out</a>
       </nav>
     )

@@ -18,6 +18,7 @@ interface UserModel extends Model<IUser> {
     signup(user: Object): Object;
     login(input: Object): Object;
     changeUserDetails(id: string, details: Object): Object;
+    changePassword(id: string, details: Object): Object;
 }
 
 // Create schema corresponding to the document interface
@@ -118,12 +119,53 @@ userSchema.static("changeUserDetails", async function changeUserDetails(id, deta
         throw new Error("User ID does not exist")
     }
 
-    let username = await this.find({username: details.username}).exec()
-    if (username.length > 0) {
-        throw new Error("Username already exists")
+    // let username = await this.find({username: details.username}).exec()
+    // if (username.length > 0) {
+    //     throw new Error("Username already exists")
+    // }
+
+    if(details.password) {
+        delete details.password
     }
 
     const updatedUser = await this.updateOne({_id: id}, details)
+
+    return updatedUser
+})
+
+userSchema.static("changePassword", async function changeUserDetails(id, details) {
+    console.log("ID: ", id);
+    console.log("Details:");
+    console.log(details);
+    
+    let user = await this.find({_id: id}).exec()
+    if (user.length == 0) {
+        // if the User ID to be updated does not exist
+        throw new Error("User ID does not exist")
+    }
+
+    if (!details.curr_password || !details.new_password) {
+        throw new Error("All fields must be filled...")
+    }    
+
+    const isMatch = await bcrypt.compare(details.curr_password, user[0].password)
+
+    if (!isMatch) {
+        throw new Error("Current password does not match stored password")
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
+
+    if (!passwordRegex.test(details.new_password)) {
+        throw new Error("Password should have at least one lowercase letter, one uppercase letter, one number, and one special character")
+    }
+
+    const bsalt = await bcrypt.genSalt(10)
+    const bhash = await bcrypt.hash(details.new_password, bsalt)
+
+    const updatedUser = await this.updateOne({_id: id}, {
+        password: bhash
+    })
 
     return updatedUser
 })

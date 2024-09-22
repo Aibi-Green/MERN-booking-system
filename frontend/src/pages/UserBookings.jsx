@@ -4,11 +4,12 @@ import ListItems from '../components/ListItems.jsx';
 import ContentContainer from '../components/ContentContainer.jsx';
 import { getUserBookings } from '../api/bookingsApi.jsx';
 import { useEffect, useState } from 'react';
-import { loggedInUserID } from '../assets/Data.jsx';
 import DeleteDialog from '../components/DeleteDialog.jsx';
 import ViewDialog from '../components/ViewDialog.jsx';
 import { useBookingsContext } from '../hooks/useBookingsContext.jsx';
 import { useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { useAuthContext } from '../hooks/useAuthContext.jsx';
 
 function UserBookings() {
   // TODO handle dates better cause it keeps adding one day
@@ -18,9 +19,10 @@ function UserBookings() {
   const [viewId, setViewId] = useState("")
   const {bookings, dispatch} = useBookingsContext()
   const location = useLocation()
+  const {token} = useAuthContext()
 
   useEffect(() => {
-    getUserBookings(loggedInUserID, location.search, dispatch)
+    getUserBookings(jwtDecode(token)._id, location.search, dispatch)
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

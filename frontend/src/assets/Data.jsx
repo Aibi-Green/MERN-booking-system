@@ -1,4 +1,4 @@
-export const loggedInUserID = "6653956aa49a7d296304da37"
+// export const loggedInUserID = "6653956aa49a7d296304da37"
 export const backendUrl = "http://localhost:8080"
 
 // current day

@@ -8,9 +8,11 @@ import SortButton from '../buttons/SortButton';
 import DateRange from '../ui/DateRange';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Label from '../ui/Label'
-import { loggedInUserID, statuses } from '../../assets/Data';
+import { statuses } from '../../assets/Data';
 import { useBookingsContext } from '../../hooks/useBookingsContext';
 import { getUserBookings } from '../../api/bookingsApi';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { jwtDecode } from 'jwt-decode';
 
 function SearchUserBookings({ className }) {
   const searchRef = useRef(null)
@@ -23,6 +25,7 @@ function SearchUserBookings({ className }) {
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+  const {token} = useAuthContext()
 
   useEffect(() => {
 
@@ -43,7 +46,7 @@ function SearchUserBookings({ className }) {
   }
 
   useEffect(() => {
-    getUserBookings(loggedInUserID, location.search, dispatch)
+    getUserBookings(jwtDecode(token)._id, location.search, dispatch)
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])

@@ -7,6 +7,8 @@ export const AuthContext = createContext()
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem('authToken')
+    console.log(jwtDecode(savedToken));
+    
     let expiry = 0
     if (savedToken) {
       expiry = jwtDecode(savedToken).exp * 1000
@@ -25,6 +27,13 @@ export const AuthContextProvider = ({ children }) => {
     }
     return null
   })
+
+  const getUserId = () => {
+    const savedToken = localStorage.getItem('authToken')
+    const userId = jwtDecode(savedToken)._id
+
+    return userId
+  }
 
   const loginNewToken = (newToken) => {
     localStorage.setItem('authToken', newToken)
@@ -53,7 +62,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [token])
 
   return (
-    <AuthContext.Provider value={{ token, loginNewToken, logoutRemoveToken }}>
+    <AuthContext.Provider value={{ token, getUserId, loginNewToken, logoutRemoveToken }}>
       {children}
     </AuthContext.Provider>
   )

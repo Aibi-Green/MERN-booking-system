@@ -13,6 +13,7 @@ export const getBookings = (onData) => {
 
 // USER
 // Get All bookings of specified user ID
+// Also has search function
 export const getUserBookings = (id, urlSearchStr="", onData) => {
   // console.log("urlSearchStr: ", urlSearchStr);
   
@@ -178,29 +179,4 @@ export const deleteBooking = async (id, onData) => {
       });      
     })
     .catch(error => console.error(error))
-}
-
-// USER
-export const searchUserBookings = async (id, payload, onData) => {
-  console.log("SEARCH BOOKINGS:");
-  console.log("ID => ", id);
-  console.log("PAYLOAD => ", payload);
-
-  // fetch(`${backendUrl}/bookings/user/${id}`, {
-  //   method: "GET"
-  // })
-  //   .then(response => response.json())
-  //   .then(json => {
-  //     // console.log({
-  //     //   type: 'SET_BOOKINGS',
-  //     //   payload: json.data
-  //     // });
-      
-  //     onData({
-  //       type: 'SET_BOOKINGS',
-  //       payload: json.data
-  //     })
-  //   })
-  //   .catch(error => console.error(error))
-
 }
