@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function UserNavBar() {
   const [open, setOpen] = useState(false)
@@ -13,15 +13,11 @@ function UserNavBar() {
     navigate('/login')
   }
 
-  const showUserNav = () => {
-    setOpen(!open)
-  }
-
   const UserNav = () => {
     return(
       <nav id="userNav" className='flex'>
-        <a onClick={() => navigate('/userbookings')}>Bookings</a>
-        <a onClick={() => navigate('/editprofile')}>Profile</a>
+        <Link to='/userbookings'>Bookings</Link>
+        <Link to='/editprofile'>Profile</Link>
         <a onClick={handleLogout}>Log Out</a>
       </nav>
     )
@@ -31,7 +27,7 @@ function UserNavBar() {
     return(
       <div id='userMenu'>
         Welcome Back, <span className="temp">Temporary</span>
-        <ChevronDown className="ml-3 inline-block select-none" onClick={showUserNav} />
+        <ChevronDown className="ml-3 inline-block select-none" onClick={() => setOpen(!open)} />
       </div>
     )
   }

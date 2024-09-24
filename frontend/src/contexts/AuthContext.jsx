@@ -5,9 +5,18 @@ import { jwtDecode } from 'jwt-decode'
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
+  const [loggedInUserId] = useState(() => {
+    const savedToken = localStorage.getItem('authToken')
+
+    if (savedToken) {
+      const userId = jwtDecode(savedToken)._id
+      return userId
+    }
+    
+    return ""
+  })
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem('authToken')
-    console.log(jwtDecode(savedToken));
     
     let expiry = 0
     if (savedToken) {
@@ -27,13 +36,6 @@ export const AuthContextProvider = ({ children }) => {
     }
     return null
   })
-
-  const getUserId = () => {
-    const savedToken = localStorage.getItem('authToken')
-    const userId = jwtDecode(savedToken)._id
-
-    return userId
-  }
 
   const loginNewToken = (newToken) => {
     localStorage.setItem('authToken', newToken)
@@ -62,7 +64,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [token])
 
   return (
-    <AuthContext.Provider value={{ token, getUserId, loginNewToken, logoutRemoveToken }}>
+    <AuthContext.Provider value={{ token, loggedInUserId, loginNewToken, logoutRemoveToken }}>
       {children}
     </AuthContext.Provider>
   )

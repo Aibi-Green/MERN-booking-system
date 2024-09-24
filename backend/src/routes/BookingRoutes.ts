@@ -1,21 +1,23 @@
 import { Router } from 'express'
 import BookingController from '../controllers/BookingController'
+import { checkUserIdExists } from '../middleware/checkUserIdExists'
+import { authenticateToken } from '../middleware/authenticateToken'
 
 const router = Router()
 
 router
     .route('/')
     // Get all bookings
-    .get(BookingController.getBookings)
+    .get(BookingController.getBookings) // check if admin user exists
     // Create booking
-    .post(BookingController.createUserBooking)
+    .post(checkUserIdExists, BookingController.createUserBooking)
     // Delete more than 1 booking
     .delete(BookingController.deleteManyBooking)
 
 router
     .route('/user/:id')
     // Get All Bookings of one specific user
-    .get(BookingController.getUserBookings)
+    .get(authenticateToken, checkUserIdExists, BookingController.getUserBookings)
 
 // routes with ids
 router

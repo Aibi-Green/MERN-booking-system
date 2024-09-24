@@ -65,11 +65,14 @@ const getOneBooking = async (req: Request, res: Response) => {
 const getUserBookings = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
+    console.log(req.url)
+    console.log("id: ", id);
+    
     const user = await User.findById(id).exec()
 
     if (!user) {
       return res.status(404).json({
-        status: "fail",
+        status: "fail 2",
         message: "User ID does not exist."
       })
     }
@@ -200,18 +203,33 @@ const getUserBookings = async (req: Request, res: Response) => {
   }
 }
 
+/**🟢
+ * Adds a booking
+ * 
+ * @param req - An object that contains the following:
+ * @param {string} req.body.purpose
+ * @param {string} req.body.date_start
+ * @param {string} req.body.date_end
+ * @param {nuumber} req.body.num_participants
+ * @param {string[]} req.body.requirements
+ * @param {string} req.body.id_user
+ * @param res 
+ * @returns 
+ */
 const createUserBooking = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.body.id_user).exec()
+    // const user = req.user
 
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User ID does not exist. Booking cancelled."
-      })
-    }
-
-    const newBooking = new Booking(req.body)
+    // Save booking to database
+    const newBooking = new Booking({
+      purpose: req.body.purpose,
+      date_start: req.body.date_start,
+      date_end: req.body.date_end,
+      num_participants: req.body.num_participants,
+      requirements: req.body.requirements,
+      status: 0, // 0: pending, 1: accepted, 2: rejected
+      id_user: req.body.id_user
+    })
     await newBooking.save()
 
     console.log("/CREATE BOOKING");

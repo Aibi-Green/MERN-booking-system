@@ -1,6 +1,6 @@
 import { purposes } from '../../assets/Data.jsx'
 
-/** 🟡
+/** 🟢
  * Validates the field values of AddbookingForm
  * 
  * @param {function(Object)} setValidations - a callback function that sets validation on the component its invoked on.
@@ -9,17 +9,17 @@ import { purposes } from '../../assets/Data.jsx'
  * @param {string} fieldValues.date_start - The start date in ISO 8601 format (YYYY-MM-DD).
  * @param {string} fieldValues.date_end - The end date in ISO 8601 format (YYYY-MM-DD).
  * @param {number} fieldValues.num_participants - The number of participants/guests.
- * @param {number[]} fieldValues.requirements - An array containing requirement IDs.
+ * @param {string[]} fieldValues.requirements - An array containing requirement IDs.
  */
 
 export const handleBookingFormValidations = (setValidations, fieldValues) => {  
-  let errors = {}
+  let errors = {}  
 
   if (!fieldValues.purpose || !purposes.some(i => i === fieldValues.purpose)) {
     errors.purpose = "Please select a valid purpose"
   }
 
-  if (fieldValues.date_start || fieldValues.date_end) {
+  if (!fieldValues.date_start || !fieldValues.date_end) {
     errors.date = "Please select valid start and end dates"
   }
   else if (fieldValues.date_start > fieldValues.date_end) {
