@@ -3,6 +3,7 @@ import User from '../models/user'
 import Booking from '../models/booking'
 import Rbooking from "../models/rbooking"
 import { ObjectId } from "mongodb"
+import { CustomRequest } from "../interfaces/Requests"
 
 const getBookings = async (req: Request, res: Response) => {
   try {
@@ -62,24 +63,25 @@ const getOneBooking = async (req: Request, res: Response) => {
   }
 }
 
-const getUserBookings = async (req: Request, res: Response) => {
+const getUserBookings = async (req: CustomRequest, res: Response) => {
   try {
-    const id = req.params.id
-    console.log(req.url)
-    console.log("id: ", id);
+    console.log("Getting User Bookings...");
+    console.log("req: ", req.user);
+    const id = req.user.id
+    // const id = req.params.id
     
     const user = await User.findById(id).exec()
 
     if (!user) {
       return res.status(404).json({
-        status: "fail 2",
+        status: "fail",
         message: "User ID does not exist."
       })
     }
 
     let matchQuery: { [key: string]: any } = {
       id_user: new ObjectId(id),
-      purpose: { "$regex": (req.query.searchStr) ? req.query.searchStr : "", "$options": "i" },
+      purpose: { "$regex": (req.query.search) ? req.query.search : "", "$options": "i" },
     }
 
     let status = -1

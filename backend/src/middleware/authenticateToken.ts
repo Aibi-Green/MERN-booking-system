@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import { CustomRequest } from '../interfaces/Requests'
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateToken = (req: CustomRequest, res: Response, next: NextFunction) => {
   try {
+    console.log("Authenticating user...");
     const auth = req.headers['authorization']
     const token = auth && auth.split(' ')[1]
 
@@ -12,7 +14,6 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         message: "401 Unauthorized"
       })
     }
-    
 
     jwt.verify(token, process.env.SECRET_STRING as string, (err: any, user: any) => {
       if (err) {
@@ -21,7 +22,9 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
           message: "403 Forbidden"
         })
       }
-      // req.user = user
+      req.user = user
+      console.log("User Authenticated!");
+      next()
     })
   } catch (e) {
     res.status(500).json({
@@ -30,6 +33,4 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
       error: e
     })
   }
-
-  next()
 }

@@ -28,24 +28,18 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
     )
   )
 
-  const handleStartDate = (date) => {
-    setStartDate(date)
-    startData(date)
+  const handleFormData = (name, date, onData) => {
+    const isoDate = (date) => {
+      return new Date(date).toISOString()
+    }
+    
+    if(isoDate(date) != isoDate(0))
+      onData({target: {name: name, value: isoDate(date)}})
+    else
+      onData({target: {name: name, value: null}})
+
+    return date
   }
-
-  const handleEndDate = (date) => {
-    setEndDate(date)
-    endData(date)
-  }
-
-  // const handleClick = () => {
-    // console.log("Start date: ", startDate);
-    // console.log("End date: ", endDate);
-
-    // console.log(new Date(startDate).toISOString());
-    // console.log(new Date(0).toISOString());
-    // console.log(new Date(startDate).toISOString() != new Date(0).toISOString());
-  // }
 
   return (
     <div className={`flex gap-3 items-center ${className}`}>
@@ -62,7 +56,7 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             maxTime={new Date(0, 0, 0, 23, 59)}
             minDate={(noDaterestrictions) ? "" : minStartDateTime}
             selected={startDate}
-            onChange={(date) => handleStartDate(date)}
+            onChange={(date) => setStartDate(handleFormData("date_start", date, startData))}
             dateFormat={"MM/dd/yy h:mmaa"}
             startDate={startDate}
             className={`rounded-full border bg-slate-100 px-3 py-1 ${startClassName}`}
@@ -82,7 +76,7 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             minTime={new Date(0, 0, 0, 6, 0)}
             maxTime={new Date(0, 0, 0, 23, 59)}
             selected={endDate}
-            onChange={(date) => handleEndDate(date)}
+            onChange={(date) => setEndDate(handleFormData("date_end", date, endData))}
             dateFormat={"MM/dd/yy h:mmaa"}
             endDate={endDate}
             startDate={startDate}

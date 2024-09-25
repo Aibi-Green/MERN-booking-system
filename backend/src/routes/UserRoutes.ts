@@ -10,7 +10,7 @@ router
 
 // routes with ids
 router
-    .route('/:id')
+    .route('/profile')
     // Get specific user account by ID or by searching all fields
     .get(UserController.getOneUser)
     // Edit a user account

@@ -1,4 +1,17 @@
-import mongoose from 'mongoose'
+import mongoose, { Model } from 'mongoose'
+
+// interface IBooking {
+//     purpose: string;
+//     date_start: string;
+//     date_end: string;
+//     num_participants: number;
+//     requirements: string[];
+//     id_user: string;
+// }
+
+// interface BookingModel extends Model<IBooking> {
+//     checkUserExists(id: string): Object;
+// }
 
 const bookingSchema = new mongoose.Schema({
     date_requested: {

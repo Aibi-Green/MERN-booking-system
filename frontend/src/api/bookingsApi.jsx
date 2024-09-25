@@ -20,11 +20,11 @@ export const getBookings = (onData) => {
  * @param {string} urlSearchStr
  * @param {string} onData
  */ 
-export const getUserBookings = async (token, loggedInUserId, urlSearchStr, onData) => {
+export const getUserBookings = async (token, urlSearchStr, dispatch) => {
   try {
     const controller = new AbortController()
 
-    const url = `${backendUrl}/bookings/user/${loggedInUserId}${urlSearchStr}`
+    const url = `${backendUrl}/bookings/user${urlSearchStr}`
     const request = {
       signal: controller.signal,
       method: "GET",
@@ -40,8 +40,8 @@ export const getUserBookings = async (token, loggedInUserId, urlSearchStr, onDat
       const json = await response.json()
 
       console.log(json)
-      
-      onData({
+
+      dispatch({
         type: 'SET_BOOKINGS',
         payload: json.data
       })

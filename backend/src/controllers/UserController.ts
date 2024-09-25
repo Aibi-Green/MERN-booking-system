@@ -1,10 +1,5 @@
 import { Request, Response } from "express"
 import User from '../models/user'
-import jwt from 'jsonwebtoken'
-
-const createToken = (_id: string) => {
-    return jwt.sign({ _id }, process.env.SECRET_STRING as string, { expiresIn: '1d' })
-}
 
 const getUsers = async (req: Request, res: Response) => {
     try {
@@ -86,7 +81,7 @@ const signUpUser = async (req: Request, res: Response) => {
 
         const user: any = await User.signup(req.body)
 
-        const token = createToken(user._id)
+        const token = User.createToken(user._id)
 
         console.log("/CREATE USER");
         console.log("Successfully created User!\n");
@@ -125,7 +120,7 @@ const logInUser = async (req: Request, res: Response) => {
         console.log("LOGGIN IN!");
 
         const user: any = await User.login(req.body)
-        const token = createToken(user._id)
+        const token = await User.createToken(user._id)
 
         return res.status(201).json({
             status: "success",

@@ -1,6 +1,7 @@
 import { Schema, model, Model } from 'mongoose'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
+import jwt from 'jsonwebtoken'
 
 // Create an interface representing a document in MongoDB
 interface IUser {
@@ -19,6 +20,7 @@ interface UserModel extends Model<IUser> {
     login(input: Object): Object;
     changeUserDetails(id: string, details: Object): Object;
     changePassword(id: string, details: Object): Object;
+    createToken(id: string): string
 }
 
 // Create schema corresponding to the document interface
@@ -169,6 +171,16 @@ userSchema.static("changePassword", async function changeUserDetails(id, details
 
     return updatedUser
 })
+
+userSchema.static("createToken", async function createToken(id) {
+    const token = jwt.sign({ id }, process.env.SECRET_STRING as string, { expiresIn: '1d' })
+    return token.toString()
+})
+
+// userSchema.static("decodeToken", async function createToken(token) {
+//     const decodedToken = jwt.decode(token)
+//     return decodedToken
+// })
 
 // create model
 const User = model<IUser, UserModel>("User", userSchema)

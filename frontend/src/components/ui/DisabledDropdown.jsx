@@ -13,15 +13,13 @@ function DisabledDropdown({ idNameFor, data, className, onData, placeholder, ini
   const [open, setOpen] = useState(false); // for opening list
 
   useEffect(() => {
-    inputRef.current.value = initialVal
+    inputRef.current.value = initialVal && "All"
   }, [initialVal])
 
   const setInput = (value) => {
-    // update input value
     if (inputRef.current) {
-      // set the value in the input field
       inputRef.current.value = value
-      onData(inputRef.current.value)
+      onData({target: {name: 'status', value: (value != "All") ? value : null}})
       setOpen(false)
     }
   }
@@ -32,7 +30,7 @@ function DisabledDropdown({ idNameFor, data, className, onData, placeholder, ini
       <div className='flex relative h-[100%]'>
         <Label htmlFor={idNameFor} />
         <Input
-          id={idNameFor} name={idNameFor} type={"text"} placeholder={placeholder} ref={inputRef}
+          id={idNameFor} name={idNameFor} placeholder={placeholder} type={"text"} ref={inputRef}
           className={`pl-4 pr-10 py-3 appearance-none select rounded-md w-[100%] ${className}`}
           disabled />
         {

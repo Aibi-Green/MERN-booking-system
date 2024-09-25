@@ -22,6 +22,7 @@ function EditProfileForm() {
 
   useEffect(() => {
     if (token) {
+      // change url path to /profile
       getOneUser(jwtDecode(token)._id, setData, setErrors)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
