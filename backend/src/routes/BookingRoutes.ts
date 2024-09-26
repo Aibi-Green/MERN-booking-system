@@ -20,11 +20,11 @@ router
 
 // routes with ids
 router
-    .route('/booking')
+    .route('/booking/:id_booking')
     // Get specific booking
-    .get(BookingController.getOneBooking)
+    .get(authenticateToken, BookingController.getOneBooking)
     // Edit a booking account
-    .put(authenticateToken, BookingController.editBooking)
+    .put(BookingController.editBooking)
     // Delete a specific booking
     .delete(BookingController.deleteBooking)
 

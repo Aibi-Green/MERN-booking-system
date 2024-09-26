@@ -31,9 +31,24 @@ const getBookings = async (req: Request, res: Response) => {
   }
 }
 
-const getOneBooking = async (req: Request, res: Response) => {
+/**🟡
+ * ViewBooking: Get One Booking
+ * 
+ * @param {object} req contains the following
+ * @param {object} req.params.id_booking
+ * @param {object} req.user.id
+ * @returns 
+ */
+const getOneBooking = async (req: CustomRequest, res: Response) => {
   try {
-    const booking = await Booking.findById(req.params.id).exec()
+    const booking = await Booking.findById(req.params.id_booking).exec()
+
+    if (booking && booking.id_user != req.user.id) {
+      return res.status(403).json({
+        status: "fail",
+        message: "You do not have permission to access this booking."
+      })
+    }
 
     console.log("/GET ONE BOOKING");
     console.log(booking ? "Booking ID exists!\n" : "Booking ID does not exist in database...\n");
@@ -272,6 +287,14 @@ const createUserBooking = async (req: CustomRequest, res: Response) => {
   }
 }
 
+
+/**🟡
+ * Edit Booking
+ * 
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 const editBooking = async (req: Request, res: Response) => {
   try {
     const booking = await Booking.findById(req.params.id).exec()

@@ -11,15 +11,15 @@ export const getBookings = (onData) => {
     .catch(error => console.error(error))
 }
 
-/** 🟡
- * Get All bookings of specified user ID
+/** ✅
+ * UserBookings: Get All bookings of specified user ID
  * w/ search function
  * 
  * @param {string} token
  * @param {string} loggedInUserId
  * @param {string} urlSearchStr
  * @param {string} onData
- */ 
+ */
 export const getUserBookings = async (token, urlSearchStr, dispatch) => {
   try {
     const controller = new AbortController()
@@ -33,9 +33,9 @@ export const getUserBookings = async (token, urlSearchStr, dispatch) => {
         "Authorization": `Bearer ${token}`
       }
     }
-    
+
     const response = await fetch(url, request)
-  
+
     if (response.ok) {
       const json = await response.json()
 
@@ -53,42 +53,103 @@ export const getUserBookings = async (token, urlSearchStr, dispatch) => {
   }
 }
 
-// USER || ADMIN
-// Get One Booking of a userID with its requirements
-// TODO: bookings/booking still requires two fetch requests to get both booking and requirement details
-export const viewBooking = (id, onData, isLoading = () => { }) => {
-  isLoading(true)
+/**✅
+ * ViewBooking: Get One Booking of a userID with its requirements
+ * 
+ * @param {string} token 
+ * @param {string} id_booking 
+ * @param {function} onData - a callback function that sends the result
+ * @param {boolean} isLoading 
+ */
+export const viewBooking = async (token, id_booking, onData, isLoading) => {
+  try {
+    isLoading(true)
+    const url = `${backendUrl}/bookings/booking/${id_booking}`
 
-  fetch(`${backendUrl}/bookings/booking/${id}`, {
-    method: "GET"
-  })
-    .then(response => response.json())
-    .then(jsonBooking => {
-      fetch(`${backendUrl}/rbookings/booking/${id}`, {
-        method: "GET"
-      })
-        .then(response => response.json())
-        .then(jsonReqs => {
-          fetch(`${backendUrl}/rtypes`, {
-            method: "GET"
-          })
-            .then(response => response.json())
-            .then(jsonTypes => {
-              onData({
-                ...jsonBooking.data,
-                requirements: jsonReqs.data,
-                types: jsonTypes.data
-              })
-              isLoading(false)
-            })
-        })
-        .catch(error => console.error(error))
+    const bookingController = new AbortController()
+    const bookingResponse = await fetch(url, {
+      signal: bookingController.signal,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
     })
-    .catch(error => console.error(error))
+
+    if (!bookingResponse.ok) {
+      const error = await bookingResponse.json()
+      throw new Error(error.message)
+    }
+
+    const bookingJson = await bookingResponse.json()
+    console.log(bookingJson);
+
+    const rbookController = new AbortController()
+
+    const rbookResponse = await fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
+      signal: rbookController.signal,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+
+    if (!rbookResponse.ok) {
+      const error = await rbookResponse.json()
+      throw new Error(error.message)
+    }
+
+    const rbookJson = await rbookResponse.json()
+
+    const requirements = rbookJson.data.map(i => i.id_requirement)
+
+    onData({
+      ...bookingJson.data,
+      requirements: requirements
+    })
+
+    return () => {
+      bookingController.abort()
+      rbookController.abort()
+    }
+  } catch (e) {
+    console.error(e)
+  } finally {
+    isLoading(false)
+  }
+
+
+  // fetch(`${backendUrl}/bookings/booking/${id_booking}`, {
+  //   method: "GET"
+  // })
+  //   .then(response => response.json())
+  //   .then(jsonBooking => {
+  //     fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
+  //       method: "GET"
+  //     })
+  //       .then(response => response.json())
+  //       .then(jsonReqs => {
+  //         fetch(`${backendUrl}/rtypes`, {
+  //           method: "GET"
+  //         })
+  //           .then(response => response.json())
+  //           .then(jsonTypes => {
+  //             onData({
+  //               ...jsonBooking.data,
+  //               requirements: jsonReqs.data,
+  //               types: jsonTypes.data
+  //             })
+  //             isLoading(false)
+  //           })
+  //       })
+  //       .catch(error => console.error(error))
+  //   })
+  //   .catch(error => console.error(error))
 }
 
-/** 🟡
- * Add booking
+/** ✅
+ * AddBooking: Add booking with requirements
  * 
  * @param {string} token 
  * @param {object} payload
@@ -117,7 +178,7 @@ export const addBooking = async (token, payload, setIsLoading) => {
       }
     )
 
-    if(!resBookings.ok) {
+    if (!resBookings.ok) {
       const error = await resBookings.json()
       throw new Error(error.message)
     }
@@ -141,13 +202,13 @@ export const addBooking = async (token, payload, setIsLoading) => {
       }
     )
 
-    if(!resReqBookings.ok) {
+    if (!resReqBookings.ok) {
       const error = await resReqBookings.json()
       throw new Error(error.message)
     }
 
     const jsonReqBookings = await resReqBookings.json()
-    console.log(jsonReqBookings);    
+    console.log(jsonReqBookings);
 
     if (jsonReqBookings.ok)
       console.log(jsonReqBookings)
@@ -165,7 +226,7 @@ export const addBooking = async (token, payload, setIsLoading) => {
 }
 
 /**🟡
- * Edit a Booking
+ * EditBooking: Edit a Booking
  * involves adding booking details first then
  * deleting all requirements and add the new updated
  * requirements from payload

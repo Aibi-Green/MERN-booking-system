@@ -2,7 +2,7 @@ import ItemBooking from './ItemBooking.jsx'
 import { useBookingsContext } from '../hooks/useBookingsContext.jsx'
 import { useLocation } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext.jsx'
-import { getUserBookings } from '../api/bookingsApi.jsx'
+import { getUserBookings } from '../api/BookingsApi.js'
 import { useEffect, useState } from 'react';
 import DeleteDialog from '../components/DeleteDialog.jsx';
 import ViewDialog from '../components/ViewDialog.jsx';
