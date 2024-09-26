@@ -20,39 +20,37 @@ export const getRequirements = (onData) => {
     .catch(error => console.error(error))
 }
 
-// Creates a combined formatted Typed and Requirements for form
-export const getTypesAndReq = (onData, isLoading) => {
+// ✅ Creates a combined formatted Typed and Requirements for form
+export const getTypesAndReq = async (onData, isLoading) => {
   isLoading(true)
 
-  fetch(`${backendUrl}/rtypes`, {
-    method: "GET"
-  })
-    .then(response => response.json())
-    .then(jsonTypes => {
-      // console.log(jsonTypes.data)
-
-      fetch(`${backendUrl}/requirements`, {
-        method: "GET"
-      })
-        .then(response => response.json())
-        .then(jsonReqs => {
-          // console.log(jsonReqs.data)
-          let arr = jsonTypes.data
-
-          arr.map(type => {
-            type.places = []
-
-            jsonReqs.data.filter((req) => {
-              if (req.id_type == type._id) {
-                type.places.push(req)
-              }
-            })
-          })
-
-          onData(arr)
-          isLoading(false)
-        })
-        .catch(error => console.error(error))
+  try {
+    const responseTypes = await fetch(`${backendUrl}/rtypes`, {
+      method: "GET"
     })
-    .catch(error => console.error(error))
+    const jsonTypes = await responseTypes.json()
+
+    const responseReqs = await fetch(`${backendUrl}/requirements`, {
+      method: "GET"
+    })
+
+    const jsonReqs = await responseReqs.json()
+
+    let formattedReqs = jsonTypes.data
+
+    formattedReqs.map(type => {
+      type.places = []
+
+      jsonReqs.data.filter((req) => {
+        if (req.id_type == type._id) {
+          type.places.push(req)
+        }
+      })
+    })
+
+    isLoading(false)
+    onData(formattedReqs)
+  } catch (e) {
+    console.error(e)
+  }
 }

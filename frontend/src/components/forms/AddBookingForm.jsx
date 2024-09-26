@@ -20,9 +20,10 @@ import { useNavigate } from 'react-router-dom'
  */
 function AddBookingForm() {
   const navigate = useNavigate()
-  const { token, loggedInUserId } = useAuthContext()
+  const { token } = useAuthContext()
+  const guestsRef = useRef(null)
   const [validations, setValidations] = useState(null)
-  const [payload, setPayload] = useState({
+  const [form, setForm] = useState({
     purpose: '',
     date_start: '',
     date_end: '',
@@ -30,66 +31,40 @@ function AddBookingForm() {
     requirements: ''
   })
 
-  const [purpose, setPurpose] = useState("")
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
-  const guestsRef = useRef(null)
-  const [guests, setGuests] = useState(null)
-  const [requirementsID, setRequirementsID] = useState([])
-
-  // -: RETURN TO LOGIN PAGE IF NO TOKEN IS FOUND
   useEffect(() => {
     if (!token) {
       navigate('/login')
     }
   }, [token, navigate])
 
-  // useEffect(() => {
-  //   if (payload && validations && Object.keys(validations).length == 0) {      
-  //     // 3: SEND ADD BOOKING REQUEST AFTER CHECKING VALIDATIONS
-  //     addBooking(token, payload)
-  //     // 4: SET PAYLOAD TO UNDEFINED TO PREVENT SENDING REQ AFTER SAVE
-  //     setPayload(undefined)
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [validations])
+  useEffect(() => {
+    if (validations && Object.keys(validations).length == 0) {
+      addBooking(token, form)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [validations])
 
-  // useEffect(() => {
-  //   // 2: SET VALIDATIONS
-  //   if (payload) {
-  //     handleBookingFormValidations(setValidations, payload)
-  //   }
-  // }, [payload])
+  const handleForm = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    console.log({
-      purpose: purpose,
-      date_start: startDate,
-      date_end: endDate,
-      num_participants: guests,
-      requirements: requirementsID,
-      id_user: loggedInUserId
-    })
+    handleBookingFormValidations(setValidations, form)
 
-    // 1: SET PAYLOAD
-    setPayload({
-      purpose: purpose,
-      date_start: new Date(startDate).toISOString(),
-      date_end: new Date(endDate).toISOString(),
-      num_participants: guests,
-      requirements: requirementsID,
-      id_user: loggedInUserId
-    })
+    console.log(form)
   }
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col'>
 
       <div className='flex flex-col gap-6  grow'>
-        <Label htmlFor="purpose" text={`Purpose: ${(purpose) ? (purposes.find((i) => i == purpose)) : ""}`}>
-          <Dropdown id="purpose" name="purpose" type="text" data={purposes} onData={setPurpose} className="border" />
+        <Label htmlFor="purpose" text={`Purpose: ${form.purpose}`}>
+          <Dropdown id="purpose" name="purpose" type="text" data={purposes} onData={handleForm} className="border" />
           <span className="text-red-400 text-sm">
             {(validations && validations.purpose) ? validations.purpose : ""}
           </span>
@@ -97,14 +72,14 @@ function AddBookingForm() {
 
         <div>
           <div className="font-semibold mb-1">Pick Start and End Date</div>
-          <DateRange startData={setStartDate} endData={setEndDate} pattern={`[0-9]`} noIcon={true} />
+          <DateRange startData={handleForm} endData={handleForm} pattern={`[0-9]`} noIcon={true} />
           <span className="text-red-400 text-sm">
             {(validations && validations.date) ? validations.date : ""}
           </span>
         </div>
 
         <Label htmlFor="guests" text="Expected Number of Guests">
-          <NumberInput id="guests" name="guests" ref={guestsRef} onChange={() => setGuests(guestsRef.current.value)} placeholder="Enter a number from 1-5000"
+          <NumberInput id="guests" name="guests" ref={guestsRef} onChange={() => handleForm({ target: { name: "num_participants", value: guestsRef.current.value } })} placeholder="Enter a number from 1-5000"
             className="border" />
           <span className="text-red-400 text-sm">
             {(validations && validations.num_participants) ? validations.num_participants : ""}
@@ -113,7 +88,7 @@ function AddBookingForm() {
 
         <div className='flex flex-col grow'>
           <div className="font-semibold mb-1">Venue Requirements</div>
-          <MultiSelect onData={setRequirementsID} />
+          <MultiSelect onData={handleForm} />
           <span className="text-red-400 text-sm">
             {(validations && validations.requirements) ? validations.requirements : ""}
           </span>
@@ -124,7 +99,7 @@ function AddBookingForm() {
           <CancelButton to='/userbookings' className="w-full" />
         </div>
       </div>
-      
+
     </form>
   )
 }

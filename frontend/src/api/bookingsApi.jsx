@@ -112,12 +112,13 @@ export const addBooking = async (token, payload) => {
       }
     )
 
-    const jsonBookings = await resBookings.json()
+    if(!resBookings.ok) {
+      const error = await resBookings.json()
+      throw new Error(error.message)
+    }
 
-    if (jsonBookings.ok)
-      console.log(jsonBookings)
-    else
-      console.error(jsonBookings)
+    const jsonBookings = await resBookings.json()
+    console.log(jsonBookings)
 
     const resReqBookings = await fetch(
       `${backendUrl}/rbookings`,
@@ -134,12 +135,16 @@ export const addBooking = async (token, payload) => {
       }
     )
 
+    if(!resReqBookings.ok) {
+      const error = await resReqBookings.json()
+      throw new Error(error.message)
+    }
+
     const jsonReqBookings = await resReqBookings.json()
+    console.log(jsonReqBookings);    
 
     if (jsonReqBookings.ok)
       console.log(jsonReqBookings)
-    else
-      console.error(jsonReqBookings)
 
   } catch (e) {
     console.error(e)

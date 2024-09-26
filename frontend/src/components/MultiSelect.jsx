@@ -5,22 +5,21 @@ import { getTypesAndReq } from "../api/ReqTypesApi"
 import LoaderIcon from "./ui/LoaderIcon"
 
 function MultiSelect({ initialValue, onData }) {
-  const [selectedPlaces, setSelectedPlaces] = useState([])
-  const [formattedRequirements, setFormattedRequirements] = useState([])
+  const [selectedPlaces, setSelectedPlaces] = useState(() => {
+    return (initialValue) ? initialValue : []
+  })
   const [isLoading, setIsLoading] = useState(false)
+  const [formattedRequirements, setFormattedRequirements] = useState([])
 
   useEffect(() => {
-    getTypesAndReq(setFormattedRequirements, setIsLoading)
+    getTypesAndReq(setFormattedRequirements, setIsLoading)   
   }, [])
 
   useEffect(() => {
-    setSelectedPlaces((initialValue != undefined) ? initialValue : [])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedRequirements])
+    onData({target: {name: "requirements", value: selectedPlaces}});
 
-  useEffect(() => {
-    onData(selectedPlaces);
-  }, [selectedPlaces, onData])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPlaces])
 
   const handleClick = (id) => {
     if (!selectedPlaces.includes(id)) {

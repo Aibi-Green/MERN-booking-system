@@ -31,7 +31,7 @@ function Dropdown({ inputInitialValue, id, data, className, onData }) {
       // set the value in the input field
       setFilterStr(value)
       inputRef.current.value = value
-      onData(value)
+      onData({target: {name: 'purpose', value: value}})
       setOpen(false)
     }
   }

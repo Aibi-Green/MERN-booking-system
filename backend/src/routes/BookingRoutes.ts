@@ -9,7 +9,7 @@ router
     // Get all bookings
     .get(BookingController.getBookings) // check if admin user exists
     // Create booking
-    .post(BookingController.createUserBooking)
+    .post(authenticateToken, BookingController.createUserBooking)
     // Delete more than 1 booking
     .delete(BookingController.deleteManyBooking)
 

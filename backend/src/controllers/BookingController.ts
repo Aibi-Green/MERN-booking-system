@@ -63,6 +63,18 @@ const getOneBooking = async (req: Request, res: Response) => {
   }
 }
 
+/**🟢
+ * Gets All bookings of a user
+ * 
+ * @param req - An object that contains the following:
+ * @param {string} req.query.purpose
+ * @param {string} req.query.date_start
+ * @param {string} req.query.date_end
+ * @param {nuumber} req.query.status
+ * @param {string[]} req.body.date_sort
+ * @param {string} req.user.id
+ * @returns 
+ */
 const getUserBookings = async (req: CustomRequest, res: Response) => {
   try {
     console.log("Getting User Bookings...");
@@ -214,13 +226,12 @@ const getUserBookings = async (req: CustomRequest, res: Response) => {
  * @param {string} req.body.date_end
  * @param {nuumber} req.body.num_participants
  * @param {string[]} req.body.requirements
- * @param {string} req.body.id_user
- * @param res 
+ * @param {string} req.user.id
  * @returns 
  */
-const createUserBooking = async (req: Request, res: Response) => {
+const createUserBooking = async (req: CustomRequest, res: Response) => {
   try {
-    // const user = req.user
+    const id_user = req.user.id
 
     // Save booking to database
     const newBooking = new Booking({
@@ -230,7 +241,7 @@ const createUserBooking = async (req: Request, res: Response) => {
       num_participants: req.body.num_participants,
       requirements: req.body.requirements,
       status: 0, // 0: pending, 1: accepted, 2: rejected
-      id_user: req.body.id_user
+      id_user: id_user
     })
     await newBooking.save()
 
