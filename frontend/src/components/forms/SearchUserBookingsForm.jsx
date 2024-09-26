@@ -9,12 +9,15 @@ import DateRange from '../ui/DateRange';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Label from '../ui/Label'
 import { statuses } from '../../assets/Data';
+import { useIfNoToken } from '../../hooks/useIfNoToken';
 
 function SearchUserBookings({ className }) {
   const searchRef = useRef()
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+
+  useIfNoToken()
 
   const [form, setForm] = useState(() => {
     const obj = {

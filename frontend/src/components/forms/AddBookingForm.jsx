@@ -11,6 +11,9 @@ import { addBooking } from '../../api/bookingsApi.jsx'
 import { handleBookingFormValidations } from '../validations/FormValidations.js'
 import { useAuthContext } from '../../hooks/useAuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
+import Dialog from '../ui/Dialog.jsx'
+import LoaderIcon from '../ui/LoaderIcon.jsx'
+import { useIfNoToken } from '../../hooks/useIfNoToken.jsx'
 
 /**
  * ✅ functions
@@ -22,6 +25,8 @@ function AddBookingForm() {
   const navigate = useNavigate()
   const { token } = useAuthContext()
   const guestsRef = useRef(null)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [validations, setValidations] = useState(null)
   const [form, setForm] = useState({
     purpose: '',
@@ -31,17 +36,15 @@ function AddBookingForm() {
     requirements: ''
   })
 
-  useEffect(() => {
-    if (!token) {
-      navigate('/login')
-    }
-  }, [token, navigate])
+  // -: RETURN TO LOGIN PAGE IF NO TOKEN IS FOUND
+  useIfNoToken()
 
   useEffect(() => {
     if (validations && Object.keys(validations).length == 0) {
-      addBooking(token, form)
+      setOpenDialog(true)
+      addBooking(token, form, setIsLoading)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations])
 
   const handleForm = (e) => {
@@ -99,6 +102,33 @@ function AddBookingForm() {
           <CancelButton to='/userbookings' className="w-full" />
         </div>
       </div>
+
+      {
+        (openDialog) &&
+        <Dialog>
+          {
+            (!isLoading) ?
+              <div className='flex flex-col gap-2'>
+                <span>New Booking has been successfully created!</span>
+                <div className='flex gap-2'>
+                  <button 
+                  onClick={() => {
+                    navigate(0)
+                  }} 
+                  className='bg-green-500 text-white text-center rounded-lg py-2 basis-[50%]'>
+                    Create Another
+                  </button>
+                  <CancelButton text="Back to Home" isLink={true} to="/userbookings" className="basis-[50%]" />
+                </div>
+              </div>
+              :
+              <div className='italic flex flex-col gap-5'>
+                Processing...
+                <LoaderIcon iconClassName="size-8" />
+              </div>
+          }
+        </Dialog>
+      }
 
     </form>
   )

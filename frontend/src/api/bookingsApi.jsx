@@ -98,11 +98,16 @@ export const viewBooking = (id, onData, isLoading = () => { }) => {
  * @param {number} payload.num_participants - The number of participants/guests.
  * @param {number[]} payload.requirements - An array containing requirement IDs.
  */
-export const addBooking = async (token, payload) => {
+export const addBooking = async (token, payload, setIsLoading) => {
   try {
+    setIsLoading(true)
+    const bookingController = new AbortController();
+    const reqBookingController = new AbortController();
+
     const resBookings = await fetch(
       `${backendUrl}/bookings`,
       {
+        signal: bookingController.signal,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,6 +128,7 @@ export const addBooking = async (token, payload) => {
     const resReqBookings = await fetch(
       `${backendUrl}/rbookings`,
       {
+        signal: reqBookingController.signal,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,17 +152,33 @@ export const addBooking = async (token, payload) => {
     if (jsonReqBookings.ok)
       console.log(jsonReqBookings)
 
+    setIsLoading(false)
+
+    return () => {
+      bookingController.abort()
+      reqBookingController.abort()
+    }
+
   } catch (e) {
     console.error(e)
   }
 }
 
-// USER
-export const editBooking = (id_booking, payload) => {
-  // console.log("editBooking: ", id_booking);
-  // console.log("PAYLOAD: ", payload);
-
-  // Edits Booking details
+/**🟡
+ * Edit a Booking
+ * involves adding booking details first then
+ * deleting all requirements and add the new updated
+ * requirements from payload
+ * 
+ * @param {string} token 
+ * @param {object} payload
+ * @param {string} payload.purpose - The purpose of the booking.
+ * @param {string} payload.date_start - The start date in ISO 8601 format (YYYY-MM-DD).
+ * @param {string} payload.date_end - The end date in ISO 8601 format (YYYY-MM-DD).
+ * @param {number} payload.num_participants - The number of participants/guests.
+ * @param {number[]} payload.requirements - An array containing requirement IDs.
+ */
+export const editBooking = (id_booking, token, payload) => {
   fetch(`${backendUrl}/bookings/booking/${id_booking}`, {
     method: "PUT",
     headers: {
