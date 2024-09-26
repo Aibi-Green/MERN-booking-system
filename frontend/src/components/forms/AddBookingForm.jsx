@@ -22,7 +22,13 @@ function AddBookingForm() {
   const navigate = useNavigate()
   const { token, loggedInUserId } = useAuthContext()
   const [validations, setValidations] = useState(null)
-  const [payload, setPayload] = useState(null)
+  const [payload, setPayload] = useState({
+    purpose: '',
+    date_start: '',
+    date_end: '',
+    num_participants: '',
+    requirements: ''
+  })
 
   const [purpose, setPurpose] = useState("")
   const [startDate, setStartDate] = useState(null)
@@ -36,28 +42,36 @@ function AddBookingForm() {
     if (!token) {
       navigate('/login')
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [token, navigate])
 
-  useEffect(() => {
-    if (payload && validations && Object.keys(validations).length == 0) {      
-      // 3: SEND ADD BOOKING REQUEST AFTER CHECKING VALIDATIONS
-      addBooking(token, payload)
-      // 4: SET PAYLOAD TO UNDEFINED TO PREVENT SENDING REQ AFTER SAVE
-      setPayload(undefined)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validations])
+  // useEffect(() => {
+  //   if (payload && validations && Object.keys(validations).length == 0) {      
+  //     // 3: SEND ADD BOOKING REQUEST AFTER CHECKING VALIDATIONS
+  //     addBooking(token, payload)
+  //     // 4: SET PAYLOAD TO UNDEFINED TO PREVENT SENDING REQ AFTER SAVE
+  //     setPayload(undefined)
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [validations])
 
-  useEffect(() => {
-    // 2: SET VALIDATIONS
-    if (payload) {
-      handleBookingFormValidations(setValidations, payload)
-    }
-  }, [payload])
+  // useEffect(() => {
+  //   // 2: SET VALIDATIONS
+  //   if (payload) {
+  //     handleBookingFormValidations(setValidations, payload)
+  //   }
+  // }, [payload])
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    console.log({
+      purpose: purpose,
+      date_start: startDate,
+      date_end: endDate,
+      num_participants: guests,
+      requirements: requirementsID,
+      id_user: loggedInUserId
+    })
 
     // 1: SET PAYLOAD
     setPayload({

@@ -13,13 +13,13 @@ function DisabledDropdown({ idNameFor, data, className, onData, placeholder, ini
   const [open, setOpen] = useState(false); // for opening list
 
   useEffect(() => {
-    inputRef.current.value = initialVal && "All"
+    inputRef.current.value = (initialVal) ? initialVal : "All"
   }, [initialVal])
 
   const setInput = (value) => {
     if (inputRef.current) {
       inputRef.current.value = value
-      onData({target: {name: 'status', value: (value != "All") ? value : null}})
+      onData({target: {name: 'status', value: value}})
       setOpen(false)
     }
   }
@@ -35,9 +35,9 @@ function DisabledDropdown({ idNameFor, data, className, onData, placeholder, ini
           disabled />
         {
           (!open) ? (
-            <ChevronDown onClick={() => setOpen(!open)} className='absolute h-[100%] right-0 w-[20%] px-2' />
+            <ChevronDown onClick={() => setOpen(!open)} className='absolute h-[100%] right-0 w-[40px] px-2' />
           ) : (
-            <ChevronUp onClick={() => setOpen(!open)} className='absolute h-[100%] right-0 w-[20%] px-2' />
+            <ChevronUp onClick={() => setOpen(!open)} className='absolute h-[100%] right-0 w-[40px] px-2' />
           )
         }
       </div>

@@ -9,43 +9,34 @@ import DateRange from '../ui/DateRange';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Label from '../ui/Label'
 import { statuses } from '../../assets/Data';
-import { useBookingsContext } from '../../hooks/useBookingsContext';
-import { useAuthContext } from '../../hooks/useAuthContext';
-import { getUserBookings } from '../../api/bookingsApi';
 
 function SearchUserBookings({ className }) {
   const searchRef = useRef()
-  const [status, setStatus] = useState("")
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
-  const [sort, setSort] = useState()
-  const { dispatch } = useBookingsContext()
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const {token} = useAuthContext()
 
-  const [form, setForm] = useState({
-    search: null,
-    status: null,
-    date_sort: null,
-    date_start: null,
-    date_end: null
+  const [form, setForm] = useState(() => {
+    const obj = {
+      search: '',
+      status: '',
+      date_sort: false,
+      date_start: '',
+      date_end: ''
+    }
+
+    for (const [param, value] of queryParams) {
+      obj[param] = value
+    }
+
+    return obj
   })
 
   useEffect(() => {
-    searchRef.current.value = (queryParams.get('search')) ? queryParams.get('search') : ""
-    console.log(queryParams.get('status'));
-    
-    setStatus(queryParams.get('status'))
-    // setStartDate(queryParams.get('date_start') && queryParams.get('date_start') != new Date(0).toISOString() ? new Date(queryParams.get('date_start')).toISOString() : null)
-    // setEndDate(queryParams.get('date_end') && queryParams.get('date_end') != new Date(0).toISOString() ? new Date(queryParams.get('date_end')).toISOString() : null)
-    // setSort(JSON.parse((queryParams.get('date_sort')) ? queryParams.get('date_sort') : false))
+    searchRef.current.value = form.search
+  }, [searchRef, form.search])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleForm = (e) => {    
+  const handleForm = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value
@@ -65,11 +56,10 @@ function SearchUserBookings({ className }) {
     })
 
     console.log(queryStr);
-    
-    const formattedUrlQuery = new URLSearchParams(queryStr).toString()
 
+    const formattedUrlQuery = new URLSearchParams(queryStr).toString()
     navigate(`/userbookings?${formattedUrlQuery}`)
-    
+
   }
 
   return (
@@ -77,25 +67,24 @@ function SearchUserBookings({ className }) {
 
       {/* SEARCH INPUT and STATUS FILTER */}
       <div className='flex gap-1'>
-        
-        <Label htmlFor="search">
-          <Input 
-            id="search" name="search" placeholder="Search" 
-            defaultValue={(form.search) ? form.search : null}
+
+        <Label htmlFor="search" className="grow">
+          <Input
+            id="search" name="search" placeholder="Search"
             onChange={handleForm} ref={searchRef}
-            className="min-w-[100px] grow" />
+            className="min-w-[100px]" />
         </Label>
 
-        <DisabledDropdown 
-          idNameFor="statusType" 
-          onData={handleForm} 
-          data={statuses} 
-          initialVal={(status) ? status : "All"} 
-          className="border min-w-[80px] grow" />
+        <DisabledDropdown
+          idNameFor="statusType"
+          onData={handleForm}
+          data={statuses}
+          initialVal={form.status}
+          className="border min-w-[90px] grow" />
 
-        <SearchButton 
-          id="searchButton" 
-          type="submit" 
+        <SearchButton
+          id="searchButton"
+          type="submit"
           className="flex-initial" />
 
       </div>
@@ -105,24 +94,24 @@ function SearchUserBookings({ className }) {
 
         <div className='flex flex-col sm:gap-4 gap-2 items-start'>
 
-          <SortButton 
-            onData={(bool) => handleForm({target: {name: "date_sort", value: (bool != true) ? null : true}})} 
-            initialVal={sort} />
+          <SortButton
+            onData={(bool) => handleForm({ target: { name: "date_sort", value: (bool != true) ? null : true } })}
+            initialVal={form.date_sort ? JSON.parse(form.date_sort) : false} />
 
-          <DateRange 
-            startData={(date_start) => handleForm(date_start)} 
-            endData={(date_end) => handleForm(date_end)} 
-            getParams={true} 
+          <DateRange
+            startData={(date_start) => handleForm(date_start)}
+            endData={(date_end) => handleForm(date_end)}
+            getParams={true}
             noDaterestrictions={true} />
-            
+
         </div>
 
         <div className='flex justify-end items-end'>
-          
+
           <Link to={'/addbooking'}>
-            <AddButton 
-              text="Create Booking" 
-              type="button" 
+            <AddButton
+              text="Create Booking"
+              type="button"
               className='bg-green-500 active:bg-green-600 active:text-white hover:bg-green-400'
             > Create Booking
             </AddButton>
