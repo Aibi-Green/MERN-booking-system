@@ -44,12 +44,12 @@ function ListItems() {
 
       {
         !hiddenDel &&
-        <DeleteDialog onClose={setHiddenDel} id={deleteId} />
+        <DeleteDialog onClose={setHiddenDel} id_booking={deleteId} />
       }
 
       {
         !hiddenView &&
-        <ViewDialog onClose={setHiddenView} id={viewId} />
+        <ViewDialog onClose={setHiddenView} id_booking={viewId} />
       }
     </div>
   )

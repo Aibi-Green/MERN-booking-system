@@ -14,6 +14,7 @@ export const authenticateToken = (req: CustomRequest, res: Response, next: NextF
         message: "401 Unauthorized"
       })
     }
+    
 
     jwt.verify(token, process.env.SECRET_STRING as string, (err: any, user: any) => {
       if (err) {

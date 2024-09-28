@@ -256,7 +256,7 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
       if ((payload[i] != '' || payload[i] != 0) && i != 'requirements') {
         payloadBooking[i] = payload[i]
       }
-    })    
+    })
 
     if (Object.keys(payloadBooking) != 0) {
       const controllerBooking = new AbortController()
@@ -289,10 +289,10 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
       const payloadRbookingAdd = {
         id_requirement: payload.requirements.add_places
       }
-  
+
       const controllerRbookingAdd = new AbortController()
       controllers.push(controllerRbookingAdd)
-  
+
       const responseRbookingAdd = await fetch(
         `${backendUrl}/rbookings/booking/${id_booking}`,
         {
@@ -305,12 +305,12 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
           body: JSON.stringify(payloadRbookingAdd)
         }
       )
-  
+
       if (!responseRbookingAdd.ok) {
         const error = await responseRbookingAdd.json()
         throw new Error(error.message)
       }
-  
+
       const jsonResponseRbookingAdd = await responseRbookingAdd.json()
       console.log(jsonResponseRbookingAdd);
     }
@@ -320,10 +320,10 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
       const payloadRbookingRemove = {
         id_requirement: payload.requirements.remove_places
       }
-  
+
       const controllerRbookingRemove = new AbortController()
       controllers.push(controllerRbookingRemove)
-  
+
       const responseRbookingRemove = await fetch(
         `${backendUrl}/rbookings/booking/${id_booking}`,
         {
@@ -336,12 +336,12 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
           body: JSON.stringify(payloadRbookingRemove)
         }
       )
-  
+
       if (!responseRbookingRemove.ok) {
         const error = await responseRbookingRemove.json()
         throw new Error(error.message)
       }
-  
+
       const jsonResponseRbookingRemove = await responseRbookingRemove.json()
       console.log(jsonResponseRbookingRemove);
     }
@@ -359,19 +359,44 @@ export const editBooking = async (token, id_booking, payload, isLoading) => {
   }
 }
 
-// USER
-export const deleteBooking = async (id, onData) => {
-  // console.log("deleteBooking: ", id);
-  await fetch(`${backendUrl}/bookings/booking/${id}`, {
-    method: "DELETE"
-  })
-    .then(response => response.json())
-    .then(json => {
-      console.log(json)
-      onData({
-        type: 'DELETE_BOOKING',
-        id: id
-      });
+/**✅
+ * DeleteBooking: Delete one Booking
+ * 
+ * @param {string} id_booking 
+ * @param {string} token
+ * @param {function} onData For dispatch for booking context
+ */
+export const deleteBooking = async (token, id_booking, onData) => {
+  try {
+    const controller = new AbortController()
+    const response = await fetch(
+      `${backendUrl}/bookings/booking/${id_booking}`,
+      {
+        signal: controller.signal,
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    )
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message)
+    }
+
+    const json = await response.json()
+    console.log(json);
+
+    onData({
+      type: "DELETE_BOOKING",
+      id: id_booking
     })
-    .catch(error => console.error(error))
+
+    return () => controller.abort()
+
+  } catch (e) {
+    console.error(e)
+  }
 }
