@@ -4,7 +4,7 @@ import Label from "../ui/Label";
 import RegisterButton from "../buttons/RegisterButton";
 import CancelButton from "../buttons/CancelButton";
 import { useEffect, useRef, useState } from "react";
-import { handleRegisterFormValidations } from "../validations/FormValidations";
+import { handleRegisterFormValidations } from "../validations/FormValidations.jsx";
 import { signup } from "../../api/UsersApi";
 import { useNavigate } from "react-router-dom";
 

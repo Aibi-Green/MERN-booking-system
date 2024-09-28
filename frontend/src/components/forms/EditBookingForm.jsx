@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 
 import Label from "../ui/Label.jsx"
-import { editBooking, viewBooking } from "../../api/BookingsApi.js"
+import { editBooking, viewBooking } from "../../api/BookingsApi.jsx"
 import SubmitButton from "../buttons/SubmitButton"
 import CancelButton from "../buttons/CancelButton"
 import { formatDate, formatTime, purposes } from "../../assets/Data"
@@ -11,7 +11,7 @@ import LoaderIcon from "../ui/LoaderIcon"
 import NumberInput from '../ui/NumberInput.jsx'
 import DateRange from "../ui/DateRange"
 import MultiSelect from "../MultiSelect.jsx"
-import { handleBookingFormValidations } from "../validations/FormValidations.js"
+import { handleBookingFormValidations } from "../validations/FormValidations.jsx"
 import { useAuthContext } from "../../hooks/useAuthContext.jsx"
 import StatusTags from "../ui/StatusTags.jsx"
 import InlineError from "../InlineError.jsx"
@@ -46,16 +46,6 @@ function EditBookingForm() {
       guestsRef.current.value = num
     }
   }, [data, isLoading])
-
-  // useEffect(() => {
-  //   // console.log("payload != undefined: ", payload != undefined);
-  //   if (payload != undefined) {
-  //     console.log("Sending request...");
-  //     editBooking(id_booking, payload)
-  //   }
-  //   setPayload(undefined)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [payload])
 
   useEffect(() => {
     if (validations && Object.keys(validations).length == 0) {

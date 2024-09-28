@@ -2,7 +2,7 @@ import Dialog from "./ui/Dialog";
 import PropTypes from 'prop-types'
 import CancelButton from './buttons/CancelButton.jsx'
 import SubmitButton from './buttons/SubmitButton.jsx'
-import { deleteBooking } from "../api/BookingsApi.js";
+import { deleteBooking } from "../api/BookingsApi.jsx";
 import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.jsx";
 

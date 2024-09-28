@@ -7,12 +7,13 @@ import { purposes } from '../../assets/Data.jsx'
 import MultiSelect from '../MultiSelect.jsx'
 import SubmitButton from '../buttons/SubmitButton.jsx'
 import CancelButton from '../buttons/CancelButton.jsx'
-import { addBooking } from '../../api/BookingsApi.js'
-import { handleBookingFormValidations } from '../validations/FormValidations.js'
+import { addBooking } from '../../api/BookingsApi.jsx'
+import { handleBookingFormValidations } from '../validations/FormValidations.jsx'
 import { useAuthContext } from '../../hooks/useAuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import Dialog from '../ui/Dialog.jsx'
 import LoaderIcon from '../ui/LoaderIcon.jsx'
+import InlineError from '../InlineError.jsx'
 
 /**
  * ✅ functions
@@ -65,33 +66,25 @@ function AddBookingForm() {
       <div className='flex flex-col gap-6  grow'>
         <Label htmlFor="purpose" text={`Purpose: ${form.purpose}`}>
           <Dropdown id="purpose" name="purpose" type="text" data={purposes} onData={handleForm} className="border" />
-          <span className="text-red-400 text-sm">
-            {(validations && validations.purpose) ? validations.purpose : ""}
-          </span>
+          <InlineError validations={validations} property="purpose" />
         </Label>
 
         <div>
           <div className="font-semibold mb-1">Pick Start and End Date</div>
           <DateRange startData={handleForm} endData={handleForm} pattern={`[0-9]`} noIcon={true} />
-          <span className="text-red-400 text-sm">
-            {(validations && validations.date) ? validations.date : ""}
-          </span>
+          <InlineError validations={validations} property="date" />
         </div>
 
         <Label htmlFor="guests" text="Expected Number of Guests">
           <NumberInput id="guests" name="guests" ref={guestsRef} onChange={() => handleForm({ target: { name: "num_participants", value: guestsRef.current.value } })} placeholder="Enter a number from 1-5000"
             className="border" />
-          <span className="text-red-400 text-sm">
-            {(validations && validations.num_participants) ? validations.num_participants : ""}
-          </span>
+          <InlineError validations={validations} property="num_participants" />
         </Label>
 
         <div className='flex flex-col grow'>
           <div className="font-semibold mb-1">Venue Requirements</div>
           <MultiSelect initialValue={form.requirements} onData={handleForm} />
-          <span className="text-red-400 text-sm">
-            {(validations && validations.requirements) ? validations.requirements : ""}
-          </span>
+          <InlineError validations={validations} property="requirements" />
         </div>
 
         <div className='flex flex-col gap-2 w-[50%] min-w-[200px] self-center'>
