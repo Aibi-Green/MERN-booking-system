@@ -1,7 +1,7 @@
 import { EyeIcon, LucideEdit, LucideTrash } from 'lucide-react';
 import PropTypes from 'prop-types'
 import { formatDate, formatTime } from '../assets/Data';
-import formatStatus from './ui/StatusTags.jsx'
+import StatusTags from './ui/StatusTags.jsx'
 import { Link } from 'react-router-dom';
 
 function ItemBookings({data, onDelete, onView}) {
@@ -22,7 +22,7 @@ function ItemBookings({data, onDelete, onView}) {
     <div className='flex flex-row overflow-hidden rounded-2xl shadow-md border'>
       <div className='bg-white flex flex-col grow gap-1 p-5'>
 
-        <span>{formatStatus(data.status)}</span>
+        <span>{StatusTags(data.status)}</span>
 
         <span className='text-sm opacity-80'>Date Requested: {formatDate(data.date_requested)}</span>
         

@@ -3,6 +3,8 @@ import Rbooking from '../models/rbooking'
 import Requirement from '../models/requirement'
 import Booking from '../models/booking'
 import { ObjectId } from 'mongodb'
+import { CustomRequest } from "../interfaces/Requests"
+import User from "../models/user"
 
 const getAllRbookings = async (req: Request, res: Response) => {
   try {
@@ -35,7 +37,7 @@ const getRbookings = async (req: Request, res: Response) => {
     // const rbookingList = await Rbooking.find({ id_booking: req.params.id }, "").exec()
     const rbookingList = await Rbooking.aggregate([
       {
-        $match: { id_booking: new ObjectId(req.params.id) } // Filter by id_booking
+        $match: { id_booking: new ObjectId(req.params.id_booking) } // Filter by id_booking
       },
       {
         $lookup: {
@@ -65,7 +67,7 @@ const getRbookings = async (req: Request, res: Response) => {
         }
       },
       {
-        $unwind: "$typeDetails" 
+        $unwind: "$typeDetails"
       },
       {
         $project: {
@@ -99,12 +101,37 @@ const getRbookings = async (req: Request, res: Response) => {
   }
 }
 
-const createRbookings = async (req: Request, res: Response) => {
+/**✅
+ * createRbookings: Create Requirement Bookings in an array
+ * 
+ * @param {body} req
+ * @param {string} req.body.id_booking
+ * @param {string[]} req.body.id_requirement
+ * @returns 
+ */
+const createRbookings = async (req: CustomRequest, res: Response) => {
   try {
     console.log("/CREATE VENUE REQUIREMENT BOOKING");
+    console.log("id_booking: ", req.params.id_booking);
+    
+
+    const bookingResult = await Booking.find({
+      _id: req.params.id_booking, 
+      id_user: req.user.id
+    }, "").exec()
+
+    if (!(bookingResult.length > 0)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "This user does not have this booking..."
+      })
+    }
 
     console.log("Checking if id_booking exists...");
-    const bookingExists = await Booking.find({ _id: req.body.id_booking }, "").exec()
+    const bookingExists = await Booking.find({ 
+      _id: req.params.id_booking 
+    }, "").exec()
+
     if (!(bookingExists.length > 0)) {
       console.log("Booking does not exist.");
       return res.status(400).json({
@@ -114,9 +141,9 @@ const createRbookings = async (req: Request, res: Response) => {
     }
     console.log("Booking exists!");
 
-    console.log("Checking if id_requirements exists");    
-    const reqList = await Requirement.find({ _id: { $in: req.body.id_requirements } }, '_id').exec()
-    if (req.body.id_requirements.length != reqList.length) {
+    console.log("Checking if id_requirement exists");
+    const reqList = await Requirement.find({ _id: { $in: req.body.id_requirement } }, '_id').exec()
+    if (req.body.id_requirement.length != reqList.length) {
       return res.status(400).json({
         status: "fail",
         message: "One of the Requirement ID does not exist..."
@@ -126,9 +153,9 @@ const createRbookings = async (req: Request, res: Response) => {
 
     // Create array for insertmany
     console.log("Creating insert Arr...");
-    const insertArr = req.body.id_requirements.map((id_requirement: string) => {
+    const insertArr = req.body.id_requirement.map((id_requirement: string) => {
       return {
-        id_booking: req.body.id_booking,
+        id_booking: req.params.id_booking,
         id_requirement: id_requirement
       }
     })
@@ -161,23 +188,45 @@ const createRbookings = async (req: Request, res: Response) => {
   }
 }
 
-const deleteRbookings = async (req: Request, res: Response) => {
+/**🟡
+ * deleteRbookings: Delete Requirement Bookings in an array
+ * 
+ * @param {body} req
+ * @param {string} req.body.id_booking
+ * @param {string[]} req.body.id_requirement
+ * @returns 
+ */
+const deleteRbookings = async (req: CustomRequest, res: Response) => {
   try {
     console.log("/DELETE VENUE REQUIREMENT");
-    // console.log("'id_requirements' in req.body: ", 'id_requirements' in req.body);
-    // console.log("'id' in req.params: ", 'id' in req.params);
-    // console.log("req.body == undefined: ", !req.body);
+
+    const result = await Booking.find({
+      _id: req.params.id_booking, 
+      id_user: req.user.id
+    })
+
+    if (!(result.length > 0)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "This user does not have this booking..."
+      })
+    }
 
     // Deletes all requirements provided
-    if ('id_requirements' in req.body && 'id' in req.params) {
-      // const result = await Rbooking.deleteMany({ id_booking: req.params.id, id_requirement: { $in: req.body.id_requirements } })
-      // console.log("Deleted ", result.deletedCount, " documents");
+    if ('id_requirement' in req.body && 'id_booking' in req.params) {
+      console.log("Deleting selected requirements from booking");
+      
+      const result = await Rbooking.deleteMany({
+        id_booking: req.params.id_booking,
+        id_requirement: {$in: req.body.id_requirement}
+      })
+      console.log("Deleted ", result.deletedCount, " documents");
     }
     // Deletes all requirements of a booking
-    else if ('id' in req.params) {
+    else if ('id_booking' in req.params) {
       console.log("Deleting all requirements...");
-      const result = await Rbooking.deleteMany({ id_booking: req.params.id })
-      console.log("Deleted ", result.deletedCount, " documents");
+      // const result = await Rbooking.deleteMany({ id_booking: req.params.id })
+      // console.log("Deleted ", result.deletedCount, " documents");
     }
     else {
       return res.status(400).json({
@@ -186,7 +235,7 @@ const deleteRbookings = async (req: Request, res: Response) => {
       })
     }
 
-    console.log("Deleted Venue Requirement ID...\n");
+    console.log("Deleted Venue Requirement ID/s...\n");
 
     return res.status(200).json({
       status: "success",

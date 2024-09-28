@@ -28,21 +28,24 @@ function AddBookingForm() {
   const [openDialog, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [validations, setValidations] = useState(null)
-  const [form, setForm] = useState({
+  const defaultForm = {
     purpose: '',
     date_start: '',
     date_end: '',
     num_participants: '',
-    requirements: ''
-  })
+    requirements: []
+  }
+  const [form, setForm] = useState(defaultForm)
 
   // -: RETURN TO LOGIN PAGE IF NO TOKEN IS FOUND
   useIfNoToken()
 
   useEffect(() => {
-    if (validations && Object.keys(validations).length == 0) {
+    if (validations != null && Object.keys(validations).length == 0) {
       setOpenDialog(true)
       addBooking(token, form, setIsLoading)
+      setValidations(null)
+      setForm(defaultForm)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations])
@@ -58,8 +61,6 @@ function AddBookingForm() {
     e.preventDefault()
 
     handleBookingFormValidations(setValidations, form)
-
-    console.log(form)
   }
 
   return (
@@ -91,7 +92,7 @@ function AddBookingForm() {
 
         <div className='flex flex-col grow'>
           <div className="font-semibold mb-1">Venue Requirements</div>
-          <MultiSelect onData={handleForm} />
+          <MultiSelect initialValue={form.requirements} onData={handleForm} />
           <span className="text-red-400 text-sm">
             {(validations && validations.requirements) ? validations.requirements : ""}
           </span>
@@ -113,6 +114,7 @@ function AddBookingForm() {
                 <div className='flex gap-2'>
                   <button 
                   onClick={() => {
+                    setForm(defaultForm)
                     navigate(0)
                   }} 
                   className='bg-green-500 text-white text-center rounded-lg py-2 basis-[50%]'>

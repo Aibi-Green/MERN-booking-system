@@ -12,7 +12,7 @@ export const getBookings = (onData) => {
 }
 
 /** ✅
- * UserBookings: Get All bookings of specified user ID
+ * getUserBookings: Get All bookings of specified user ID
  * w/ search function
  * 
  * @param {string} token
@@ -64,17 +64,19 @@ export const getUserBookings = async (token, urlSearchStr, dispatch) => {
 export const viewBooking = async (token, id_booking, onData, isLoading) => {
   try {
     isLoading(true)
-    const url = `${backendUrl}/bookings/booking/${id_booking}`
 
     const bookingController = new AbortController()
-    const bookingResponse = await fetch(url, {
-      signal: bookingController.signal,
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+    const bookingResponse = await fetch(
+      `${backendUrl}/bookings/booking/${id_booking}`,
+      {
+        signal: bookingController.signal,
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
 
     if (!bookingResponse.ok) {
       const error = await bookingResponse.json()
@@ -86,14 +88,17 @@ export const viewBooking = async (token, id_booking, onData, isLoading) => {
 
     const rbookController = new AbortController()
 
-    const rbookResponse = await fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
-      signal: rbookController.signal,
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+    const rbookResponse = await fetch(
+      `${backendUrl}/rbookings/booking/${id_booking}`,
+      {
+        signal: rbookController.signal,
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
 
     if (!rbookResponse.ok) {
       const error = await rbookResponse.json()
@@ -101,6 +106,7 @@ export const viewBooking = async (token, id_booking, onData, isLoading) => {
     }
 
     const rbookJson = await rbookResponse.json()
+    console.log(rbookJson);
 
     const requirements = rbookJson.data.map(i => i.id_requirement)
 
@@ -187,7 +193,7 @@ export const addBooking = async (token, payload, setIsLoading) => {
     console.log(jsonBookings)
 
     const resReqBookings = await fetch(
-      `${backendUrl}/rbookings`,
+      `${backendUrl}/rbookings/booking/${jsonBookings.id_booking}`,
       {
         signal: reqBookingController.signal,
         method: "POST",
@@ -196,7 +202,6 @@ export const addBooking = async (token, payload, setIsLoading) => {
           "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
-          id_booking: jsonBookings.id_booking,
           id_requirements: payload.requirements
         })
       }
@@ -233,57 +238,125 @@ export const addBooking = async (token, payload, setIsLoading) => {
  * 
  * @param {string} token 
  * @param {object} payload
- * @param {string} payload.purpose - The purpose of the booking.
- * @param {string} payload.date_start - The start date in ISO 8601 format (YYYY-MM-DD).
- * @param {string} payload.date_end - The end date in ISO 8601 format (YYYY-MM-DD).
- * @param {number} payload.num_participants - The number of participants/guests.
- * @param {number[]} payload.requirements - An array containing requirement IDs.
+ * @param {string} payload.purpose? - The purpose of the booking.
+ * @param {string} payload.date_start? - The start date in ISO 8601 format (YYYY-MM-DD).
+ * @param {string} payload.date_end? - The end date in ISO 8601 format (YYYY-MM-DD).
+ * @param {number} payload.num_participants? - The number of participants/guests.
+ * @param {string[]} payload.requirements? - An array containing requirement IDs.
  */
-export const editBooking = (id_booking, token, payload) => {
-  fetch(`${backendUrl}/bookings/booking/${id_booking}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      purpose: payload.purpose,
-      date_start: payload.date_start,
-      date_end: payload.date_end,
-      num_participants: payload.num_participants
-    })
-  })
-    .then(response => response.json())
-    .then(json => {
-      console.log(json);
-      // console.log("REQUIREMENTS: ", payload.requirements);
+export const editBooking = async (token, id_booking, payload, isLoading) => {
+  try {
+    isLoading(true)
+    const controllers = []
 
-      // Deletes all existing bookings requirements
-      fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
-        method: "DELETE"
+    // First Booking Details
+    const payloadBooking = {}
+
+    Object.keys(payload).forEach(i => {
+      if ((payload[i] != '' || payload[i] != 0) && i != 'requirements') {
+        payloadBooking[i] = payload[i]
+      }
+    })    
+
+    if (Object.keys(payloadBooking) != 0) {
+      const controllerBooking = new AbortController()
+      controllers.push(controllerBooking)
+
+      const responseBooking = await fetch(
+        `${backendUrl}/bookings/booking/${id_booking}`,
+        {
+          signal: controllerBooking.signal,
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payloadBooking)
+        }
+      )
+
+      if (!responseBooking.ok) {
+        const error = await responseBooking.json()
+        throw new Error(error.message)
+      }
+
+      const jsonResponseBooking = await responseBooking.json()
+      console.log(jsonResponseBooking)
+    }
+
+    // Second Add Booking Requirements
+    if (payload.requirements.add_places.length != 0) {
+      const payloadRbookingAdd = {
+        id_requirement: payload.requirements.add_places
+      }
+  
+      const controllerRbookingAdd = new AbortController()
+      controllers.push(controllerRbookingAdd)
+  
+      const responseRbookingAdd = await fetch(
+        `${backendUrl}/rbookings/booking/${id_booking}`,
+        {
+          signal: controllerRbookingAdd.signal,
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payloadRbookingAdd)
+        }
+      )
+  
+      if (!responseRbookingAdd.ok) {
+        const error = await responseRbookingAdd.json()
+        throw new Error(error.message)
+      }
+  
+      const jsonResponseRbookingAdd = await responseRbookingAdd.json()
+      console.log(jsonResponseRbookingAdd);
+    }
+
+    // Third Remove Booking Requirements
+    if (payload.requirements.remove_places.length != 0) {
+      const payloadRbookingRemove = {
+        id_requirement: payload.requirements.remove_places
+      }
+  
+      const controllerRbookingRemove = new AbortController()
+      controllers.push(controllerRbookingRemove)
+  
+      const responseRbookingRemove = await fetch(
+        `${backendUrl}/rbookings/booking/${id_booking}`,
+        {
+          signal: controllerRbookingRemove.signal,
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payloadRbookingRemove)
+        }
+      )
+  
+      if (!responseRbookingRemove.ok) {
+        const error = await responseRbookingRemove.json()
+        throw new Error(error.message)
+      }
+  
+      const jsonResponseRbookingRemove = await responseRbookingRemove.json()
+      console.log(jsonResponseRbookingRemove);
+    }
+
+    isLoading(false)
+
+    return () => {
+      controllers.forEach(fn => {
+        fn.abort()
       })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
+    }
 
-          fetch(`${backendUrl}/rbookings`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              id_booking: id_booking,
-              id_requirements: payload.requirements
-            })
-          })
-            .then(response => response.json())
-            .then(json => {
-              console.log(json)
-            })
-            .catch(error => console.error(error))
-        })
-        .catch(error => console.error(error))
-    })
-    .catch(error => console.error(error))
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 // USER

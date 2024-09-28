@@ -31,13 +31,13 @@ export const handleBookingFormValidations = (setValidations, fieldValues) => {
     errors.date = "Start and end date must be 1 hour or 1 day apart"
   }
 
-  if (fieldValues.num_participants > 5000) {
+  if (fieldValues.num_participants && fieldValues.num_participants > 5000) {
     errors.num_participants = "Please enter a number below the maximum number of guests."
   } else if (fieldValues.num_participants == 0) {
     errors.num_participants = "Please enter a number greater than 0 for guests."
   }
 
-  if (fieldValues.requirements.length == 0) {
+  if (fieldValues.requirements && fieldValues.requirements.length == 0) {
     errors.requirements = "Please pick at least one place under venue requirements"
   }
 

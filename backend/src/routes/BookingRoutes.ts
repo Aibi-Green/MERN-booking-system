@@ -24,8 +24,8 @@ router
     // Get specific booking
     .get(authenticateToken, BookingController.getOneBooking)
     // Edit a booking account
-    .put(BookingController.editBooking)
+    .put(authenticateToken, BookingController.editBooking)
     // Delete a specific booking
-    .delete(BookingController.deleteBooking)
+    .delete(authenticateToken, BookingController.deleteBooking)
 
 export default router

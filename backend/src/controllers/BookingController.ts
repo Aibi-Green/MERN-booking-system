@@ -35,8 +35,8 @@ const getBookings = async (req: Request, res: Response) => {
  * ViewBooking: Get One Booking
  * 
  * @param {object} req contains the following
- * @param {object} req.params.id_booking
- * @param {object} req.user.id
+ * @param {string} req.params.id_booking
+ * @param {string} req.user.id
  * @returns 
  */
 const getOneBooking = async (req: CustomRequest, res: Response) => {
@@ -291,13 +291,18 @@ const createUserBooking = async (req: CustomRequest, res: Response) => {
 /**🟡
  * Edit Booking
  * 
- * @param req 
- * @param res 
+ * @param {object} req 
+ * @param {object} req.user
+ * @param {string} req.user.id_booking
+ * @param {string} req.body.purpose 
+ * @param {string} req.body.date_start
+ * @param {string} req.body.date_end
+ * @param {number} req.body.num_participants
  * @returns 
  */
 const editBooking = async (req: Request, res: Response) => {
   try {
-    const booking = await Booking.findById(req.params.id).exec()
+    const booking = await Booking.findById(req.params.id_booking).exec()
 
     if (!booking) {
       return res.status(404).json({
@@ -305,10 +310,9 @@ const editBooking = async (req: Request, res: Response) => {
         message: "Booking ID does not exist."
       })
     }
-    console.log(req.body)
     const { date_requested, ...updatedBody } = req.body
 
-    await Booking.updateOne({ _id: req.params.id }, updatedBody)
+    await Booking.updateOne({ _id: req.params.id_booking }, updatedBody)
 
 
     console.log("/UPDATE BOOKING");
@@ -341,7 +345,7 @@ const deleteBooking = async (req: Request, res: Response) => {
   try {
     console.log("/DELETE BOOKING");
 
-    const booking = await Booking.findById(req.params.id).exec()
+    const booking = await Booking.findById(req.params.id_booking).exec()
     if (!booking) {
       return res.status(404).json({
         status: "fail",
@@ -350,12 +354,12 @@ const deleteBooking = async (req: Request, res: Response) => {
     }
 
     console.log("Deleting Booking Requirements ...");
-    const result = await Rbooking.deleteMany({ id_booking: req.params.id })
+    const result = await Rbooking.deleteMany({ id_booking: req.params.id_booking })
     console.log("Deleted ", result.deletedCount, " booking requirements.");
 
 
     console.log("Deleting Booking...");
-    await Booking.deleteOne({ _id: req.params.id })
+    await Booking.deleteOne({ _id: req.params.id_booking })
     console.log("Deleted Booking ID...\n");
 
     return res.status(200).json({
