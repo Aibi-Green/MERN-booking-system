@@ -7,6 +7,7 @@ function UserNavBar() {
   const [open, setOpen] = useState(false)
   const { logoutRemoveToken } = useAuthContext()
   const navigate = useNavigate()
+  const {email} = useAuthContext()
 
   const handleLogout = () => {
     logoutRemoveToken()
@@ -26,7 +27,7 @@ function UserNavBar() {
   const UserMenu = () => {
     return(
       <div id='userMenu'>
-        Welcome Back, <span className="temp">Temporary</span>
+        <span className="">{email}</span>
         <ChevronDown className="ml-3 inline-block select-none" onClick={() => setOpen(!open)} />
       </div>
     )

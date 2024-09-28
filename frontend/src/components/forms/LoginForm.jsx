@@ -10,7 +10,7 @@ import { EyeIcon, EyeOffIcon, Mail } from "lucide-react"
 
 function LoginForm() {
   const { token, loginNewToken } = useAuthContext()
-  const [errors, setErrors] = useState()
+  // const [errors, setErrors] = useState()
   const navigate = useNavigate()
   const [hidden, setHidden] = useState(true)
 
@@ -32,7 +32,7 @@ function LoginForm() {
     login({
       email: email,
       password: password
-    }, loginNewToken, setErrors);
+    }, loginNewToken);
   }
 
   return (
@@ -52,9 +52,9 @@ function LoginForm() {
               <EyeIcon className="size-6 opacity-80" onClick={() => setHidden(true)} />} />
         </Label>
       </div>
-      <div className="flex justify-center h-[1rem]">
+      {/* <div className="flex justify-center h-[1rem]">
         <div className="text-red-500">{errors}</div>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-2">
         <LoginButton isLink={false} />
         <RegisterButton />

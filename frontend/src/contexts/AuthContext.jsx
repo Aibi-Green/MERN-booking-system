@@ -36,15 +36,40 @@ export const AuthContextProvider = ({ children }) => {
     }
     return null
   })
+  const [email, setEmail] = useState(() => {
+    const savedToken = localStorage.getItem('authToken')
+    const email = localStorage.getItem('email')
 
-  const loginNewToken = (newToken) => {
+    let expiry = 0
+    if (savedToken) {
+      expiry = jwtDecode(savedToken).exp * 1000
+    }
+
+    if (email && expiry) {
+      const now = new Date()
+      
+      if (now.getTime() > expiry) {
+        localStorage.removeItem('email')
+        return null
+      }
+      return email
+    }
+    return null
+
+  })
+
+  const loginNewToken = (newToken, email) => {
     localStorage.setItem('authToken', newToken)
+    localStorage.setItem('email', email)
     setToken(newToken)
+    setEmail(email)
   }
 
   const logoutRemoveToken = () => {
     localStorage.removeItem('authToken')
+    localStorage.removeItem('email')
     setToken(null)
+    setEmail(null)
   }
 
   useEffect(() => {
@@ -64,7 +89,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [token])
 
   return (
-    <AuthContext.Provider value={{ token, loggedInUserId, loginNewToken, logoutRemoveToken }}>
+    <AuthContext.Provider value={{ token, email, loggedInUserId, loginNewToken, logoutRemoveToken }}>
       {children}
     </AuthContext.Provider>
   )

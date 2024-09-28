@@ -120,12 +120,15 @@ const logInUser = async (req: Request, res: Response) => {
         console.log("LOGGIN IN!");
 
         const user: any = await User.login(req.body)
+        console.log(user);
+        
         const token = await User.createToken(user._id)
 
         return res.status(201).json({
             status: "success",
             message: "User successfully logged in!",
             token: token,
+            email: user.email,
             method: "POST"
         })
     } catch (e: any) {
@@ -151,7 +154,7 @@ const editUser = async (req: Request, res: Response) => {
             })
         } else {
             console.log("request body has password");
-            
+
             const user = await User.changePassword(req.params.id, req.body)
 
             console.log("/UPDATE USER");
