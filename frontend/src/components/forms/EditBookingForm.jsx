@@ -13,7 +13,6 @@ import DateRange from "../ui/DateRange"
 import MultiSelect from "../MultiSelect.jsx"
 import { handleBookingFormValidations } from "../validations/FormValidations.js"
 import { useAuthContext } from "../../hooks/useAuthContext.jsx"
-import { useIfNoToken } from "../../hooks/useIfNoToken.jsx"
 import StatusTags from "../ui/StatusTags.jsx"
 import InlineError from "../InlineError.jsx"
 
@@ -35,8 +34,6 @@ function EditBookingForm() {
   const guestsRef = useRef(null)
   const [isLoading, setIsLoading] = useState(true)
   const [validations, setValidations] = useState(null)
-
-  useIfNoToken()
 
   useEffect(() => {
     viewBooking(token, params.id_booking, setData, setIsLoading)
@@ -99,7 +96,7 @@ function EditBookingForm() {
       editBooking(token, id_booking, payload, setIsLoading)
       setValidations(null)
     }
-  }, [validations, data, form, token, id_booking, defaultForm])
+  }, [validations, data, form, token, id_booking])
 
   const handleForm = (e) => {
     setForm({

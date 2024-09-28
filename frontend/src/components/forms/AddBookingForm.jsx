@@ -13,7 +13,6 @@ import { useAuthContext } from '../../hooks/useAuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import Dialog from '../ui/Dialog.jsx'
 import LoaderIcon from '../ui/LoaderIcon.jsx'
-import { useIfNoToken } from '../../hooks/useIfNoToken.jsx'
 
 /**
  * ✅ functions
@@ -36,9 +35,6 @@ function AddBookingForm() {
     requirements: []
   }
   const [form, setForm] = useState(defaultForm)
-
-  // -: RETURN TO LOGIN PAGE IF NO TOKEN IS FOUND
-  useIfNoToken()
 
   useEffect(() => {
     if (validations != null && Object.keys(validations).length == 0) {

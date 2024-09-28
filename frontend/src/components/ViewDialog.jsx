@@ -6,15 +6,15 @@ import LoaderIcon from "./ui/LoaderIcon.jsx";
 import BigDialog from "./ui/BigDialog.jsx";
 import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
 
-function ViewDialog({ onClose, id }) {
+function ViewDialog({ onClose, id_booking }) {
   const { bookings } = useBookingsContext()
-  const data = bookings.find(i => i._id == id)
+  const data = bookings.find(i => i._id == id_booking)
 
   return (
     <BigDialog className="min-h-[500px] gap-5">
       <div className="w-full text-center">
         <h4 className="text-xl font-bold">Booking Details</h4>
-        <p className="text-sm opacity-40">ID: {id}</p>
+        <p className="text-sm opacity-40">ID: {id_booking}</p>
         {/* <div className="border px-2 bg-slate-300" onClick={() => console.log(data)}>
           Click to show one requirement type
         </div> */}
@@ -51,6 +51,8 @@ function ViewDialog({ onClose, id }) {
             <div>
               <span className='opacity-90 mr-4'>Expected Guests:</span><span>{data.num_participants}</span>
             </div>
+
+            <hr className="h-1 w-full bg-slate-100 mt-3 rounded-full" />
 
             <div className="mt-5 flex flex-col grow items-center">
               <span className="opacity-90">Venue Requirements:</span>
@@ -91,7 +93,7 @@ function ViewDialog({ onClose, id }) {
 
 ViewDialog.propTypes = {
   onClose: PropTypes.func,
-  id: PropTypes.string
+  id_booking: PropTypes.string
 }
 
 export default ViewDialog
