@@ -115,6 +115,14 @@ const signUpUser = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * 
+ * @param {object} req 
+ * @param {string} req.body.email
+ * @param {string} req.body.password
+ * @param res 
+ * @returns 
+ */
 const logInUser = async (req: Request, res: Response) => {
     try {
         console.log("LOGGIN IN!");

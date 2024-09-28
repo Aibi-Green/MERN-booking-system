@@ -7,10 +7,10 @@ import { backendUrl } from "../assets/Data"
  * @param {string} form.password
  * @param {function} setToken 
  * @param {function} setUser 
- * @param {function} setErrors 
+ * @param {function} setValidations
  * @returns 
  */
-export const login = async (form, setToken) => {
+export const login = async (form, setToken, setValidations) => {
   try {
     const controller = new AbortController()
     const response = await fetch(
@@ -30,6 +30,7 @@ export const login = async (form, setToken) => {
 
     if(!response.ok) {
       const error = await response.json()
+      setValidations({all: error.message})
       throw new Error(error.message)
     }
 

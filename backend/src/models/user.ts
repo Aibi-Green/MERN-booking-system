@@ -98,7 +98,7 @@ userSchema.static("login", async function login(input) {
     const user = await this.findOne({email: input.email})
 
     if (!user) {
-        throw new Error("Incorrect email.")
+        throw new Error("Invalid login credentials")
     }
 
     const match = await bcrypt.compare(input.password, user.password)

@@ -1,7 +1,28 @@
 import { purposes } from '../../assets/Data.jsx'
 
+// Regex Validations
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+function validateUsername(username) {
+  const usernameRegex = /^[a-zA-Z0-9_]+$/
+  return usernameRegex.test(username)
+}
+
+function validateContactNumber(contact_number) {
+  const contactNumberRegex = /^\d{10}$/
+  return contactNumberRegex.test(contact_number)
+}
+
+function validatePassword(password) {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
+  return passwordRegex.test(password)
+}
+
 /** 🟢
- * Validates the field values of AddbookingForm
+ * Validates the field values of AddbookingForm and EditBookingForm
  * 
  * @param {function(Object)} setValidations - a callback function that sets validation on the component its invoked on.
  * @param {object} fieldValues - Ab object that contains field values to validate.
@@ -44,27 +65,18 @@ export const handleBookingFormValidations = (setValidations, fieldValues) => {
   setValidations(errors)
 }
 
-function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-function validateUsername(username) {
-  const usernameRegex = /^[a-zA-Z0-9_]+$/
-  return usernameRegex.test(username)
-}
-
-function validateContactNumber(contact_number) {
-  const contactNumberRegex = /^\d{10}$/
-  return contactNumberRegex.test(contact_number)
-}
-
-function validatePassword(password) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
-  return passwordRegex.test(password)
-}
-
-export const handleRegisterFormValidations = (setErrors, fieldValues) => {
+/** ❌
+ * Validates the field values of EditBookingForm
+ * `
+ * @param {function(Object)} setValidations - a callback function that sets validation on the component its invoked on.
+ * @param {object} fieldValues - Ab object that contains field values to validate.
+ * @param {string} fieldValues.purpose - The purpose of the booking.
+ * @param {string} fieldValues.date_start - The start date in ISO 8601 format (YYYY-MM-DD).
+ * @param {string} fieldValues.date_end - The end date in ISO 8601 format (YYYY-MM-DD).
+ * @param {number} fieldValues.num_participants - The number of participants/guests.
+ * @param {string[]} fieldValues.requirements - An array containing requirement IDs.
+ */
+export const handleRegisterFormValidations = (setValidations, fieldValues) => {
   const errors = {}
 
   if (!fieldValues.email) {
@@ -110,9 +122,36 @@ export const handleRegisterFormValidations = (setErrors, fieldValues) => {
     errors.confirm_password = "Passwords do not match"
   }
 
-  setErrors(errors)
+  setValidations(errors)
 }
 
+/**
+ * 
+ * @param {function} setValidations 
+ * @param {object} fieldValues Contains the following:
+ * @param {string} fieldValues.email
+ * @param {string} fieldValues.password
+ */
+export const handleLoginValidations = (setValidations, fieldValues) => {
+  let errors = {}
+  if (!fieldValues.email) {
+    errors.email = "Email is required"
+  } else if (!validateEmail(fieldValues.email)) {
+    errors.email = "Email is not valid"
+  }
+
+  if (!fieldValues.password) {
+    errors.password = "Password is required"
+  }
+
+  setValidations(errors)
+}
+
+/**
+ * 
+ * @param {*} setErrors 
+ * @param {*} fieldValues 
+ */
 export const handleEditAccFormValidations = (setErrors, fieldValues) => {
   const errors = {}
 
