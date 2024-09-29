@@ -60,7 +60,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const loginNewToken = (newToken, email) => {
     localStorage.setItem('authToken', newToken)
-    localStorage.setItem('email', email)
+    // TODO: change to jwtdecode
+    localStorage.setItem('email', email) 
     setToken(newToken)
     setEmail(email)
   }

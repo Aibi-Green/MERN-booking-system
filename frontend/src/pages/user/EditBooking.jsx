@@ -1,6 +1,6 @@
-import ContentContainer from "../components/ContentContainer"
-import EditBookingForm from "../components/forms/EditBookingForm"
-import TitleContainer from "../components/TitleContainer"
+import ContentContainer from "../../components/ContentContainer"
+import EditBookingForm from "../../components/forms/EditBookingForm"
+import TitleContainer from "../../components/TitleContainer"
 
 function EditBooking() {
   return (

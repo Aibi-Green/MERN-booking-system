@@ -6,7 +6,7 @@ import { Check } from 'lucide-react'
 // Converted to forward Ref to pass ref to custom components
 const Input = forwardRef((
   { id, name, list, type, value, placeholder, onClick, onChange, className, onFocus,
-    onBlur, disabled, icon, withCheck, loading },
+    onBlur, disabled, icon, withCheck, loading, defaultValue },
   ref) => {
   return (
     (icon) ? (
@@ -36,7 +36,7 @@ const Input = forwardRef((
     ) : (
       <input
         id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
-        onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
+        onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} defaultValue={defaultValue} ref={ref}
         className={`p-3 rounded-md border ${className}`} disabled={disabled} />
     ))
   )
@@ -62,7 +62,8 @@ Input.propTypes = {
   icon: PropTypes.node,
   name: PropTypes.string,
   withCheck: PropTypes.bool,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  defaultValue: PropTypes.string
 }
 
 export default Input

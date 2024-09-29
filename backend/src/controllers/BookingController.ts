@@ -31,7 +31,7 @@ const getBookings = async (req: Request, res: Response) => {
   }
 }
 
-/**🟡
+/**✅
  * ViewBooking: Get One Booking
  * 
  * @param {object} req contains the following
@@ -288,7 +288,7 @@ const createUserBooking = async (req: CustomRequest, res: Response) => {
 }
 
 
-/**🟡
+/**✅
  * Edit Booking
  * 
  * @param {object} req 
@@ -341,6 +341,13 @@ const editBooking = async (req: Request, res: Response) => {
   }
 }
 
+/**🟡
+ * Delete One Booking
+ * 
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 const deleteBooking = async (req: Request, res: Response) => {
   try {
     console.log("/DELETE BOOKING");

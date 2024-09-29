@@ -22,7 +22,7 @@ function validatePassword(password) {
 }
 
 /** 🟢
- * Validates the field values of AddbookingForm and EditBookingForm
+ * Validates the field values of AddbookingForm
  * 
  * @param {function(Object)} setValidations - a callback function that sets validation on the component its invoked on.
  * @param {object} fieldValues - Ab object that contains field values to validate.
@@ -58,7 +58,7 @@ export const handleBookingFormValidations = (setValidations, fieldValues) => {
     errors.num_participants = "Please enter a number greater than 0 for guests."
   }
 
-  if (fieldValues.requirements && fieldValues.requirements.length == 0) {
+  if (fieldValues.requirements && fieldValues.requirements != null && fieldValues.requirements.length == 0) {
     errors.requirements = "Please pick at least one place under venue requirements"
   }
 
@@ -66,7 +66,7 @@ export const handleBookingFormValidations = (setValidations, fieldValues) => {
 }
 
 /** ❌
- * Validates the field values of EditBookingForm
+ * Validates the field values of Register Form
  * `
  * @param {function(Object)} setValidations - a callback function that sets validation on the component its invoked on.
  * @param {object} fieldValues - Ab object that contains field values to validate.
@@ -125,7 +125,8 @@ export const handleRegisterFormValidations = (setValidations, fieldValues) => {
   setValidations(errors)
 }
 
-/**
+/**✅
+ * Login Validations
  * 
  * @param {function} setValidations 
  * @param {object} fieldValues Contains the following:
@@ -147,12 +148,13 @@ export const handleLoginValidations = (setValidations, fieldValues) => {
   setValidations(errors)
 }
 
-/**
+/**🟡
+ * Edit Account Validations
  * 
- * @param {*} setErrors 
- * @param {*} fieldValues 
+ * @param {function} setErrors 
+ * @param {object} fieldValues 
  */
-export const handleEditAccFormValidations = (setErrors, fieldValues) => {
+export const handleEditAccFormValidations = (setValidations, fieldValues) => {
   const errors = {}
 
   if (!fieldValues.email) {
@@ -182,5 +184,5 @@ export const handleEditAccFormValidations = (setErrors, fieldValues) => {
     errors.contact_number = "Please enter a valid phone number"
   }
   
-  setErrors(errors)
+  setValidations(errors)
 }

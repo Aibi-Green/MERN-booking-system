@@ -1,6 +1,7 @@
 import { backendUrl } from "../assets/Data"
 
-/**
+/**✅
+ * Login
  * 
  * @param {object} form 
  * @param {string} form.email
@@ -14,7 +15,7 @@ export const login = async (form, setToken, setValidations) => {
   try {
     const controller = new AbortController()
     const response = await fetch(
-      `${backendUrl}/users/login`, 
+      `${backendUrl}/users/login`,
       {
         signal: controller.signal,
         method: "POST",
@@ -28,9 +29,9 @@ export const login = async (form, setToken, setValidations) => {
       }
     )
 
-    if(!response.ok) {
+    if (!response.ok) {
       const error = await response.json()
-      setValidations({all: error.message})
+      setValidations({ all: error.message })
       throw new Error(error.message)
     }
 
@@ -43,25 +44,6 @@ export const login = async (form, setToken, setValidations) => {
   } catch (e) {
     console.error(e)
   }
-  console.log("LOGGING IN");
-
-  // fetch(`${backendUrl}/users/login`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify(reqBody)
-  // })
-  //   .then(response => response.json())
-  //   .then(json => {
-  //     console.log(json)
-  //     setToken(json.token)
-  //     if (json.status == "fail") {
-  //       setErrors(json.message)
-  //     } else {
-  //       setErrors("")
-  //     }
-  //   })
 }
 
 export const signup = async (reqBody) => {
@@ -85,44 +67,92 @@ export const signup = async (reqBody) => {
   }
 }
 
+/**✅
+ * Get One User Details
+ * 
+ * @param {string} id UserID
+ * @param {function} setData 
+ * @param {function} isLoading 
+ */
+export const getOneUser = async (token, setData) => {
+  try {
+    const controller = new AbortController()
 
-export const getOneUser = async (id, onData, isLoading) => {
-  console.log("GETTING ONE USER");
-  isLoading(true)
+    const response = await fetch(
+      `${backendUrl}/users/profile`,
+      {
+        signal: controller.signal,
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    )
 
-  const response = await fetch(`${backendUrl}/users/${id}`, {
-    method: "GET"
-  })
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error)
+    }
 
-  const json = await response.json()
-
-  if (response.ok) {
+    const json = await response.json()
     console.log(json);
-    onData(json.data)
-  } else {
-    console.log(json);
+
+    setData(json.data[0])
+
+    return () => {
+      controller.abort()
+    }
+  } catch (e) {
+    console.error(e)
   }
-
-  isLoading(false)
-
 }
 
-export const editAccountDetails = async (id, reqBody, setErrors) => {
-  console.log("EDIT ACCOUNT DETAILS");
+/**🟡
+ * Edit Account Details
+ * 
+ * @param {string} token 
+ * @param {object} form 
+ * @param {string} form.username?
+ * @param {string} form.email?
+ * @param {string} form.name?
+ * @param {string} form.contact_person?
+ * @param {string} form.contact_number?
+ * @param {boolean} setIsLoading 
+ */
+export const editAccountDetails = async (token, form, setIsLoading) => {
+  try {
+    const controller = new AbortController()
 
-  console.log(reqBody);
+    const response  = await fetch(
+      `${backendUrl}/users/profile`,
+      {
+        signal: controller.signal,
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      }
+    )
 
-  const response = await fetch(`${backendUrl}/users/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(reqBody)
-  })
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message)
+    }
 
-  const json = await response.json()
-  console.log(json);
-  setErrors(json)
+    const json = await response.json()
+    console.log(json);
+    console.log(Object.keys(form));
+    
+    setIsLoading(false)
+
+    return () => controller.abort()
+    
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export const editAccountPassword = async (id, reqBody, setErrors) => {

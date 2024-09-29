@@ -1,13 +1,13 @@
 import { Navigate, Routes, Route } from "react-router-dom";
-import UserBookings from "./pages/UserBookings.jsx";
+import UserBookings from "./pages/user/UserBookings.jsx";
 import UserLayout from "./layouts/UserLayout.jsx"
 import Practice from "./pages/Practice.jsx"
-import AddBooking from "./pages/AddBooking.jsx";
-import EditBooking from "./pages/EditBooking.jsx";
+import AddBooking from "./pages/user/AddBooking.jsx";
+import EditBooking from "./pages/user/EditBooking.jsx";
 import NormLayout from "./layouts/NormLayout.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import EditProfile from "./pages/EditProfile.jsx";
+import EditProfile from "./pages/user/EditProfile.jsx";
 
 function AppRoutes() {
 

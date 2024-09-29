@@ -15,19 +15,9 @@ import Dialog from '../ui/Dialog.jsx'
 import LoaderIcon from '../ui/LoaderIcon.jsx'
 import InlineError from '../InlineError.jsx'
 
-/**
- * ✅ functions
- * ❌ CSS
- * 
- * @returns Add Booking Form Content
- */
+// TODO: prevent form from firing up the handleSubmit function whenever the page refreshes
+// or find some other way to clear the form
 function AddBookingForm() {
-  const navigate = useNavigate()
-  const { token } = useAuthContext()
-  const guestsRef = useRef(null)
-  const [openDialog, setOpenDialog] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [validations, setValidations] = useState(null)
   const defaultForm = {
     purpose: '',
     date_start: '',
@@ -35,17 +25,21 @@ function AddBookingForm() {
     num_participants: '',
     requirements: []
   }
+  
+  const navigate = useNavigate()
+  const { token } = useAuthContext()
+  const guestsRef = useRef(null)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [validations, setValidations] = useState(null)
   const [form, setForm] = useState(defaultForm)
 
   useEffect(() => {
     if (validations != null && Object.keys(validations).length == 0) {
       setOpenDialog(true)
       addBooking(token, form, setIsLoading)
-      setValidations(null)
-      setForm(defaultForm)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validations])
+  }, [form, token, validations])
 
   const handleForm = (e) => {
     setForm({
@@ -104,8 +98,9 @@ function AddBookingForm() {
                   <button 
                   onClick={() => {
                     setForm(defaultForm)
+                    setValidations(null)
                     navigate(0)
-                  }} 
+                  }} type='button'
                   className='bg-green-500 text-white text-center rounded-lg py-2 basis-[50%]'>
                     Create Another
                   </button>

@@ -142,7 +142,10 @@ const createRbookings = async (req: CustomRequest, res: Response) => {
     console.log("Booking exists!");
 
     console.log("Checking if id_requirement exists");
-    const reqList = await Requirement.find({ _id: { $in: req.body.id_requirement } }, '_id').exec()
+    const reqList = await Requirement.find(
+      { _id: { $in: req.body.id_requirement } }, 
+      '_id'
+    ).exec()
     if (req.body.id_requirement.length != reqList.length) {
       return res.status(400).json({
         status: "fail",

@@ -1,7 +1,7 @@
-import SearchUserBookingsForm from '../components/forms/SearchUserBookingsForm.jsx';
-import TitleContainer from '../components/TitleContainer.jsx';
-import ListBooking from '../components/ListBooking.jsx';
-import ContentContainer from '../components/ContentContainer.jsx';
+import SearchUserBookingsForm from '../../components/forms/SearchUserBookingsForm.jsx';
+import TitleContainer from '../../components/TitleContainer.jsx';
+import ListBooking from '../../components/ListBooking.jsx';
+import ContentContainer from '../../components/ContentContainer.jsx';
 
 function UserBookings() {
   return (

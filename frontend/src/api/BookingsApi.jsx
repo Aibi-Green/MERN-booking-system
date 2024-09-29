@@ -124,34 +124,6 @@ export const viewBooking = async (token, id_booking, onData, isLoading) => {
   } finally {
     isLoading(false)
   }
-
-
-  // fetch(`${backendUrl}/bookings/booking/${id_booking}`, {
-  //   method: "GET"
-  // })
-  //   .then(response => response.json())
-  //   .then(jsonBooking => {
-  //     fetch(`${backendUrl}/rbookings/booking/${id_booking}`, {
-  //       method: "GET"
-  //     })
-  //       .then(response => response.json())
-  //       .then(jsonReqs => {
-  //         fetch(`${backendUrl}/rtypes`, {
-  //           method: "GET"
-  //         })
-  //           .then(response => response.json())
-  //           .then(jsonTypes => {
-  //             onData({
-  //               ...jsonBooking.data,
-  //               requirements: jsonReqs.data,
-  //               types: jsonTypes.data
-  //             })
-  //             isLoading(false)
-  //           })
-  //       })
-  //       .catch(error => console.error(error))
-  //   })
-  //   .catch(error => console.error(error))
 }
 
 /** ✅
@@ -167,7 +139,6 @@ export const viewBooking = async (token, id_booking, onData, isLoading) => {
  */
 export const addBooking = async (token, payload, setIsLoading) => {
   try {
-    setIsLoading(true)
     const bookingController = new AbortController();
     const reqBookingController = new AbortController();
 
@@ -202,7 +173,7 @@ export const addBooking = async (token, payload, setIsLoading) => {
           "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
-          id_requirements: payload.requirements
+          id_requirement: payload.requirements
         })
       }
     )
@@ -214,9 +185,6 @@ export const addBooking = async (token, payload, setIsLoading) => {
 
     const jsonReqBookings = await resReqBookings.json()
     console.log(jsonReqBookings);
-
-    if (jsonReqBookings.ok)
-      console.log(jsonReqBookings)
 
     setIsLoading(false)
 

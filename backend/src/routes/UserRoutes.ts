@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import UserController from '../controllers/UserController'
+import { authenticateToken } from '../middleware/authenticateToken'
 
 const router = Router()
 
@@ -8,13 +9,12 @@ router
     // Get all user accounts
     .get(UserController.getUsers)
 
-// routes with ids
 router
     .route('/profile')
-    // Get specific user account by ID or by searching all fields
-    .get(UserController.getOneUser)
+    // Get specific user account
+    .get(authenticateToken, UserController.getOneUser)
     // Edit a user account
-    .put(UserController.editUser)
+    .put(authenticateToken, UserController.editUser)
     // Delete a specific user account
     .delete(UserController.deleteUser)
 
@@ -23,7 +23,7 @@ router
     // Create user account
     .post(UserController.signUpUser)
 
-    router
+router
     .route('/login')
     // Create user account
     .post(UserController.logInUser)

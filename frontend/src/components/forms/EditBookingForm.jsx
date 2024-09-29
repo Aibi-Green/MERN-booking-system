@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-
 import Label from "../ui/Label.jsx"
 import { editBooking, viewBooking } from "../../api/BookingsApi.jsx"
 import SubmitButton from "../buttons/SubmitButton"
@@ -15,6 +14,7 @@ import { handleBookingFormValidations } from "../validations/FormValidations.jsx
 import { useAuthContext } from "../../hooks/useAuthContext.jsx"
 import StatusTags from "../ui/StatusTags.jsx"
 import InlineError from "../InlineError.jsx"
+import Dialog from "../ui/Dialog.jsx"
 
 function EditBookingForm() {
   const defaultForm = {
@@ -30,22 +30,23 @@ function EditBookingForm() {
   const { token } = useAuthContext()
   const [data, setData] = useState()
   const [form, setForm] = useState(defaultForm)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const guestsRef = useRef(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [dataLoading, setDataLoading] = useState(true)
   const [validations, setValidations] = useState(null)
 
   useEffect(() => {
-    viewBooking(token, params.id_booking, setData, setIsLoading)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    viewBooking(token, params.id_booking, setData, setDataLoading)
+  }, [token, params.id_booking])
 
   useEffect(() => {
-    if (isLoading == false) {
+    if (dataLoading == false) {
       const num = (data && data.num_participants) ? data.num_participants : null
       guestsRef.current.value = num
     }
-  }, [data, isLoading])
+  }, [data, dataLoading])
 
   useEffect(() => {
     if (validations && Object.keys(validations).length == 0) {
@@ -83,6 +84,7 @@ function EditBookingForm() {
       }
 
       console.log("Adding Booking...")
+      setOpenDialog(true)
       editBooking(token, id_booking, payload, setIsLoading)
       setValidations(null)
     }
@@ -116,7 +118,7 @@ function EditBookingForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col grow">
 
-      <div className="flex justify-center m-2">
+      {/* <div className="flex justify-center m-2">
         <div
           className="bg-slate-500 text-white px-3 rounded-full"
           onClick={() => console.log("data\n", data)}>
@@ -127,13 +129,13 @@ function EditBookingForm() {
           onClick={() => console.log("form\n", form)}>
           SHOW form
         </div>
-      </div>
+      </div> */}
 
       {
         (!data)
-        ?
+          ?
           <LoaderIcon className="grow" iconClassName="size-14" />
-        :
+          :
           <div className="flex flex-col gap-6  grow">
             <div>
               {/* {StatusTags(data.status)} */}
@@ -177,6 +179,26 @@ function EditBookingForm() {
               <CancelButton to='/userbookings' className="w-full" />
             </div>
           </div>
+      }
+
+      {
+        (openDialog) &&
+        <Dialog>
+          {
+            (!isLoading) ?
+              <div className='flex flex-col gap-2'>
+                <span>Booking details has been successfully updated!</span>
+                <div className='flex gap-2'>
+                  <CancelButton text="Go Back" isLink={true} to="/userbookings" className="w-full" />
+                </div>
+              </div>
+              :
+              <div className='italic flex flex-col gap-5'>
+                Processing...
+                <LoaderIcon iconClassName="size-8" />
+              </div>
+          }
+        </Dialog>
       }
     </form>
   )

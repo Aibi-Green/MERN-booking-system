@@ -1,7 +1,7 @@
-import ContentContainer from "../components/ContentContainer"
-import EditPasswordForm from "../components/forms/EditPasswordForm"
-import EditProfileForm from "../components/forms/EditProfileForm"
-import TitleContainer from "../components/TitleContainer"
+import ContentContainer from "../../components/ContentContainer"
+import EditPasswordForm from "../../components/forms/EditPasswordForm"
+import EditProfileForm from "../../components/forms/EditProfileForm"
+import TitleContainer from "../../components/TitleContainer"
 
 function EditProfile() {
   return (
