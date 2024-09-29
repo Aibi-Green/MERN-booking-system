@@ -136,13 +136,9 @@ function EditProfileForm() {
           </div>
       }
 
-
-      {/* <div className="flex justify-center">
-        <span className={(errors && errors.status == "success") ? ("text-green-500") : ("text-red-500")}>{(errors) ? errors.message : ""}</span>
-      </div> */}
-
       <div className="flex flex-col gap-2">
         <RegisterButton text="Submit" isLink={false} />
+        <CancelButton isLink={true} to="/profile" />
       </div>
 
       {
@@ -153,7 +149,7 @@ function EditProfileForm() {
               <div className='flex flex-col gap-2'>
                 <span>Account details has been successfully updated!</span>
                 <div className='flex gap-2'>
-                  <CancelButton text="Go Back" isLink={true} to="/userbookings" className="w-full" />
+                  <CancelButton text="Go Back" isLink={true} to="/profile" className="w-full" />
                 </div>
               </div>
               :

@@ -18,7 +18,7 @@ function UserNavBar() {
     return(
       <nav id="userNav" className='flex'>
         <Link to='/userbookings'>Bookings</Link>
-        <Link to='/editprofile'>Profile</Link>
+        <Link to='/profile'>Profile</Link>
         <a onClick={handleLogout}>Log Out</a>
       </nav>
     )

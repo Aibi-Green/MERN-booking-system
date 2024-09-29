@@ -1,17 +1,17 @@
 import ContentContainer from "../../components/ContentContainer"
-import EditProfileForm from "../../components/forms/EditProfileForm"
+import EditPasswordForm from "../../components/forms/EditPasswordForm"
 import TitleContainer from "../../components/TitleContainer"
 
-function EditProfile() {
+function EditPassword() {
   return (
     <section className="user-section">
-      <TitleContainer>Edit Profile</TitleContainer>
+      <TitleContainer>Change Password</TitleContainer>
       
       <ContentContainer className="gap-24">
-        <EditProfileForm />
+        <EditPasswordForm />
       </ContentContainer>
     </section>
   )
 }
 
-export default EditProfile
+export default EditPassword

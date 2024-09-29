@@ -8,6 +8,8 @@ import NormLayout from "./layouts/NormLayout.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import EditProfile from "./pages/user/EditProfile.jsx";
+import Profile from "./pages/user/Profile.jsx";
+import EditPassword from "./pages/user/EditPassword.jsx";
 
 function AppRoutes() {
 
@@ -16,10 +18,17 @@ function AppRoutes() {
       <Route path="/" element={<span>Home Page</span>} />
       <Route path="/login" element={<NormLayout><Login /></NormLayout>} />
       <Route path="/register" element={<NormLayout><Register /></NormLayout>} />
+
+      {/* USER BOOKING PAGES */}
       <Route path="/userbookings" element={<UserLayout><UserBookings /></UserLayout>} />
-      <Route path="/editprofile" element={<UserLayout><EditProfile /></UserLayout>} />
       <Route path="/addbooking" element={<UserLayout><AddBooking /></UserLayout>} />
       <Route path="/editbooking/:id_booking" element={<UserLayout><EditBooking /></UserLayout>} />
+      
+      {/* USER PROGILE PAGES */}
+      <Route path="/profile" element={<UserLayout><Profile /></UserLayout>} />
+      <Route path="/editprofile" element={<UserLayout><EditProfile /></UserLayout>} />
+      <Route path="/editpassword" element={<UserLayout><EditPassword /></UserLayout>} />
+
       <Route path="/practice" element={<Practice />} />
       <Route path="/*" element={<Navigate t o="/" />} />
     </Routes>

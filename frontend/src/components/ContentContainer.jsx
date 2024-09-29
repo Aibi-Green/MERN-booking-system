@@ -5,9 +5,10 @@ function ContentContainer({children, className, ...props}) {
     <div {...props} className={`container
     bg-white
     rounded-tl-2xl rounded-tr-2xl
+    rounded-bl-2xl rounded-br-2xl
     px-4 sm:px-10
     pt-[2rem] sm:pt-[3rem]
-    pb-[4rem] min-h-lvh flex flex-col ${className}`}>
+    pb-[4rem] h-[100%] flex flex-col ${className}`}>
       {children}
     </div>
   )
