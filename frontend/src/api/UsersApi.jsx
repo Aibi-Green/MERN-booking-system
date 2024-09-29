@@ -46,25 +46,71 @@ export const login = async (form, setToken, setValidations) => {
   }
 }
 
-export const signup = async (reqBody) => {
-  console.log("SIGNING UP ACCOUNT");
+/**✅
+ * Create New Account
+ * 
+ * @param {object} payload
+ * @param {string} payload.username
+ * @param {string} payload.email
+ * @param {string} payload.name
+ * @param {string} payload.contact_person
+ * @param {string} payload.contact_number
+ * @param {string} payload.password
+ * @param {function} setToken
+ * @param {function} setIsLoading
+ */
+export const signup = async (payload, setToken, setIsLoading) => {
+  try {
+    const controller = new AbortController()
+    const response = await fetch(`${backendUrl}/users/signup`, {
+      signal: controller.signal,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: payload.username,
+        email: payload.email,
+        name: payload.name,
+        contact_person: payload.contact_person,
+        contact_number: payload.contact_number,
+        password: payload.password
+      })
+    })
 
-  const response = await fetch(`${backendUrl}/users/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(reqBody)
-  })
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message)
+    }
 
-  const json = await response.json()
-
-  if (response.ok) {
+    const json = await response.json()
     console.log(json);
-    // setToken(response.json().token)
-  } else {
-    console.log(json);
+
+    setToken(json.token, json.email)
+    setIsLoading(false)
+
+    return () => controller.abort()
+    
+  } catch (e) {
+    console.error(e)
   }
+
+  // const response = await fetch(`${backendUrl}/users/signup`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(reqBody)
+  // })
+
+  // const json = await response.json()
+
+  // if (response.ok) {
+  //   console.log(json);
+  //   // setToken(response.json().token)
+  // } else {
+  //   console.log(json);
+  // }
 }
 
 /**✅
@@ -108,7 +154,7 @@ export const getOneUser = async (token, setData) => {
   }
 }
 
-/**🟡
+/**✅
  * Edit Account Details
  * 
  * @param {string} token 

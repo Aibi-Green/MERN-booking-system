@@ -87,6 +87,13 @@ const getOneUser = async (req: CustomRequest, res: Response) => {
   }
 }
 
+/**🟡
+ * Create new Account
+ * 
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 const signUpUser = async (req: Request, res: Response) => {
   try {
     // const newUser = new User(req.body)
@@ -103,6 +110,7 @@ const signUpUser = async (req: Request, res: Response) => {
       status: "success",
       message: "User account created successfully!",
       token: token,
+      email: user.email,
       method: "POST"
     })
   } catch (e: any) {
