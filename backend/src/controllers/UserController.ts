@@ -162,7 +162,7 @@ const logInUser = async (req: Request, res: Response) => {
 }
 
 /**🟡
- * EditUser: Edit User Details
+ * EditUser: Edit Profile lile User Details and password
  * 
  * @param req 
  * @param req.user.id
@@ -175,8 +175,6 @@ const logInUser = async (req: Request, res: Response) => {
  * @returns 
  */
 const editUser = async (req: CustomRequest, res: Response) => {
-  console.log("inside edit user");
-  
   try {
     if (!('password' in req.body)) {
       const user = await User.changeUserDetails(req.user.id, req.body)
@@ -190,8 +188,6 @@ const editUser = async (req: CustomRequest, res: Response) => {
         method: "PUT"
       })
     } else {
-      console.log("request body has password");
-
       const user = await User.changePassword(req.user.id, req.body)
 
       console.log("/UPDATE USER");

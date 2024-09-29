@@ -148,7 +148,7 @@ export const handleLoginValidations = (setValidations, fieldValues) => {
   setValidations(errors)
 }
 
-/**🟡
+/**✅
  * Edit Account Validations
  * 
  * @param {function} setErrors 
@@ -184,5 +184,19 @@ export const handleEditAccFormValidations = (setValidations, fieldValues) => {
     errors.contact_number = "Please enter a valid phone number"
   }
   
+  setValidations(errors)
+}
+
+export const handlePasswordValidations = (setValidations, fieldValues) => {
+  const errors = {}
+
+  if (!fieldValues.curr_password || !fieldValues.new_password || !fieldValues.conf_password) {
+    errors.password = "Please fill all required fields"
+  }
+
+  if (fieldValues.new_password != fieldValues.conf_password) {
+    errors.password = "New and Confirm Password does not match"
+  }
+
   setValidations(errors)
 }

@@ -6,10 +6,13 @@ import { getOneUser } from "../../api/UsersApi"
 import LoaderIcon from "../../components/ui/LoaderIcon"
 import { Edit } from "lucide-react"
 import { Link } from "react-router-dom"
+import Dialog from "../../components/ui/Dialog"
+import CancelButton from "../../components/buttons/CancelButton"
 
 function Profile() {
   const { token } = useAuthContext()
   const [data, setData] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
     getOneUser(token, setData)
@@ -42,7 +45,7 @@ function Profile() {
 
                   <div className="sm:flex flex-col gap-2 max-w-[160px] hidden">
                     <Link to="/editprofile" className="bg-slate-200 px-4 py-2 rounded-lg  text-center">
-                      Update Profile
+                      Edit Profile
                     </Link>
                     <Link to="/editpassword" className="bg-slate-200 px-4 py-2 rounded-lg  text-center">
                       Edit Password
@@ -82,13 +85,32 @@ function Profile() {
                       </span>
                     </div>
 
-                    <Edit className="size-5 absolute top-[2px] right-[2px] sm:hidden" />
+                    <Edit onClick={() => setOpenDialog(true)} className="size-5 absolute top-[2px] right-[2px] sm:hidden" />
                   </div>
                 </div>
 
               </div>
 
             </div>
+        }
+
+        {
+          openDialog && 
+          <Dialog className="gap-5" bgClassName="sm:hidden">
+            <h1 className="font-bold">Profile Settings</h1>
+            <div className="flex flex-col gap-2 max-w-[160px]">
+              <Link to="/editprofile" className="bg-slate-200 px-4 py-2 rounded-lg  text-center">
+                Edit Profile
+              </Link>
+              <Link to="/editpassword" className="bg-slate-200 px-4 py-2 rounded-lg  text-center">
+                Edit Password
+              </Link>
+              <CancelButton isLink={false} onClick={() => setOpenDialog(false)}
+                className="w-full">
+                Cancel
+              </CancelButton>
+            </div>
+          </Dialog>
         }
       </ContentContainer>
     </section>

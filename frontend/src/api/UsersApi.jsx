@@ -155,21 +155,44 @@ export const editAccountDetails = async (token, form, setIsLoading) => {
   }
 }
 
-export const editAccountPassword = async (id, reqBody, setErrors) => {
-  console.log("EDIT ACCOUNT PASSWORD");
+/**✅
+ * Update Password
+ * 
+ * @param {string} token 
+ * @param {object} payload
+ * @param {string} payload.curr_password
+ * @param {string} payload.new_password
+ * @param {string} payload.conf_password
+ * @param {function} setIsLoading
+ */
+export const editAccountPassword = async (token, payload, setIsLoading) => {
+  const controller = new AbortController()
+  try {
+    const response = await fetch(`${backendUrl}/users/profile`, {
+      signal: controller.signal,
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        curr_password: payload.curr_password,
+        conf_password: payload.conf_password,
+        new_password: payload.new_password
+      })
+    })
+  
+    if(!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message)
+    }
+  
+    const json = await response.json()
+    console.log(json);
+    setIsLoading(false)
+  } catch (e) {
+    console.error(e)
+  }
 
-  console.log(reqBody);
-
-  const response = await fetch(`${backendUrl}/users/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(reqBody)
-  })
-
-  const json = await response.json()
-
-  console.log(json);
-  setErrors(json)
+  return () => controller.abort()
 }

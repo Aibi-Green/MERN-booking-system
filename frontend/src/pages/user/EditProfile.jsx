@@ -5,7 +5,7 @@ import TitleContainer from "../../components/TitleContainer"
 function EditProfile() {
   return (
     <section className="user-section">
-      <TitleContainer>Edit Profile</TitleContainer>
+      <TitleContainer>Update Profile</TitleContainer>
       
       <ContentContainer className="gap-24">
         <EditProfileForm />

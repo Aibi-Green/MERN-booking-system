@@ -146,7 +146,7 @@ userSchema.static("changePassword", async function changeUserDetails(id, details
         throw new Error("User ID does not exist")
     }
 
-    if (!details.curr_password || !details.new_password) {
+    if (!details.curr_password || !details.new_password || !details.conf_password) {
         throw new Error("All fields must be filled...")
     }    
 
@@ -154,6 +154,10 @@ userSchema.static("changePassword", async function changeUserDetails(id, details
 
     if (!isMatch) {
         throw new Error("Current password does not match stored password")
+    }
+
+    if (details.new_password != details.conf_password) {
+        throw new Error("New and Confirm password does not match")
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/

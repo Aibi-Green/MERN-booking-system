@@ -77,10 +77,10 @@ function EditProfileForm() {
           <LoaderIcon className="grow h-[755px]" iconClassName="size-14" />
           :
           <div className="flex flex-col gap-6">
-            <div>
+            {/* <div>
               <span className="text-lg font-bold">Change Personal Details</span>
               <hr />
-            </div>
+            </div> */}
 
             {/* <button type="button" onClick={() => {
               console.log(data)

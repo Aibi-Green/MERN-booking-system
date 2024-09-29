@@ -14,7 +14,8 @@ const Input = forwardRef((
         <input
           id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
           onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
-          className={`p-3 rounded-l-md border w-full ${className}`} disabled={disabled} />
+          className={`p-3 rounded-l-md border w-full ${className}`} disabled={disabled} 
+          defaultValue={defaultValue} />
         <div className='border border-slate-200 bg-slate-100 rounded-r-md w-[60px] flex justify-center items-center'>
           {icon}
         </div>
@@ -23,7 +24,7 @@ const Input = forwardRef((
       <div className="flex flex-row relative">
       <Input id={id} name={name} list={list} value={value} type={type} placeholder={placeholder}
           onClick={onClick} onFocus={onFocus} onChange={onChange} onBlur={onBlur} ref={ref}
-          className="w-full pr-[60px]" />
+          defaultValue={defaultValue} className="w-full pr-[60px]" />
       <div className="absolute w-[60px] h-full flex justify-center items-center right-0">
         {
           (loading) ? 

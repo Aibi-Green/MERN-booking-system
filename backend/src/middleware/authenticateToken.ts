@@ -24,7 +24,7 @@ export const authenticateToken = (req: CustomRequest, res: Response, next: NextF
         })
       }
       req.user = user
-      console.log("User Authenticated!");
+      console.log("User Authenticated!\n");
       next()
     })
   } catch (e) {
