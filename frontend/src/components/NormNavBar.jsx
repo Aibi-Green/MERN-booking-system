@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react"
 import { useState } from "react"
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 function NormNavBar() {
   const [hidden, setHidden] = useState(true)
@@ -15,10 +15,10 @@ function NormNavBar() {
   const NormNav = () => {
     return (
       <nav className='hidden lg:flex lg:items-center h-full'>
-        <a href="#" className={NormNavCss}>Home</a>
-        <a href="#" className={NormNavCss}>Gallery</a>
-        <a href="#" className={NormNavCss}>Reviews</a>
-        <a href="#" className={NormNavCss}>About</a>
+        <Link to="/" className={NormNavCss}>Home</Link>
+        <Link to="/" className={NormNavCss}>Gallery</Link>
+        <Link to="/" className={NormNavCss}>Reviews</Link>
+        <Link to="/" className={NormNavCss}>About</Link>
       </nav>
     )
   }
@@ -35,10 +35,10 @@ function NormNavBar() {
     return (
       <div className={`bg-white lg:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[58px]`}>
         <nav className='gap-2 flex flex-col text-center select-none'>
-          <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Home</a>
-          <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Gallery</a>
-          <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Reviews</a>
-          <a href="#" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">About Us</a>
+          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Home</Link>
+          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Gallery</Link>
+          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Reviews</Link>
+          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">About Us</Link>
           {
             (location.pathname != "/login") && (
               <div className="w-full flex flex-row">

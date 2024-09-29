@@ -10,12 +10,13 @@ import Register from "./pages/Register.jsx";
 import EditProfile from "./pages/user/EditProfile.jsx";
 import Profile from "./pages/user/Profile.jsx";
 import EditPassword from "./pages/user/EditPassword.jsx";
+import Landing from "./pages/Landing.jsx";
 
 function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<span>Home Page</span>} />
+      <Route path="/" element={<NormLayout><Landing /></NormLayout>} />
       <Route path="/login" element={<NormLayout><Login /></NormLayout>} />
       <Route path="/register" element={<NormLayout><Register /></NormLayout>} />
 
