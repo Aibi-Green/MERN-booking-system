@@ -10,6 +10,8 @@ function NormHeader() {
   const [currentlyInLogInRegisterPage, setCurrentlyInLogInRegisterPage] = useState(true)
 
   useEffect(() => {
+    console.log(location.pathname == "/login");
+    
     if (location.pathname == "/login")
       setCurrentlyInLogInRegisterPage(false)
 
@@ -17,7 +19,7 @@ function NormHeader() {
   }, [])
 
   return (
-    <header className="bg-white h-[60px] w-[100%] fixed z-10 shadow-lg">
+    <header className="bg-white h-[60px] w-[100%] fixed z-10 shadow-lg top-0">
       <div className="bg-slate-0
       flex flex-row justify-between items-center
       h-[100%] w-full m-auto
@@ -30,10 +32,10 @@ function NormHeader() {
         <NormNavBar />
 
         <div className="hidden lg:flex flex-row gap-2 h-full py-2 lg:basis-[25%] lg:justify-end">
-          {!currentlyInLogInRegisterPage && (
+          {currentlyInLogInRegisterPage && (
             <LoginButton className="w-[80px] rounded-lg" />
           )}
-          {!currentlyInLogInRegisterPage && (
+          {currentlyInLogInRegisterPage && (
             <RegisterButton className="w-[80px] rounded-lg" />
           )}
         </div>

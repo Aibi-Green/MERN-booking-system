@@ -1,7 +1,39 @@
-#landing-main>section {
+h1 {
+  @apply text-5xl
+}
+
+#landing-main>section:not(#home) {
   @apply h-lvh
 }
 
-#landing-main>div {
-  @apply border border-slate-500 max-
+#landing-main .content-container {
+  @apply border border-slate-500 h-[100%]
+}
+
+#home {
+  @apply h-[60lvh]
+}
+
+#home div.content-container {
+  @apply mt-[60px] flex justify-center items-center flex-col gap-10
+}
+
+#gallery {
+  @apply bg-white p-20
+}
+
+#gallery div.content-container {
+  @apply flex flex-row gap-20
+}
+
+#gallery div.content-container > div {
+  @apply basis-[50%]
+}
+
+.image-div {
+  @apply grid grid-cols-3 gap-2
+}
+
+.images {
+  @apply bg-slate-200 h-[100px] w-[100px]
 }
