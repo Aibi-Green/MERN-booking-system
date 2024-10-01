@@ -74,15 +74,17 @@ p {
 
 .images {
   @apply border border-slate-200 w-[100%] h-[10lvh]
-  bg-cover bg-center
+  bg-cover duration-150
 }
 
 #gallery-second-div {
-  @apply bg-slate-100 lg:flex items-end p-10 hidden
+  @apply bg-slate-100 lg:flex items-end hidden bg-cover bg-center
+  /* transition-opacity duration-1000 ease-in-out */
+  /* Does not work */
 }
 
 #location-div {
-  /* @apply */
+  @apply p-10 bg-gradient-to-t from-[#000000] to-transparent text-white
 }
 
 /* REVIEWS SECTION */

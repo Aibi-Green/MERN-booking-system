@@ -9,6 +9,7 @@ import outdoorPool from '../assets/venue-imgs/outdoor-pool-google.jpeg'
 import libraryMeetingSpace from '../assets/venue-imgs/library-meeting-space-google.webp'
 import cinema from '../assets/venue-imgs/cinema-google.jpg'
 import indoorPool from '../assets/venue-imgs/indoor-pool-google.webp'
+import { useEffect, useState } from 'react'
 
 function Landing() {
   const reviews = [{
@@ -74,7 +75,20 @@ function Landing() {
       desc: "A climate-controlled indoor pool for year-round swimming, offering a tranquil setting for exercise or leisure."
     }
   ];
-  
+
+  const [locationKey, setLocationKey] = useState(0)
+
+  useEffect(() => {
+    const countdown = 10000
+    const timer = setTimeout(() => {
+      if (locationKey != 8)
+        setLocationKey(prev => prev + 1)
+      else
+      setLocationKey(0)
+    }, countdown);
+
+    return () => clearTimeout(timer)
+  }, [locationKey])
 
   return (
     <main id="landing-main">
@@ -82,7 +96,7 @@ function Landing() {
       <section id="home">
         <div className='content-container'>
           <h1>Harmony Heights</h1>
-          <Link to="/login" 
+          <Link to="/login"
             className='border-[3px] border-lime-500 hover:border-white bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded-lg py-2 px-10 shadow-lg'>
             Book Now
           </Link>
@@ -101,17 +115,23 @@ function Landing() {
               <div className='image-div'>
                 {
                   gallery.map((g, i) => (
-                    <div key={i} className={`images`} style={{ backgroundImage: `url(${g.picture})` }}></div>
+                    <div 
+                      key={i} 
+                      style={{ backgroundImage: `url(${g.picture})` }} 
+                      onClick={() => setLocationKey(i)}
+                      className={`images ${(locationKey != i) ?
+                        "bg-top hover:bg-center saturate-50 hover:saturate-100 brightness-75 hover:brightness-100" :
+                        "bg-center saturate-100 brightness-100"}`}></div>
                   ))
                 }
               </div>
             </div>
           </div>
 
-          <div id='gallery-second-div'>
+          <div key={locationKey} id='gallery-second-div' style={{ backgroundImage: `url(${gallery[locationKey].picture})` }}>
             <div id='location-div'>
-              <h3>Location Title</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ullamcorper vulputate urna, vitae tincidunt turpis maximus id.</p>
+              <h3>{gallery[locationKey].name}</h3>
+              <p>{gallery[locationKey].desc}</p>
             </div>
           </div>
 
@@ -150,14 +170,14 @@ function Landing() {
 
       <section id="about">
         <div className="content-container">
-          
+
           <div id='about-first-div'>
             <h2>About</h2>
             <p className='subtitle'>{'"'}Bringing your dream event to life with the perfect venue, effortlessly.{'"'}</p>
           </div>
 
           <div id='about-second-div'>
-            
+
             <div id='about-paragraphs'>
               <p>Welcome to Harmony Heights, your premier destination for seamless venue booking. Whether you{"'"}re planning a wedding, corporate event, or any special occasion, our platform makes finding the perfect venue a breeze. With an extensive selection of venues ranging from elegant ballrooms to intimate garden spaces, Harmony Heights ensures that you can easily browse, compare, and book the venue that suits your vision and budget. We aim to simplify the event planning process so you can focus on making lasting memories.</p>
               <p>At Harmony Heights, we believe every event deserves a remarkable setting. That{"'"}s why we partner with top-tier venues to offer a wide variety of options for every type of gathering. Our user-friendly platform allows you to explore detailed venue profiles, check availability, and review past customer experiences—all in one place. We understand how stressful event planning can be, which is why our team is dedicated to providing you with exceptional customer service, helping you find the perfect venue and ensuring a smooth booking experience.</p>
