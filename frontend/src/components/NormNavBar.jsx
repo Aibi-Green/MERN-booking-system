@@ -10,15 +10,20 @@ function NormNavBar() {
     setHidden(!hidden)
   }
 
-  const NormNavCss = "hover:bg-slate-100 w-[110px] h-full flex justify-center items-center uppercase tracking-widest"
+  const NormNavCss = "hover:bg-lime-200 w-[110px] h-full flex justify-center items-center uppercase tracking-widest rounded-lg"
+
+  const Links = ["home", "gallery", "reviews", "about"]
 
   const NormNav = () => {
     return (
       <nav className='hidden lg:flex lg:items-center h-full'>
-        <Link to="/" className={NormNavCss}>Home</Link>
-        <Link to="/" className={NormNavCss}>Gallery</Link>
-        <Link to="/" className={NormNavCss}>Reviews</Link>
-        <Link to="/" className={NormNavCss}>About</Link>
+        {
+          Links.map((name, i) => (
+            <Link key={i} to={`/#${name}`} 
+            // onClick={() => handleScroll(name)} 
+            className={NormNavCss}>{name}</Link>
+          ))
+        }
       </nav>
     )
   }

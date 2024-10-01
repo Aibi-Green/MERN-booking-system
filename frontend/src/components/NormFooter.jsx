@@ -19,8 +19,8 @@ function NormFooter() {
     <footer>
       <div className="content-container">
         <div id="footer-first-div">
-          <div></div>
-          {/* <Logo className='logo' /> */}
+          {/* <div></div> */}
+          <Logo white={true} />
           <div id="contact-container">
 
             {

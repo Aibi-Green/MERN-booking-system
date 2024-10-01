@@ -1,90 +1,25 @@
-import dunesCafe from '../assets/venue-imgs/dunes-cafe-google.jpg'
-import auditorium from '../assets/venue-imgs/auditorium-google.webp'
-import officeSpace from '../assets/venue-imgs/office-space-google.jpg'
-import tennisCourts from '../assets/venue-imgs/tennis-courts-google.webp'
-import outdoorPool from '../assets/venue-imgs/outdoor-pool-google.jpeg'
-import libraryMeetingSpace from '../assets/venue-imgs/library-meeting-space-google.webp'
-import cinema from '../assets/venue-imgs/cinema-google.jpg'
-import indoorPool from '../assets/venue-imgs/indoor-pool-google.webp'
-
-import picture1 from '../assets/profile-pics/picture1.jpg'
-import picture2 from '../assets/profile-pics/picture2.jpg'
-import picture3 from '../assets/profile-pics/picture3.jpg'
-
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import '../styles/Landing.css'
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { gallery, reviews, schedule } from '../assets/Data'
 
 function Landing() {
-  const reviews = [{
-    picture: picture1,
-    name: "Yvonne Diaz",
-    rating: 3,
-    comment: "The website is decent, though there's room for improvement in the UI/UX. Overall, it works well for its purpose."
-  },
-  {
-    picture: picture2,
-    name: "Jake Ramirez",
-    rating: 5,
-    comment: "I love the design! The site is intuitive and easy to navigate. Great job on the user experience."
-  },
-  {
-    picture: picture3,
-    name: "Maria Santos",
-    rating: 4,
-    comment: "Pretty good website! The layout is clean, but a few tweaks could make it even better. Keep up the good work!"
-  }]
-
-  const gallery = [
-    {
-      name: "Dunes Cafe",
-      picture: dunesCafe,
-      desc: "A cozy and vibrant café offering a perfect spot for casual meetings or social gatherings with a scenic view."
-    },
-    {
-      name: "Auditorium",
-      picture: auditorium,
-      desc: "A spacious venue equipped with state-of-the-art audio-visual technology, ideal for conferences, presentations, and events."
-    },
-    {
-      name: "Office Space",
-      picture: officeSpace,
-      desc: "Modern and fully equipped office spaces designed to provide a productive environment for teams or individual professionals."
-    },
-    {
-      name: "Tennis Courts",
-      picture: tennisCourts,
-      desc: "Well-maintained tennis courts suitable for both casual games and competitive matches, available for day or night use."
-    },
-    {
-      name: "Office Space",
-      picture: officeSpace,
-      desc: "Sophisticated office spaces with flexible layouts, catering to various business needs and professional setups."
-    },
-    {
-      name: "Outdoor Pool",
-      picture: outdoorPool,
-      desc: "A refreshing outdoor pool perfect for relaxation, pool parties, or fitness swims, surrounded by lush greenery."
-    },
-    {
-      name: "Library Meeting Space",
-      picture: libraryMeetingSpace,
-      desc: "A quiet and professional setting ideal for meetings, discussions, and collaborative work in a serene library environment."
-    },
-    {
-      name: "Cinema",
-      picture: cinema,
-      desc: "A private cinema experience with comfortable seating and high-quality sound, perfect for movie screenings or presentations."
-    },
-    {
-      name: "Indoor Pool",
-      picture: indoorPool,
-      desc: "A climate-controlled indoor pool for year-round swimming, offering a tranquil setting for exercise or leisure."
-    }
-  ];
-
+  const location = useLocation()
   const [locationKey, setLocationKey] = useState(0)
+
+  useEffect(() => {
+    console.log(location.hash.split("#")[1]);
+    
+    const section = document.getElementById(location.hash.split("#")[1])
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }, [location.hash])
 
   useEffect(() => {
     const countdown = 10000
@@ -105,7 +40,7 @@ function Landing() {
         <div className='content-container'>
           <h1>Harmony Heights</h1>
           <Link to="/login"
-            className='border-[3px] border-lime-500 hover:border-white bg-lime-500 hover:bg-amber-500 text-white font-semibold rounded-lg py-2 px-10 shadow-lg'>
+            className='bg-lime-500 hover:bg-lime-200 text-white hover:text-lime-900 font-semibold rounded-lg py-2 px-10 shadow-lg'>
             Book Now
           </Link>
         </div>
@@ -143,10 +78,10 @@ function Landing() {
             </div>
             <div className='absolute h-full w-full flex flex-row'>
               <div className="basis-[50%]" onClick={() => setLocationKey(prev => (prev != 0) ? prev - 1 : 8)}>
-                <ChevronLeft className='absolute left-[20px] text-white size-10 top-[45%]' />
+                <ChevronLeft className='absolute left-[5px] text-white size-10 top-[45%]' />
               </div>
               <div className='basis-[50%]' onClick={() => setLocationKey(prev => (prev != 8) ? prev + 1 : 0)}>
-                <ChevronRight className='absolute right-[20px] text-white size-10 top-[45%]' />
+                <ChevronRight className='absolute right-[5px] text-white size-10 top-[45%]' />
               </div>
             </div>
           </div>
@@ -205,7 +140,30 @@ function Landing() {
               <p>At Harmony Heights, we believe every event deserves a remarkable setting. That{"'"}s why we partner with top-tier venues to offer a wide variety of options for every type of gathering. Our user-friendly platform allows you to explore detailed venue profiles, check availability, and review past customer experiences—all in one place. We understand how stressful event planning can be, which is why our team is dedicated to providing you with exceptional customer service, helping you find the perfect venue and ensuring a smooth booking experience.</p>
             </div>
 
-            <div id="about-pic">
+            <div id="about-sched">
+              <div id="sched-div">
+                <h3>Opening Hours</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Start Time</th>
+                      <th>Closing Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      schedule.map((s, i) => (
+                        <tr key={i}>
+                          <td>{s.day}</td>
+                          <td>{s.startTime}</td>
+                          <td>{s.endTime}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
 
           </div>

@@ -11,11 +11,7 @@ function NormHeader() {
     <header className="bg-white h-[60px] w-[100%] fixed z-10 shadow-lg top-0">
       <div className="bg-slate-0
       flex flex-row justify-between items-center
-      h-[100%] w-full m-auto
-      md:w-[85%]
-      lg:w-[85%]
-      xl:w-[85%]
-      2xl:w-[75%]
+      max-w-[1500px] mx-auto
       ">
         <Logo className="md:basis-[25%] md:justify-start" />
         <NormNavBar />
