@@ -1,6 +1,3 @@
-import { Link } from 'react-router-dom'
-import '../styles/Landing.css'
-import { Star } from 'lucide-react'
 import dunesCafe from '../assets/venue-imgs/dunes-cafe-google.jpg'
 import auditorium from '../assets/venue-imgs/auditorium-google.webp'
 import officeSpace from '../assets/venue-imgs/office-space-google.jpg'
@@ -9,20 +6,31 @@ import outdoorPool from '../assets/venue-imgs/outdoor-pool-google.jpeg'
 import libraryMeetingSpace from '../assets/venue-imgs/library-meeting-space-google.webp'
 import cinema from '../assets/venue-imgs/cinema-google.jpg'
 import indoorPool from '../assets/venue-imgs/indoor-pool-google.webp'
+
+import picture1 from '../assets/profile-pics/picture1.jpg'
+import picture2 from '../assets/profile-pics/picture2.jpg'
+import picture3 from '../assets/profile-pics/picture3.jpg'
+
+import { Link } from 'react-router-dom'
+import '../styles/Landing.css'
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 function Landing() {
   const reviews = [{
-    name: "Ivy Lariosa",
+    picture: picture1,
+    name: "Yvonne Diaz",
     rating: 3,
     comment: "The website is decent, though there's room for improvement in the UI/UX. Overall, it works well for its purpose."
   },
   {
+    picture: picture2,
     name: "Jake Ramirez",
     rating: 5,
     comment: "I love the design! The site is intuitive and easy to navigate. Great job on the user experience."
   },
   {
+    picture: picture3,
     name: "Maria Santos",
     rating: 4,
     comment: "Pretty good website! The layout is clean, but a few tweaks could make it even better. Keep up the good work!"
@@ -84,7 +92,7 @@ function Landing() {
       if (locationKey != 8)
         setLocationKey(prev => prev + 1)
       else
-      setLocationKey(0)
+        setLocationKey(0)
     }, countdown);
 
     return () => clearTimeout(timer)
@@ -97,7 +105,7 @@ function Landing() {
         <div className='content-container'>
           <h1>Harmony Heights</h1>
           <Link to="/login"
-            className='border-[3px] border-lime-500 hover:border-white bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded-lg py-2 px-10 shadow-lg'>
+            className='border-[3px] border-lime-500 hover:border-white bg-lime-500 hover:bg-amber-500 text-white font-semibold rounded-lg py-2 px-10 shadow-lg'>
             Book Now
           </Link>
         </div>
@@ -109,15 +117,15 @@ function Landing() {
           <div id='gallery-first-div'>
             <div id='gallery-desc' className='basis-[20%]'>
               <h2>Gallery</h2>
-              <p className='subtitle'>Here are some locations that can be booked in this website.</p>
+              <p className='subtitle'>Here are some locations that are offered in this website.</p>
             </div>
             <div className='basis-[80%]'>
               <div className='image-div'>
                 {
                   gallery.map((g, i) => (
-                    <div 
-                      key={i} 
-                      style={{ backgroundImage: `url(${g.picture})` }} 
+                    <div
+                      key={i}
+                      style={{ backgroundImage: `url(${g.picture})` }}
                       onClick={() => setLocationKey(i)}
                       className={`images ${(locationKey != i) ?
                         "bg-top hover:bg-center saturate-50 hover:saturate-100 brightness-75 hover:brightness-100" :
@@ -133,6 +141,14 @@ function Landing() {
               <h3>{gallery[locationKey].name}</h3>
               <p>{gallery[locationKey].desc}</p>
             </div>
+            <div className='absolute h-full w-full flex flex-row'>
+              <div className="basis-[50%]" onClick={() => setLocationKey(prev => (prev != 0) ? prev - 1 : 8)}>
+                <ChevronLeft className='absolute left-[20px] text-white size-10 top-[45%]' />
+              </div>
+              <div className='basis-[50%]' onClick={() => setLocationKey(prev => (prev != 8) ? prev + 1 : 0)}>
+                <ChevronRight className='absolute right-[20px] text-white size-10 top-[45%]' />
+              </div>
+            </div>
           </div>
 
         </div>
@@ -147,19 +163,25 @@ function Landing() {
               reviews.map((rev, i) => (
                 <div key={i} className='review-container'>
                   <div className='review-top'>
-                    <div className='review-picture'></div>
+                    <div className='review-picture' style={{ backgroundImage: `url(${rev.picture})` }}></div>
                     <div className='review-desc'>
                       <span className='review-name'>{rev.name}</span>
                       <div className='review-rating'>
                         {
                           [...Array(rev.rating)].map((_, i) => (
-                            <Star key={i} className='star' />
+                            // <Star key={i} className='star' />
+                            <div key={i}>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 text-amber-400">
+                                <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
+                              </svg>
+
+                            </div>
                           ))
                         }
                       </div>
                     </div>
                   </div>
-                  <div className='review-comment'>{rev.comment}</div>
+                  <p className='review-comment'>{rev.comment}</p>
                 </div>
               ))
             }

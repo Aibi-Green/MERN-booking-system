@@ -74,11 +74,12 @@ p {
 
 .images {
   @apply border border-slate-200 w-[100%] h-[10lvh]
-  bg-cover duration-150
+  bg-cover duration-150 rounded-lg
 }
 
 #gallery-second-div {
-  @apply bg-slate-100 lg:flex items-end hidden bg-cover bg-center
+  @apply bg-slate-100 flex items-end bg-cover bg-center rounded-2xl overflow-hidden
+  min-h-[40lvh] lg:h-auto relative
   /* transition-opacity duration-1000 ease-in-out */
   /* Does not work */
 }
@@ -89,7 +90,7 @@ p {
 
 /* REVIEWS SECTION */
 #reviews {
-  @apply bg-amber-50 flex items-center
+  @apply bg-white flex items-center
 }
 #reviews .content-container {
   @apply flex flex-col gap-20
@@ -104,18 +105,22 @@ p {
 }
 
 .review-container {
-  @apply basis-[100%] flex flex-col gap-5 p-4 rounded-2xl
+  @apply basis-[100%] flex flex-col gap-5 pt-5 px-4 pb-3 rounded-lg
   shadow-md
   bg-white
   /* border border-slate-500 */
 }
 
 .review-top {
-  @apply flex flex-row gap-5
+  @apply flex flex-row gap-4
+}
+
+.review-name {
+  @apply font-semibold text-xl
 }
 
 .review-desc {
-  @apply flex flex-col justify-end gap-1
+  @apply flex flex-col justify-end gap-0
 }
 
 .review-rating {
@@ -123,7 +128,8 @@ p {
 }
 
 .review-picture {
-  @apply size-14 bg-slate-200 rounded-full border border-slate-800
+  @apply size-14 rounded-full border border-slate-800
+  bg-center bg-cover
 }
 
 /* ABOUT SECTION */
