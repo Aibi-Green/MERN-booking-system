@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
 import '../styles/Landing.css'
 import { Star } from 'lucide-react'
+import dunesCafe from '../assets/venue-imgs/dunes-cafe-google.jpg'
+import auditorium from '../assets/venue-imgs/auditorium-google.webp'
+import officeSpace from '../assets/venue-imgs/office-space-google.jpg'
+import tennisCourts from '../assets/venue-imgs/tennis-courts-google.webp'
+import outdoorPool from '../assets/venue-imgs/outdoor-pool-google.jpeg'
+import libraryMeetingSpace from '../assets/venue-imgs/library-meeting-space-google.webp'
+import cinema from '../assets/venue-imgs/cinema-google.jpg'
+import indoorPool from '../assets/venue-imgs/indoor-pool-google.webp'
 
 function Landing() {
   const reviews = [{
@@ -19,13 +27,63 @@ function Landing() {
     comment: "Pretty good website! The layout is clean, but a few tweaks could make it even better. Keep up the good work!"
   }]
 
+  const gallery = [
+    {
+      name: "Dunes Cafe",
+      picture: dunesCafe,
+      desc: "A cozy and vibrant café offering a perfect spot for casual meetings or social gatherings with a scenic view."
+    },
+    {
+      name: "Auditorium",
+      picture: auditorium,
+      desc: "A spacious venue equipped with state-of-the-art audio-visual technology, ideal for conferences, presentations, and events."
+    },
+    {
+      name: "Office Space",
+      picture: officeSpace,
+      desc: "Modern and fully equipped office spaces designed to provide a productive environment for teams or individual professionals."
+    },
+    {
+      name: "Tennis Courts",
+      picture: tennisCourts,
+      desc: "Well-maintained tennis courts suitable for both casual games and competitive matches, available for day or night use."
+    },
+    {
+      name: "Office Space",
+      picture: officeSpace,
+      desc: "Sophisticated office spaces with flexible layouts, catering to various business needs and professional setups."
+    },
+    {
+      name: "Outdoor Pool",
+      picture: outdoorPool,
+      desc: "A refreshing outdoor pool perfect for relaxation, pool parties, or fitness swims, surrounded by lush greenery."
+    },
+    {
+      name: "Library Meeting Space",
+      picture: libraryMeetingSpace,
+      desc: "A quiet and professional setting ideal for meetings, discussions, and collaborative work in a serene library environment."
+    },
+    {
+      name: "Cinema",
+      picture: cinema,
+      desc: "A private cinema experience with comfortable seating and high-quality sound, perfect for movie screenings or presentations."
+    },
+    {
+      name: "Indoor Pool",
+      picture: indoorPool,
+      desc: "A climate-controlled indoor pool for year-round swimming, offering a tranquil setting for exercise or leisure."
+    }
+  ];
+  
+
   return (
     <main id="landing-main">
 
       <section id="home">
         <div className='content-container'>
           <h1>Harmony Heights</h1>
-          <Link to="/login" className='bg-slate-700 text-white rounded-lg py-2 px-10'>
+          <Link to="/login" 
+            className='border-[3px] border-lime-500 hover:border-white bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded-lg py-2 px-10 shadow-lg'>
             Book Now
           </Link>
         </div>
@@ -41,15 +99,11 @@ function Landing() {
             </div>
             <div className='basis-[80%]'>
               <div className='image-div'>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
-                <div className='images'></div>
+                {
+                  gallery.map((g, i) => (
+                    <div key={i} className={`images`} style={{ backgroundImage: `url(${g.picture})` }}></div>
+                  ))
+                }
               </div>
             </div>
           </div>
@@ -99,15 +153,14 @@ function Landing() {
           
           <div id='about-first-div'>
             <h2>About</h2>
-            <p className='subtitle'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <p className='subtitle'>{'"'}Bringing your dream event to life with the perfect venue, effortlessly.{'"'}</p>
           </div>
 
           <div id='about-second-div'>
             
             <div id='about-paragraphs'>
-              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
-              <p>Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p>Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem. Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p>Welcome to Harmony Heights, your premier destination for seamless venue booking. Whether you{"'"}re planning a wedding, corporate event, or any special occasion, our platform makes finding the perfect venue a breeze. With an extensive selection of venues ranging from elegant ballrooms to intimate garden spaces, Harmony Heights ensures that you can easily browse, compare, and book the venue that suits your vision and budget. We aim to simplify the event planning process so you can focus on making lasting memories.</p>
+              <p>At Harmony Heights, we believe every event deserves a remarkable setting. That{"'"}s why we partner with top-tier venues to offer a wide variety of options for every type of gathering. Our user-friendly platform allows you to explore detailed venue profiles, check availability, and review past customer experiences—all in one place. We understand how stressful event planning can be, which is why our team is dedicated to providing you with exceptional customer service, helping you find the perfect venue and ensuring a smooth booking experience.</p>
             </div>
 
             <div id="about-pic">

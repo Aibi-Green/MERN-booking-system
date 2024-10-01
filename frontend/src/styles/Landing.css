@@ -17,7 +17,7 @@ p {
 }
 
 #landing-main>section:not(#home) {
-  @apply min-h-lvh pt-32 pb-32 p-12
+  @apply pt-32 pb-32 p-12
 }
 
 #landing-main .content-container {
@@ -27,8 +27,18 @@ p {
   mx-auto
 }
 
+/* HOME SECTION */
+
 #home {
-  @apply h-[75lvh]
+  @apply px-20 h-[50lvh]
+  bg-[url('../assets/venue-imgs/keenan-barber-unsplash.jpg')] bg-cover bg-bottom 
+  /* brightness-90 contrast-50 */
+}
+
+#home h1 {
+  @apply text-black text-opacity-80 bg-[#ffffffba] rounded-2xl text-center 
+  font-serif
+  py-5 px-10 
 }
 
 #home div.content-container {
@@ -63,7 +73,8 @@ p {
 }
 
 .images {
-  @apply bg-slate-200 w-[100%] h-[10lvh]
+  @apply border border-slate-200 w-[100%] h-[10lvh]
+  bg-cover bg-center
 }
 
 #gallery-second-div {
@@ -76,7 +87,7 @@ p {
 
 /* REVIEWS SECTION */
 #reviews {
-  @apply bg-white flex items-center
+  @apply bg-amber-50 flex items-center
 }
 #reviews .content-container {
   @apply flex flex-col gap-20
@@ -93,6 +104,7 @@ p {
 .review-container {
   @apply basis-[100%] flex flex-col gap-5 p-4 rounded-2xl
   shadow-md
+  bg-white
   /* border border-slate-500 */
 }
 
@@ -123,6 +135,10 @@ p {
 
 #about-first-div {
   @apply text-center
+}
+
+#about .subtitle {
+  @apply italic font-thin font-serif pt-5
 }
 
 .subtitle {

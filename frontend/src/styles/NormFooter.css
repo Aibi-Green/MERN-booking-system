@@ -2,6 +2,10 @@ footer {
     @apply bg-slate-50 py-32 px-20
 }
 
+footer .logo {
+    @apply md:hidden lg:flex
+}
+
 footer .content-container {
     @apply max-w-[1500px] mx-auto flex flex-col gap-10
 }
