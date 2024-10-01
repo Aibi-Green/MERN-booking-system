@@ -1,0 +1,146 @@
+/* LANDING PAGE CSS */
+
+h1 {
+  @apply text-5xl
+}
+
+h2 {
+  @apply text-4xl pb-2
+}
+
+h3 {
+  @apply text-3xl pb-1
+}
+
+p {
+  @apply text-xl
+}
+
+#landing-main>section:not(#home) {
+  @apply min-h-lvh pt-32 pb-32 p-12
+}
+
+#landing-main .content-container {
+  @apply h-[100%]
+  /* border border-slate-500 */
+  max-w-[1500px]
+  mx-auto
+}
+
+#home {
+  @apply h-[75lvh]
+}
+
+#home div.content-container {
+  @apply mt-[60px] flex justify-center items-center flex-col gap-10
+}
+
+#gallery {
+  @apply bg-white flex items-center
+}
+
+#gallery div.content-container {
+  @apply flex flex-col gap-20
+  lg:flex-row
+}
+
+#gallery div.content-container > div {
+  @apply basis-[50%]
+}
+
+#gallery-first-div {
+  @apply flex flex-col gap-14 h-[100%]
+}
+
+#gallery-desc {
+  @apply pb-10
+}
+
+.image-div {
+  @apply grid grid-cols-2 sm:grid-cols-3
+  justify-items-center items-center 
+  gap-[1rem] sm:gap-[2rem] lg:gap-[1rem] xl:gap-[2rem]
+}
+
+.images {
+  @apply bg-slate-200 w-[100%] h-[10lvh]
+}
+
+#gallery-second-div {
+  @apply bg-slate-100 lg:flex items-end p-10 hidden
+}
+
+#location-div {
+  /* @apply */
+}
+
+/* REVIEWS SECTION */
+#reviews {
+  @apply bg-white flex items-center
+}
+#reviews .content-container {
+  @apply flex flex-col gap-20
+}
+
+#reviews h2 {
+  @apply text-center
+}
+
+#reviews-div {
+  @apply flex flex-col lg:flex-row gap-14
+}
+
+.review-container {
+  @apply basis-[100%] flex flex-col gap-5 p-4 rounded-2xl
+  shadow-md
+  /* border border-slate-500 */
+}
+
+.review-top {
+  @apply flex flex-row gap-5
+}
+
+.review-desc {
+  @apply flex flex-col justify-end gap-1
+}
+
+.review-rating {
+  @apply flex gap-1
+}
+
+.review-picture {
+  @apply size-14 bg-slate-200 rounded-full border border-slate-800
+}
+
+/* ABOUT SECTION */
+#about {
+  @apply bg-white
+}
+
+#about .content-container {
+  @apply flex flex-col lg:gap-28 gap-20
+}
+
+#about-first-div {
+  @apply text-center
+}
+
+.subtitle {
+  @apply text-2xl max-w-[800px] mx-auto
+}
+
+#about-second-div {
+  @apply flex flex-row
+}
+
+#about-second-div > div {
+  @apply lg:basis-[50%]
+}
+
+#about-paragraphs {
+  @apply flex flex-col gap-10 py-20 lg:pr-10 xl:pr-20 bg-slate-400 lg:bg-transparent px-10 text-white lg:text-black
+}
+
+#about-pic {
+  @apply bg-slate-400 hidden lg:block
+}

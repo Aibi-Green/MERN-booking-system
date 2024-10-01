@@ -1,0 +1,27 @@
+footer {
+    @apply bg-slate-50 py-32 px-20
+}
+
+footer .content-container {
+    @apply max-w-[1500px] mx-auto flex flex-col gap-10
+}
+
+#footer-first-div {
+    @apply flex flex-col lg:flex-row justify-between gap-10 md:gap-20
+}
+
+#contact-container {
+    @apply flex flex-col md:flex-row gap-10 justify-self-end pb-10 lg:pb-0
+}
+
+.contact-div {
+    @apply flex flex-col w-[200px] mx-auto text-center
+}
+
+.contact-title {
+    @apply font-semibold
+}
+
+#copyright {
+    @apply text-center
+}

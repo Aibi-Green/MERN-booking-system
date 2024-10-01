@@ -3,20 +3,9 @@ import LoginButton from "./buttons/LoginButton.jsx"
 import RegisterButton from "./buttons/RegisterButton.jsx"
 import Logo from "./Logo.jsx"
 import NormNavBar from "./NormNavBar.jsx"
-import { useEffect, useState } from "react"
 
 function NormHeader() {
   const location = useLocation()
-  const [currentlyInLogInRegisterPage, setCurrentlyInLogInRegisterPage] = useState(true)
-
-  useEffect(() => {
-    console.log(location.pathname == "/login");
-    
-    if (location.pathname == "/login")
-      setCurrentlyInLogInRegisterPage(false)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <header className="bg-white h-[60px] w-[100%] fixed z-10 shadow-lg top-0">
@@ -28,16 +17,17 @@ function NormHeader() {
       xl:w-[85%]
       2xl:w-[75%]
       ">
-        <Logo />
+        <Logo className="md:basis-[25%] md:justify-start" />
         <NormNavBar />
 
         <div className="hidden lg:flex flex-row gap-2 h-full py-2 lg:basis-[25%] lg:justify-end">
-          {currentlyInLogInRegisterPage && (
-            <LoginButton className="w-[80px] rounded-lg" />
-          )}
-          {currentlyInLogInRegisterPage && (
-            <RegisterButton className="w-[80px] rounded-lg" />
-          )}
+          {
+            (location.pathname != "/login") &&
+            <>
+              <LoginButton className="w-[80px] rounded-lg" />
+              <RegisterButton className="w-[80px] rounded-lg" />
+            </>
+          }
         </div>
       </div>
     </header>
