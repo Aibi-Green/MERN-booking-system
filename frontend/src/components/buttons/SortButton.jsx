@@ -17,7 +17,7 @@ function SortButton({ onData, initialVal }) {
   return (
     <button type="button" className="flex gap-2" onClick={handleClick}>
       {(!flip) ? <SortAsc /> : <SortDesc />}
-      {(!flip) ? <span>Newest to Oldest {"(Date Requested)"}</span> : <span>Oldest to Newest {"(Date Requested)"}</span>}
+      {(!flip) ? <span>Newest to Oldest</span> : <span>Oldest to Newest</span>}
     </button>
   )
 }

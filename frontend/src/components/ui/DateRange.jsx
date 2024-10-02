@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 function DateRange({ className, startClassName, initialStartDate, initialEndDate, endClassName, startData, endData, noDaterestrictions = false, noIcon = false, getParams = false }) {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+
   const [startDate, setStartDate] = useState(
     (getParams) ? (
       queryParams.get('date_start') ?
@@ -18,6 +19,7 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
       (initialStartDate) ? new Date(initialStartDate) : null
     )
   )
+
   const [endDate, setEndDate] = useState(
     (getParams) ? (
     queryParams.get('date_end') ?
@@ -42,10 +44,12 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
   }
 
   return (
-    <div className={`flex gap-3 items-center ${className}`}>
-      {!noIcon && <Calendar />}
+    <div className={`flex flex-col gap-3 ${className}`}>
+      {/* <div className="flex flex-row gap-1">
+        {!noIcon && <Calendar />}
+      </div> */}
       <div className="flex flex-col gap-2">
-        <div>
+        <div className="flex flex-col">
           <span className="mr-5 opacity-[0.7]">From</span>
           <DatePicker
             id="start-date"
@@ -59,14 +63,16 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             onChange={(date) => setStartDate(handleFormData("date_start", date, startData))}
             dateFormat={"MM/dd/yy h:mmaa"}
             startDate={startDate}
-            className={`rounded-full border bg-slate-100 px-3 py-1 ${startClassName}`}
+            placeholderText="Pick a start date"
+            className={`rounded-lg border p-3 w-full ${startClassName}`}
+            calendarClassName="bg-slate-900 w-[328px]"
             onKeyDown={(e) => {
               e.preventDefault();
             }}
             shouldCloseOnSelect showMonthDropdown showYearDropdown isClearable autoComplete="off"
           />
         </div>
-        <div>
+        <div className="flex flex-col">
           <span className="mr-6 opacity-[0.7]">Until</span>
           <DatePicker
             id="end-date"
@@ -81,7 +87,8 @@ function DateRange({ className, startClassName, initialStartDate, initialEndDate
             endDate={endDate}
             startDate={startDate}
             minDate={startDate}
-            className={`rounded-full border bg-slate-100 px-3 py-1 ${endClassName}`}
+            placeholderText="Pick an end date"
+            className={`rounded-lg border p-3 w-full ${endClassName}`}
             onKeyDown={(e) => {
               e.preventDefault();
             }}

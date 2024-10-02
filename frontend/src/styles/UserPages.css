@@ -1,0 +1,60 @@
+/* FOR USER PAGES */
+section.user-section h1 {
+    @apply text-2xl font-semibold
+}
+
+section.user-section {
+    @apply bg-fixed flex justify-center
+}
+
+.content-container {
+    @apply flex flex-row gap-10
+}
+
+/* LEFT DIV - NAV BAR */
+.user-left {
+    @apply bg-white hidden  xl:flex xl:flex-col min-w-[250px] mt-10 rounded-lg p-3
+    /* absolute left-0 -translate-x-[110%] */
+    sticky left-0 top-[100px] h-fit
+}
+
+.user-section .user-nav {
+    @apply flex flex-col
+}
+
+.user-section .user-left .username {
+    @apply py-2
+}
+
+.user-section .user-nav a {
+    @apply bg-slate-200 hover:bg-slate-400 px-4 py-2
+}
+
+/* MAIN CONTENT */
+.user-middle {
+    @apply h-auto rounded-2xl min-h-[100lvh]
+    /* max-w-[720px] */
+    w-[100lvw] md:w-[720px]
+}
+
+.user-middle .middle-heading {
+    @apply bg-white h-[60px] shadow-md sticky top-0 z-30 flex justify-between
+}
+
+.user-middle .middle-hidden {
+    @apply bg-slate-200 p-5
+    duration-300
+}
+
+.user-middle .middle-content {
+    @apply bg-white px-5 pt-10 pb-20
+}
+
+/* RIGHT DIV - SEARCH BAR */
+.user-right {
+    @apply bg-white min-w-[250px] top-[100px] h-fit sticky rounded-lg p-3 hidden xl:block invisible
+}
+
+.username {
+    @apply font-semibold
+}

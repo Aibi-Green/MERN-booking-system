@@ -1,18 +1,18 @@
 /* LANDING PAGE CSS */
 
-h1 {
+#landing-main h1 {
   @apply text-5xl
 }
 
-h2 {
+#landing-main h2 {
   @apply text-4xl pb-2
 }
 
-h3 {
+#landing-main h3 {
   @apply text-3xl pb-1
 }
 
-p {
+#landing-main p {
   @apply text-xl
 }
 
@@ -65,13 +65,13 @@ p {
   @apply pb-10
 }
 
-.image-div {
+#gallery .image-div {
   @apply grid grid-cols-2 sm:grid-cols-3
   justify-items-center items-center 
   gap-[1rem] sm:gap-[2rem] lg:gap-[1rem] xl:gap-[2rem]
 }
 
-.images {
+#gallery .images {
   @apply border border-slate-200 w-[100%] h-[10lvh]
   bg-cover duration-300 rounded-lg
 }
@@ -83,7 +83,7 @@ p {
   /* Does not work */
 }
 
-#location-div {
+#gallery #location-div {
   @apply p-10 bg-gradient-to-t from-[#000000] to-transparent text-white
 }
 
@@ -147,7 +147,7 @@ p {
   @apply italic font-thin font-serif pt-5 px-12 lg:px-0
 }
 
-.subtitle {
+#landing-main .subtitle {
   @apply text-2xl max-w-[800px] mx-auto opacity-70
 }
 

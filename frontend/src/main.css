@@ -6,9 +6,9 @@ body {
     @apply bg-[#e2e2e2] min-h-[100vh] min-w-[375px]
 }
 
-.user-section {
+/* .user-section {
     @apply min-h-[100vh] pt-[60px]
-}
+} */
 
 .login-section {
     @apply min-h-[100vh] pt-[60px] flex flex-col justify-center items-center

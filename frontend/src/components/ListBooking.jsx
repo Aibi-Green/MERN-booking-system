@@ -35,7 +35,7 @@ function ListItems() {
   }
 
   return (
-    <div className='flex flex-col gap-4 pb-[8rem]'>
+    <div className='flex flex-col gap-4 w-full'>
       {
         bookings.map((i) => (
           <ItemBooking key={i._id} data={i} onDelete={(d) => handleDeleteDialog(d)} onView={(d) => handleViewDialog(d)} />

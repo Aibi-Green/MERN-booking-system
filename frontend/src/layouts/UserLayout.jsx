@@ -6,7 +6,7 @@ function UserLayout({ children }) {
   useIfNoToken()
   
   return (<>
-    <UserHeader />
+    {/* <UserHeader /> */}
     {children}
   </>)
 }

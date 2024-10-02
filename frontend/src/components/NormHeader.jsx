@@ -20,8 +20,8 @@ function NormHeader() {
           {
             !(location.pathname == "/login" || location.pathname == "/register") &&
             <>
-              <LoginButton isLink text="Sign In" className="w-[80px] rounded-lg" />
-              <RegisterButton className="w-[80px] rounded-lg" />
+              <LoginButton isLink text="Sign In" className="w-[100px] rounded-lg" />
+              <RegisterButton className="w-[100px] rounded-lg" />
             </>
           }
         </div>

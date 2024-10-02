@@ -63,63 +63,49 @@ function SearchUserBookings({ className }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`flex flex-col gap-4 ${className}`}>
+    <form onSubmit={handleSubmit} className={`flex flex-col ${className}`}>
 
-      {/* SEARCH INPUT and STATUS FILTER */}
-      <div className='flex gap-1'>
+      <Label htmlFor="search">
+        <Input
+          id="search" name="search" placeholder="Search"
+          onChange={handleForm} ref={searchRef}
+          className="" />
+      </Label>
 
-        <Label htmlFor="search" className="grow">
-          <Input
-            id="search" name="search" placeholder="Search"
-            onChange={handleForm} ref={searchRef}
-            className="min-w-[100px]" />
-        </Label>
+      <DisabledDropdown
+        idNameFor="statusType"
+        onData={handleForm}
+        data={statuses}
+        initialVal={form.status}
+        className="" />
 
-        <DisabledDropdown
-          idNameFor="statusType"
-          onData={handleForm}
-          data={statuses}
-          initialVal={form.status}
-          className="border min-w-[90px] grow" />
+      <Label text="Sort by Date Requested">
+        <SortButton
+          onData={(bool) => handleForm({ target: { name: "date_sort", value: (bool != true) ? null : true } })}
+          initialVal={form.date_sort ? JSON.parse(form.date_sort) : false} />
+      </Label>
 
-        <SearchButton
-          id="searchButton"
-          type="submit"
-          className="flex-initial" />
+      <Label text="Pick a Date Range">
+        <DateRange
+          startData={(date_start) => handleForm(date_start)}
+          endData={(date_end) => handleForm(date_end)}
+          getParams={true}
+          noDaterestrictions={true} />
+      </Label>
 
-      </div>
+      {/* <Link to={'/addbooking'}>
+        <AddButton
+          text="Create Booking"
+          type="button"
+          className=''
+        > Create Booking
+        </AddButton>
+      </Link> */}
 
-      {/* SORT and DATE RANGE */}
-      <div className='flex flex-row sm:flex-row justify-between gap-2 sm:gap-4 grow'>
-
-        <div className='flex flex-col sm:gap-4 gap-2 items-start'>
-
-          <SortButton
-            onData={(bool) => handleForm({ target: { name: "date_sort", value: (bool != true) ? null : true } })}
-            initialVal={form.date_sort ? JSON.parse(form.date_sort) : false} />
-
-          <DateRange
-            startData={(date_start) => handleForm(date_start)}
-            endData={(date_end) => handleForm(date_end)}
-            getParams={true}
-            noDaterestrictions={true} />
-
-        </div>
-
-        <div className='flex justify-end items-end'>
-
-          <Link to={'/addbooking'}>
-            <AddButton
-              text="Create Booking"
-              type="button"
-              className='bg-green-500 active:bg-green-600 active:text-white hover:bg-green-400'
-            > Create Booking
-            </AddButton>
-          </Link>
-
-        </div>
-
-      </div>
+      {/* <SearchButton
+        id="searchButton"
+        type="submit"
+        className="" /> */}
 
     </form>
   )

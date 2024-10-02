@@ -14,7 +14,7 @@ function NormLayout({children, noFooter}) {
 
 NormLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  noFooter: PropTypes.node.bool
+  noFooter: PropTypes.bool
 }
 
 export default NormLayout
