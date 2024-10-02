@@ -2,16 +2,19 @@ import PropTypes from 'prop-types'
 import NormHeader from '../components/NormHeader'
 import NormFooter from '../components/NormFooter'
 
-function NormLayout({children}) {
+function NormLayout({children, noFooter}) {
   return (<>
     <NormHeader />
     {children}
-    <NormFooter />
+    {
+      !noFooter && <NormFooter />
+    }
   </>)
 }
 
 NormLayout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  noFooter: PropTypes.node.bool
 }
 
 export default NormLayout

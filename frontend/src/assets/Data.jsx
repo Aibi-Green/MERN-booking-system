@@ -422,3 +422,16 @@ export const schedule = [{
   startTime: "6:00 AM",
   endTime: "10:00 PM"
 }]
+
+export const contacts = [
+  {
+    title: "Contact Numbers",
+    items: ["(555) 123-4567", "(555) 987-6543", "(555) 234-7890"]
+  }, {
+    title: "Email",
+    items: ["info@harmonyheights.com"]
+  }, {
+    title: "Location",
+    items: ["1234 Maplewood Lane, Apt 56B, Springtown, CA 90210, USA"]
+  }
+]

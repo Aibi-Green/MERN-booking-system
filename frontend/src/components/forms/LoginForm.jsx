@@ -48,7 +48,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-7">
       <div className="flex flex-col gap-2">
-        <span className="text-2xl font-bold">SIGN IN</span>
+        <span className="text-2xl font-semibold">SIGN IN</span>
         <hr />
       </div>
       <div className="flex flex-col gap-3">
@@ -68,10 +68,10 @@ function LoginForm() {
       <InlineError validations={validations} property="all" />
       </div>
       <div className="flex flex-col gap-2">
-        <LoginButton isLink={false} />
+        <LoginButton isLink={false} text="Sign In" />
         <RegisterButton />
         <div className="mx-auto">
-          <span className="text-sm cursor-pointer text-slate-500">
+          <span className="text-sm cursor-pointer text-lime-500">
             <Link>Forgot Password?</Link>
           </span>
         </div>

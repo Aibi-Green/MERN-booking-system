@@ -5,10 +5,13 @@ import formatStatus from './ui/StatusTags.jsx'
 import LoaderIcon from "./ui/LoaderIcon.jsx";
 import BigDialog from "./ui/BigDialog.jsx";
 import { useBookingsContext } from "../hooks/useBookingsContext.jsx";
+import { useEffect } from "react";
 
 function ViewDialog({ onClose, id_booking }) {
   const { bookings } = useBookingsContext()
   const data = bookings.find(i => i._id == id_booking)
+  
+  document.body.style.overflow = "hidden"
 
   return (
     <BigDialog className="min-h-[500px] gap-5">
@@ -85,7 +88,10 @@ function ViewDialog({ onClose, id_booking }) {
       }
 
       <div className="flex flex-col w-full sm:min-w-[300px]">
-        <CancelButton onClick={() => onClose(true)} isLink={false} />
+        <CancelButton onClick={() => onClose(() => {
+            document.body.style.overflow = "auto"
+            return true
+          })} isLink={false} />
       </div>
     </BigDialog>
   )

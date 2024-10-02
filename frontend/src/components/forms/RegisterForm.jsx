@@ -59,7 +59,7 @@ function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-10">
       <div className="flex flex-col gap-2">
-        <span className="text-2xl font-bold">Create an Account</span>
+        <span className="text-2xl font-semibold">Create an Account</span>
         <hr />
       </div>
 

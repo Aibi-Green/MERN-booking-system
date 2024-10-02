@@ -1,20 +1,8 @@
 import Logo from "./Logo"
 import '../styles/NormFooter.css'
+import { contacts } from "../assets/Data"
 
 function NormFooter() {
-  const contacts = [
-    {
-      title: "Contact Numbers",
-      items: ["(555) 123-4567", "(555) 987-6543", "(555) 234-7890"]
-    }, {
-      title: "Email",
-      items: ["info@harmonyheights.com"]
-    }, {
-      title: "Location",
-      items: ["1234 Maplewood Lane, Apt 56B, Springtown, CA 90210, USA"]
-    }
-  ]
-
   return (
     <footer>
       <div className="content-container">

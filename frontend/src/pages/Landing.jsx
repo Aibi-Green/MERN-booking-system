@@ -3,14 +3,17 @@ import '../styles/Landing.css'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { gallery, reviews, schedule } from '../assets/Data'
+import homeImage from '../assets/venue-imgs/keenan-barber-unsplash.jpg'
 
 function Landing() {
   const location = useLocation()
   const [locationKey, setLocationKey] = useState(0)
 
+  // TODO: add a function where it highlights the link in the navbar according to which section the user is currently in
+
   useEffect(() => {
     console.log(location.hash.split("#")[1]);
-    
+
     const section = document.getElementById(location.hash.split("#")[1])
 
     if (section) {
@@ -36,13 +39,12 @@ function Landing() {
   return (
     <main id="landing-main">
 
-      <section id="home">
+      <section id="home" style={{backgroundImage: `url(${homeImage})`}}>
         <div className='content-container'>
           <h1>Harmony Heights</h1>
           <Link to="/login"
-            className='bg-lime-500 hover:bg-lime-200 text-white hover:text-lime-900 font-semibold rounded-lg py-2 px-10 shadow-lg'>
-            Book Now
-          </Link>
+            className="bg-lime-500 hover:bg-lime-200 text-white hover:text-lime-900 font-semibold rounded-lg py-2 px-10 shadow-lg"
+          >Book Now</Link>
         </div>
       </section>
 

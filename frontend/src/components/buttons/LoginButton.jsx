@@ -11,7 +11,7 @@ function LoginButton({ className, isLink = true, text }) {
       :
       <button
         type="submit"
-        className={`rounded-lg bg-slate-500 active:bg-slate-600 font-semibold text-white hover:bg-slate-400 py-2 ${className}`}>
+        className={`rounded-lg bg-slate-500 active:bg-slate-600 font-semibold text-white py-2 ${className}`}>
         {(text) ? text : "Login"}
       </button>
   )

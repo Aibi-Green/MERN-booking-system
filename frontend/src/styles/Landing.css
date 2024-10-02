@@ -16,7 +16,7 @@ p {
   @apply text-xl
 }
 
-#landing-main>section:not(#home):not(#about) {
+#landing-main>section:not(#home) {
   @apply pt-32 pb-32 p-12
 }
 
@@ -30,8 +30,7 @@ p {
 /* HOME SECTION */
 
 #home {
-  @apply px-20 h-[75lvh]
-  bg-[url('../assets/venue-imgs/keenan-barber-unsplash.jpg')] bg-cover bg-bottom
+  @apply px-20 h-[75lvh] bg-cover bg-bottom
 }
 
 #home h1 {
@@ -133,7 +132,7 @@ p {
 
 /* ABOUT SECTION */
 #about {
-  @apply bg-white pt-32 lg:pb-32 lg:px-12
+  @apply bg-white
 }
 
 #about .content-container {
@@ -167,6 +166,7 @@ p {
 
 #sched-div {
   @apply rounded-2xl overflow-hidden border-[1px] border-slate-300 
+  mt-20 lg:mt-0
   /* bg-[#889b9024]  */
   select-none
   /* bg-lime-50 */ 

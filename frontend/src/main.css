@@ -150,3 +150,7 @@ option {
 
     /* End position */
 }
+
+.black-background {
+    @apply bg-[#0000006e]
+}

@@ -17,8 +17,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<NormLayout><Landing /></NormLayout>} />
-      <Route path="/login" element={<NormLayout><Login /></NormLayout>} />
-      <Route path="/register" element={<NormLayout><Register /></NormLayout>} />
+      <Route path="/login" element={<NormLayout noFooter><Login /></NormLayout>} />
+      <Route path="/register" element={<NormLayout noFooter><Register /></NormLayout>} />
 
       {/* USER BOOKING PAGES */}
       <Route path="/userbookings" element={<UserLayout><UserBookings /></UserLayout>} />
@@ -31,7 +31,7 @@ function AppRoutes() {
       <Route path="/editpassword" element={<UserLayout><EditPassword /></UserLayout>} />
 
       <Route path="/practice" element={<Practice />} />
-      <Route path="/*" element={<Navigate t o="/" />} />
+      <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   )
 }

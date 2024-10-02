@@ -40,15 +40,16 @@ function NormNavBar() {
     return (
       <div className={`bg-white lg:hidden absolute w-[100%] pb-1 shadow-lg left-0 top-[58px]`}>
         <nav className='gap-2 flex flex-col text-center select-none'>
-          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Home</Link>
-          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Gallery</Link>
-          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">Reviews</Link>
-          <Link to="/" className=" p-4 hover:bg-slate-50 uppercase tracking-widest">About Us</Link>
           {
-            (location.pathname != "/login") && (
+            Links.map((name, i) => (
+              <Link key={i} to={`/#${name}`} className=" p-4 hover:bg-slate-50 uppercase tracking-widest">{name}</Link>
+            ))
+          }
+          {
+            !(location.pathname == "/login" || location.pathname == "/register") && (
               <div className="w-full flex flex-row">
-                <a href="#" className="basis-[50%] p-4 bg-slate-300 hover:bg-slate-500 hover:text-white uppercase tracking-widest">Login</a>
-                <a href="#" className="basis-[50%] p-4 bg-green-300 hover:bg-green-500 hover:text-white uppercase tracking-widest">Register</a>
+                <Link to="/login" className="basis-[50%] p-4 bg-slate-300 hover:bg-slate-500 hover:text-white uppercase tracking-widest">Login</Link>
+                <Link to="/register" href="#" className="basis-[50%] p-4 bg-green-300 hover:bg-green-500 hover:text-white uppercase tracking-widest">Register</Link>
               </div>
             )
           }
